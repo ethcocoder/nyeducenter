@@ -1,0 +1,309 @@
+@font-face {
+  font-family: Poppins;
+  src: url(../fonts/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: PoppinsBlack;
+  src: url(../fonts/Poppins-Black.ttf);
+}
+*{
+	padding: 0;
+	margin: 0;
+	font-family: Poppins, sans-serif;
+}
+
+img {
+    max-width: 100% !important;
+}
+.main-footer {
+  margin-top: 800px;
+  width: 100%;
+  background: #333;
+  padding: 15px;
+  justify-content: center;
+}
+
+.main-footer h4 {
+  text-align: center;
+  color: #aaa;
+  font-weight: 200;
+  font-size: 16px;
+}
+.container {
+	min-height: 90vh;
+}
+.side-by-side {
+   display: flex;
+   min-height: 100vh;
+}
+.side-by-side .l-side{
+    width: 350px;
+}
+.l-side .profile img {
+	width: 100%;
+}
+	.side-by-side .r-side{
+	    width: 100%;
+	}
+@media only screen and (max-width: 992px) {
+  /* For mobile phones: */
+  .side-by-side {
+  	flex-direction: column;
+  }
+  .side-by-side .l-side{
+  	text-align: center;
+    width: 100%;
+	}
+	.l-side .profile img {
+		width: 100%;
+		max-width: 200px;
+	}
+	.side-by-side .r-side{
+	    width: 100%;
+	}
+}
+.course-list-title {
+   margin-top: 70px;
+}
+.course-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+.course-list .course {
+  width: 50%;
+  padding: 10px;
+}
+
+@media only screen and (max-width: 760px) {
+  .course-list .course {
+    width: 99%;
+  }
+}
+.certificate {
+    width: 100%;
+    max-width: 1000px;
+    height: 600px;
+    margin: 10px auto;
+    border: 20px double #3498db;
+    position: relative;
+    text-align: center;
+    background-color: #fff;
+}
+
+.certificate .header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    font-size: 24px;
+}
+
+.certificate .content {
+    padding: 40px;
+    font-size: 20px;
+}
+
+.certificate .signature {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    font-size: 18px;
+}
+
+.certificate .download-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+.certificate .download-btn:hover {
+    cursor: pointer;
+    background-color: #287bbc;
+}
+.certificate .content img {
+  width: 110px;
+  height: 100px;
+}
+
+.md-btn {
+   font-size: 14px !important;
+}
+
+/* admin*/
+.overall-statistics ul {
+   flex-wrap: wrap;
+}
+.overall-statistics ul li{
+   list-style: none;
+   background: #f0faf4;
+   max-width: 300px;
+   width: 90%;
+   padding: 40px;
+   margin: 10px;
+   text-align: center;
+}
+.overall-statistics ul li span{
+   display: block;
+   font-size: 40px;
+   font-weight: bolder;
+}
+
+/* enrollment-statistics */
+
+.enrollment-statistics ul {
+   flex-wrap: wrap;
+}
+.enrollment-statistics ul li{
+   list-style: none;
+   background: #f0faf4;
+   max-width: 300px;
+   width: 90%;
+   padding: 40px;
+   margin: 10px;
+   text-align: center;
+}
+.enrollment-statistics ul li span{
+   display: block;
+   font-size: 25px;
+   font-weight: bolder;
+}
+.system-activities ul li{
+   background: #f0faf4;
+   padding: 10px;
+   margin: 5px;
+   list-style: square;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+/* Student Interface - Dark Theme and Button Styles */
+body {
+    background-color: #1a1a2e; /* Dark background */
+    color: #e0e0e0; /* Light text color */
+}
+
+.sidebar {
+    background-color: #16213e; /* Darker blue for sidebar */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    min-width: 250px; /* Ensure sidebar width */
+    max-width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .logo h2,
+.sidebar ul li a {
+    color: #e0e0e0;
+}
+
+.sidebar .nav-link {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: block;
+    text-decoration: none; /* Ensure no underline */
+}
+
+.sidebar .nav-link:hover {
+    background-color: #0d6efd; /* Default Bootstrap blue hover for general links */
+    color: #fff !important;
+}
+
+.sidebar .nav-link.btn-primary {
+    background-color: #e94560; /* Red button color */
+    border-color: #e94560;
+    color: #fff; /* Ensure text is white for red buttons */
+}
+
+.sidebar .nav-link.btn-primary:hover {
+    background-color: #d1304d; /* Darker red on hover */
+    border-color: #d1304d;
+}
+
+.sidebar .nav-link.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.sidebar .nav-link.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Main content area adjustment */
+.main-content {
+    flex-grow: 1;
+    margin-left: 250px; /* Offset for sidebar */
+    padding: 20px; /* Add some padding to main content */
+    background-color: #1a1a2e; /* Ensure background color matches body */
+    color: #e0e0e0; /* Ensure text color matches body */
+}
+
+/* Card styling for content area */
+.card {
+    background-color: #0f3460; /* Dark blue for cards */
+    color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #0a2342;
+    border-bottom: 1px solid #0f3460;
+    color: #e0e0e0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    color: #e0e0e0;
+}
+
+.card-text {
+    color: #c0c0c0;
+}
+
+.text-muted {
+    color: #a0a0a0 !important;
+}
+
+.border-bottom {
+    border-color: #0f3460 !important;
+}
+
+.page-link {
+    background-color: #0a2342;
+    border-color: #0f3460;
+    color: #e0e0e0;
+}
+
+.page-link:hover {
+    background-color: #0f3460;
+    border-color: #0a2342;
+    color: #e0e0e0;
+}
+
+.page-item.active .page-link {
+    background-color: #e94560;
+    border-color: #e94560;
+}
+
+.alert-info {
+    background-color: #0f3460;
+    border-color: #0a2342;
+    color: #e0e0e0;
+}
