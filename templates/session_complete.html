@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Session Complete{% endblock %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <h1 class="display-4 text-success">Session Completed!</h1>
+    <p class="lead">Congratulations on completing the session: <strong>{{ session.title }}</strong></p>
+    <hr class="my-4">
+    <p>You can now return to your <a href="{{ url_for('course_dashboard') }}">course dashboard</a> or explore other <a href="{{ url_for('session_list') }}">sessions</a>.</p>
+</div>
+{% endblock %}

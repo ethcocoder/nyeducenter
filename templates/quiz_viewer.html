@@ -1,0 +1,77 @@
+<!-- templates/quiz_viewer.html (Corrected Version) -->
+{% extends "base.html" %}
+
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block content %}
+    <h1 class="mb-3">{{ quiz.title }}</h1>
+    
+    <div id="quiz-container" class="card">
+        <div class="card-body">
+            <!-- Progress Bar -->
+            <div class="progress mb-4" style="height: 25px;">
+                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 / {{ quiz.questions|length }}</div>
+            </div>
+
+            <!-- Question Area - now contains ALL questions rendered by Jinja -->
+            <div id="question-area">
+                {% for question in quiz.questions %}
+                <div class="card mb-3 question-card" data-question-id="{{ question.id }}">
+                    <div class="card-header">
+                        Question {{ loop.index }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ question.question_text }}</h5>
+                        <div class="options-container d-grid gap-2 mt-4">
+                            {% for option in question.options %}
+                            <button class="btn btn-outline-primary text-start" data-option-id="{{ option.id }}">
+                                {{ option.option_text }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Results Area (initially hidden) -->
+            <div id="results-area" style="display: none;">
+                <h2 id="result-title">Quiz Complete!</h2>
+                <p id="result-summary" class="lead"></p>
+                {% if submodule_id %}
+                <a href="{{ url_for('submodule_viewer', submodule_id=submodule_id) }}" class="btn btn-info mt-3">Back to Submodule</a>
+                {% elif module_id %}
+                <a href="{{ url_for('module_viewer', module_id=module_id) }}" class="btn btn-info mt-3">Back to Module</a>
+                {% else %}
+                <a href="{{ url_for('course_dashboard') }}" class="btn btn-info mt-3">Back to Course Dashboard</a>
+                {% endif %}
+            </div>
+            
+            <!-- Review Area (initially hidden) -->
+            <div id="review-area" style="display: none;">
+                <h2>Review Your Answers</h2>
+                <div id="review-container" class="mt-4"></div>
+                {% if submodule_id %}
+                <a href="{{ url_for('submodule_viewer', submodule_id=submodule_id) }}" class="btn btn-info mt-3">Back to Submodule</a>
+                {% elif module_id %}
+                <a href="{{ url_for('module_viewer', module_id=module_id) }}" class="btn btn-info mt-3">Back to Module</a>
+                {% else %}
+                <a href="{{ url_for('course_dashboard') }}" class="btn btn-info mt-3">Back to Course Dashboard</a>
+                {% endif %}
+            </div>
+            
+            <hr class="my-4">
+            <!-- Final Submit Button -->
+            <button id="submit-btn" class="btn btn-success btn-lg float-end" disabled>Submit Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const questionsWithAnswersData = {{ questions_with_answers_json|safe }};
+        const quizId = {{ quiz.id }};
+        const totalQuestions = {{ quiz.questions|length }};
+    </script>
+
+    <!-- Link to our updated JavaScript file -->
+    <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}

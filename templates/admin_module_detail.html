@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Manage {{ item.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Manage: {{ item.title }}</h1>
+        <a href="{{ url_for('admin_course_builder') }}" class="btn btn-outline-secondary">Back to Course Management</a>
+    </div>
+
+    <div class="submodules-list" data-module-id="{% if item.module_id is defined %}{{ item.module_id }}{% else %}{{ item.id }}{% endif %}" data-parent-id="{% if item.module_id is defined %}{{ item.id }}{% endif %}">
+        {% for submodule in item.submodules or item.children %}
+            <div class="card mb-3 submodule-card" data-submodule-id="{{ submodule.id }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-bars submodule-drag-handle" style="cursor: grab; margin-right: 10px;"></i>
+                        <a href="{{ url_for('admin_manage_submodule_content', submodule_id=submodule.id) }}">{{ submodule.title }}</a>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="renameSubmodule({{ submodule.id }})">Rename</button>
+                        <button class="btn btn-sm btn-outline-info" onclick="duplicateSubmodule({{ submodule.id }})">Duplicate</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteSubmodule({{ submodule.id }})">Delete</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Create New Submodule</h5>
+            <form class="create-submodule-form" data-module-id="{% if item.module_id is defined %}{{ item.module_id }}{% else %}{{ item.id }}{% endif %}" data-parent-id="{% if item.module_id is defined %}{{ item.id }}{% endif %}">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Submodule Title" required>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+        </div>
+        {% if item.module_id is defined %}
+        <div class="col-md-6">
+            <h5>Add Content</h5>
+            <form id="add-content-form" data-submodule-id="{{ item.id }}">
+                <div class="input-group mb-3">
+                    <select class="form-select" id="content-type-select" name="content_type" required>
+                        <option value="">-- Select Type --</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="lab">Lab</option>
+                        <option value="session">Session</option>
+                    </select>
+                    <select class="form-select" id="content-id-select" name="content_id" required>
+                        <option value="">-- Select Content --</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if item.module_id is defined %}
+    <div class="content-items-list mt-4" data-submodule-id="{{ item.id }}">
+        <h5>Content Items</h5>
+        <ul class="list-group">
+            {% for content_item in item.items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-item-id="{{ content_item.id }}">
+                    <div>
+                        <i class="fas fa-bars content-drag-handle" style="cursor: grab; margin-right: 10px;"></i>
+                        {% if content_item.content_object %}
+                            {{ content_item.content_object.title }} ({{ content_item.content_type }})
+                        {% else %}
+                            [Content Not Found] ({{ content_item.content_type }})
+                        {% endif %}
+                    </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-warning btn-unlink-content" data-item-id="{{ content_item.id }}">Unlink</button>
+                            <button class="btn btn-sm btn-outline-danger btn-delete-content" data-content-type="{{ content_item.content_type }}" data-content-id="{{ content_item.content_id }}">Delete</button>
+                        </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
+{% endblock %}

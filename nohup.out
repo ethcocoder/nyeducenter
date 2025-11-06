@@ -1,0 +1,36 @@
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [28/Oct/2025 23:47:13] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:47:13] "GET /static/css/modern.css HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:47:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [28/Oct/2025 23:47:27] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:47:28] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:47:43] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:47:43] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:47:52] "[32mGET /admin HTTP/1.1[0m" 302 -
+127.0.0.1 - - [28/Oct/2025 23:47:52] "GET /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:47:52] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:48:08] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:48:08] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:48:21] "[32mGET /admin HTTP/1.1[0m" 302 -
+127.0.0.1 - - [28/Oct/2025 23:48:21] "GET /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:48:21] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:48:36] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:48:36] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:49:00] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:49:00] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:49:14] "[32mGET /admin HTTP/1.1[0m" 302 -
+127.0.0.1 - - [28/Oct/2025 23:49:14] "GET /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:49:14] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:49:30] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:49:31] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:49:51] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:49:51] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:49:51] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:50:11] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:50:11] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [28/Oct/2025 23:50:35] "POST /login?next=/admin HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2025 23:50:35] "[36mGET /static/css/modern.css HTTP/1.1[0m" 304 -

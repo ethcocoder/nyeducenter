@@ -1,0 +1,38 @@
+<!-- templates/lab_viewer.html -->
+{% extends "base.html" %}
+
+{% block title %}Lab: {{ lab.title }}{% endblock %}
+
+{% block content %}
+    <a href="{{ url_for('lab_list') }}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to Labs</a>
+    
+    <div id="lab-container" class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h5 class="mb-0">{{ lab.title }}</h5>
+            <span class="badge bg-primary">Step {{ step.step_number }} of {{ total_steps }}</span>
+        </div>
+        <div class="card-body">
+            <!-- Step Description -->
+            <p class="card-text">{{ step.description_text|safe }}</p>
+
+            <!-- Type Instruction -->
+            <label class="form-label">Type the following command/tag:</label>
+            <pre class="bg-light p-3 rounded"><code>{{ step.type_text }}</code></pre>
+
+            <!-- User Input Form -->
+            <form id="lab-form">
+                <div class="mb-3">
+                    <textarea class="form-control" id="user-input" rows="3" placeholder="Enter your text here..." autofocus></textarea>
+                    <div id="feedback" class="invalid-feedback"></div> <!-- For error messages -->
+                </div>
+                <button type="submit" id="check-btn" class="btn btn-primary">Check Answer</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Pass data from Flask to our JavaScript file
+        const stepId = {{ step.id }};
+    </script>
+    <script src="{{ url_for('static', filename='js/lab.js') }}"></script>
+{% endblock %}

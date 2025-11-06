@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Profile Settings{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Profile Settings</h1>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+                <a class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="false">Password</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                <!-- Profile Tab -->
+                <div class="tab-pane active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <div class="card">
+                        <div class="card-header">Update Profile</div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('profile_settings') }}" enctype="multipart/form-data">
+                                {{ profile_form.hidden_tag() }}
+                                <input type="hidden" name="profile_update" value="1"> {# Hidden field to distinguish form submission #}
+
+                                <div class="mb-3 text-center">
+                                    <img src="{{ url_for('static', filename='uploads/profile_pics/' + current_user.profile_image_file) }}" alt="Profile Picture" class="img-thumbnail rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <div class="mt-2">
+                                        {{ profile_form.picture.label }}
+                                        {{ profile_form.picture(class="form-control") }}
+                                        {% if profile_form.picture.errors %}
+                                            {% for error in profile_form.picture.errors %}
+                                                <div class="text-danger">{{ error }}</div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ profile_form.full_name.label(class="form-label") }}
+                                    {{ profile_form.full_name(class="form-control") }}
+                                    {% if profile_form.full_name.errors %}
+                                        {% for error in profile_form.full_name.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ profile_form.bio.label(class="form-label") }}
+                                    {{ profile_form.bio(class="form-control", rows="5") }}
+                                    {% if profile_form.bio.errors %}
+                                        {% for error in profile_form.bio.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Tab -->
+                <div class="tab-pane" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
+                    <div class="card">
+                        <div class="card-header">Change Password</div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('change_password') }}">
+                                {{ password_form.hidden_tag() }}
+                                <input type="hidden" name="password_update" value="1"> {# Hidden field to distinguish form submission #}
+
+                                <div class="mb-3">
+                                    {{ password_form.old_password.label(class="form-label") }}
+                                    {{ password_form.old_password(class="form-control", placeholder="Enter your old password") }}
+                                    {% if password_form.old_password.errors %}
+                                        {% for error in password_form.old_password.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ password_form.new_password.label(class="form-label") }}
+                                    {{ password_form.new_password(class="form-control", placeholder="Enter your new password") }}
+                                    {% if password_form.new_password.errors %}
+                                        {% for error in password_form.new_password.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ password_form.confirm_new_password.label(class="form-label") }}
+                                    {{ password_form.confirm_new_password(class="form-control", placeholder="Confirm your new password") }}
+                                    {% if password_form.confirm_new_password.errors %}
+                                        {% for error in password_form.confirm_new_password.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tabLinks = document.querySelectorAll('#v-pills-tab .nav-link');
+        var tabPanes = document.querySelectorAll('.tab-content .tab-pane');
+
+        tabLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Remove active class from all links and panes
+                tabLinks.forEach(function(l) { l.classList.remove('active'); });
+                tabPanes.forEach(function(p) { p.classList.remove('active'); });
+
+                // Add active class to clicked link
+                link.classList.add('active');
+
+                // Get target pane and add active class
+                var targetId = link.getAttribute('data-bs-target');
+                var targetPane = document.querySelector(targetId);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

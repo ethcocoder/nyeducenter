@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Submodule: {{ submodule.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('module_viewer', module_id=submodule.module.id) }}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to Module: {{ submodule.module.title }}</a>
+    
+    <h1 class="mb-4">Submodule: {{ submodule.title }}</h1>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Learning Items
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for item in submodule.items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>
+                        {% if item.content_type == 'quiz' %}
+                            <i class="fas fa-question-circle me-2"></i> Quiz:
+                            <a href="{{ url_for('quiz_viewer', quiz_id=item.content_id) }}">{{ item.content_object.title }}</a>
+                        {% elif item.content_type == 'lab' %}
+                            <i class="fas fa-flask me-2"></i> Lab:
+                            <a href="{{ url_for('start_lab', lab_id=item.content_id) }}">{{ item.content_object.title }}</a>
+                        {% elif item.content_type == 'session' %}
+                            <i class="fas fa-code me-2"></i> Session:
+                            <a href="{{ url_for('session_viewer', session_id=item.content_id) }}">{{ item.content_object.title }}</a>
+                        {% endif %}
+                    </span>
+                    {% if user_progress_map.get(item.id) == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Not Started</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

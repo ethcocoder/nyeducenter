@@ -1,0 +1,16 @@
+<!-- templates/_footer.html -->
+<footer class="footer mt-auto py-3 bg-dark text-white">
+  <div class="container text-center">
+    <div class="d-flex justify-content-center align-items-center">
+      <span>&copy; {{ now.year }} WebApp Inc. All rights reserved.</span>
+
+      <!-- NEW: Conditional Logout Link -->
+      {% if current_user.is_authenticated %}
+        <span class="mx-2">|</span>
+        <a href="{{ url_for('logout') }}" class="text-white-50">Logout</a>
+      {% endif %}
+      <!-- END OF NEW PART -->
+
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,170 @@
+<!-- templates/dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Your Dashboard{% endblock %}
+
+{% block content %}
+    <!-- 1. Welcome Header -->
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex align-items-center">
+            <img src="{{ url_for('static', filename='uploads/profile_pics/' + current_user.profile_image_file) }}" class="rounded-circle me-3" height="60px" width="60px" alt="Profile Picture" loading="lazy" />
+            <h1 class="h2">Welcome back, {% if current_user.full_name %}{{ current_user.full_name }}{% else %}{{ current_user.username }}{% endif %}!</h1>
+        </div>
+    </div>
+
+    <!-- Top Row: Stats and Activity -->
+    <div class="row g-4 mb-4">
+        <!-- 2. Progress Summary Card -->
+        <div class="col-lg-5">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Quiz Performance</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Unique Quizzes Taken
+                            <span class="badge bg-primary rounded-pill">{{ stats.quizzes_taken }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Unique Quizzes Passed
+                            <span class="badge bg-success rounded-pill">{{ stats.quizzes_passed }}</span>
+                        </li>
+                    </ul>
+                    <h6 class="mt-3">Overall Pass Rate</h6>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ stats.pass_rate }}%;" aria-valuenow="{{ stats.pass_rate }}" aria-valuemin="0" aria-valuemax="100">{{ stats.pass_rate }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Recent Activity Card -->
+        <div class="col-lg-7">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Quiz Activity</h5>
+                </div>
+                <div class="card-body">
+                    {% if stats.recent_attempts %}
+                        <ul class="list-group list-group-flush">
+                        {% for attempt in stats.recent_attempts %}
+                            <li class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ attempt.quiz.title }} <span class="badge bg-secondary fw-normal">{{ attempt.quiz.category }}</span></h6>
+                                    <small class="text-muted">{{ attempt.timestamp.strftime('%b %d, %Y') }}</small>
+                                </div>
+                                <p class="mb-1">Score: {{ attempt.score }} - 
+                                    {% if attempt.passed %}
+                                        <span class="text-success fw-bold">Passed</span>
+                                    {% else %}
+                                        <span class="text-danger fw-bold">Failed</span>
+                                    {% endif %}
+                                </p>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="text-center p-3">
+                            <p class="text-muted mb-0">You haven't attempted any quizzes yet. Let's change that!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Row: Calls to Action -->
+    <h3 class="mt-5 mb-3">My Achievements</h3>
+    <div class="row g-4">
+        {% if certificates %}
+            {% for cert in certificates %}
+            <div class="col-md-6 col-lg-4">
+                <a href="{{ url_for('view_certificate', certificate_id=cert.id) }}" class="text-decoration-none">
+                    <div class="card achievement-badge h-100">
+                        <div class="card-body text-center d-flex flex-column justify-content-center">
+                            <i class="fas fa-award achievement-icon"></i>
+                            <h5 class="card-title mt-2">{{ cert.module.title }}</h5>
+                            <p class="card-text text-muted">Completed on {{ cert.completion_date.strftime('%b %d, %Y') }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center text-muted">
+                    <p class="mb-0">You haven't earned any certificates yet. Complete a module to get your first one!</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <h3 class="mt-5 mb-3">Start Learning</h3>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-dark bg-secondary h-100 shadow">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <i class="fas fa-cog fs-1 mb-2"></i>
+                    <h5 class="card-title">Profile Settings</h5>
+                    <p class="card-text">Manage your profile information and account settings.</p>
+                    <a href="{{ url_for('profile_settings') }}" class="btn btn-light stretched-link">Go to Settings</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-dark bg-primary h-100 shadow">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <i class="bi bi-patch-question-fill fs-1 mb-2"></i>
+                    <h5 class="card-title">Quizzes</h5>
+                    <p class="card-text">Test your knowledge with multiple-choice questions.</p>
+                    <a href="{{ url_for('course_dashboard') }}" class="btn btn-light stretched-link">View Quizzes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-dark bg-success h-100 shadow">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <i class="bi bi-terminal-fill fs-1 mb-2"></i>
+                    <h5 class="card-title">Hands-on Labs</h5>
+                    <p class="card-text">Follow guided, step-by-step practical exercises.</p>
+                    <a href="{{ url_for('course_dashboard') }}" class="btn btn-light stretched-link">View Labs</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-dark bg-info h-100 shadow">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <i class="bi bi-code-square fs-1 mb-2"></i>
+                    <h5 class="card-title">Practical Sessions</h5>
+                    <p class="card-text">Apply your skills in open-ended coding challenges.</p>
+                    <a href="{{ url_for('course_dashboard') }}" class="btn btn-light stretched-link">View Sessions</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-dark bg-warning h-100 shadow">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <i class="fas fa-certificate fs-1 mb-2"></i>
+                    <h5 class="card-title">Certificates</h5>
+                    <p class="card-text">View and manage your earned certificates.</p>
+                    <a href="{{ url_for('certificates_list') }}" class="btn btn-light stretched-link">View Certificates</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-dark bg-danger h-100 shadow">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <i class="fas fa-book fs-1 mb-2"></i>
+                    <h5 class="card-title">Notes</h5>
+                    <p class="card-text">Review your personal notes and course materials.</p>
+                    <a href="{{ url_for('course_dashboard') }}" class="btn btn-light stretched-link">View Notes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

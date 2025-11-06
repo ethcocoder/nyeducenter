@@ -1,0 +1,55 @@
+<!-- templates/session_viewer.html -->
+{% extends "base.html" %}
+
+{% block title %}Session: {{ session.title }}{% endblock %}
+
+{% block content %}
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050; pointer-events: none;"></canvas>
+    <h2 class="mb-3">{{ session.title }}</h2>
+
+    <div class="row g-4">
+        <!-- Left Column: Code Editor -->
+        <div class="col-lg-7">
+            <div class="card h-100">
+                <div class="card-header">
+                    Your Code
+                </div>
+                <div class="card-body">
+                    <p>Write your code in the text area below to fulfill all requirements.</p>
+                    <textarea id="user-code-editor" class="form-control" rows="20" placeholder="<!DOCTYPE html>..."></textarea>
+                    <button id="check-code-btn" class="btn btn-success mt-3">Check My Code</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Requirements Checklist -->
+        <div class="col-lg-5">
+            <div class="card h-100">
+                <div class="card-header">
+                    Requirements
+                </div>
+                <div class="card-body">
+                    <ul id="requirements-checklist" class="list-group list-group-flush">
+                        {% for req in session.requirements %}
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-circle me-3 status-icon"></i>
+                            <span>{{ req.description }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pass data to our JavaScript file -->
+    <script>
+        const sessionId = {{ session.id }};
+    </script>
+    <!-- We will create this JS file in the next step -->
+    <script src="{{ url_for('static', filename='js/session.js') }}"></script>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1/dist/confetti.browser.min.js"></script>
+{% endblock %}

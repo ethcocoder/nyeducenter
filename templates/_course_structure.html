@@ -1,0 +1,75 @@
+{% macro render_module(module) %}
+<div class="card mb-3 module-card" data-module-id="{{ module.id }}">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-bars module-drag-handle" style="cursor: grab; margin-right: 10px;"></i>
+            <a href="{{ url_for('admin_manage_module_content', module_id=module.id) }}">{{ module.title }}</a>
+            {% if module.is_published %}
+            <span class="badge badge-success">Published</span>
+            {% else %}
+            <span class="badge badge-secondary">Draft</span>
+            {% endif %}
+        </div>
+        <div>
+            <button class="btn btn-sm btn-outline-secondary btn-toggle-publish">
+                {{ 'Unpublish' if module.is_published else 'Publish' }}
+            </button>
+            <button class="btn btn-sm btn-outline-primary" onclick="renameModule({{ module.id }})">Rename</button>
+            <button class="btn btn-sm btn-outline-info" onclick="duplicateModule({{ module.id }})">Duplicate</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteModule({{ module.id }})">Delete</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="submodules-list" data-module-id="{{ module.id }}" data-parent-id="">
+            {% for submodule in module.submodules %}
+                {% if not submodule.parent_id %}
+                    {{ render_submodule(submodule) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_submodule(submodule) %}
+<div class="card mb-3 submodule-card" data-submodule-id="{{ submodule.id }}">
+    <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-bars submodule-drag-handle me-2" style="cursor: grab;"></i>
+                        <a href="{{ url_for('admin_manage_submodule_content', submodule_id=submodule.id) }}" class="text-decoration-none text-dark me-2">{{ submodule.title }}</a>
+                        <button class="btn btn-link btn-sm p-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-submodule-{{ submodule.id }}" aria-expanded="false" aria-controls="collapse-submodule-{{ submodule.id }}">
+                            <i class="fas fa-chevron-down collapse-icon"></i>
+                        </button>
+                    </div>        <div>
+            <button class="btn btn-sm btn-outline-primary" onclick="renameSubmodule({{ submodule.id }})">Rename</button>
+            <button class="btn btn-sm btn-outline-info" onclick="duplicateSubmodule({{ submodule.id }})">Duplicate</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteSubmodule({{ submodule.id }})">Delete</button>
+        </div>
+    </div>
+    <div id="collapse-submodule-{{ submodule.id }}" class="collapse">
+    <div class="card-body">
+        <ul class="list-group content-items-list" data-submodule-id="{{ submodule.id }}">
+            {% for item in submodule.items %}
+            <li class="list-group-item content-item" data-item-id="{{ item.id }}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-bars content-drag-handle" style="cursor: grab; margin-right: 10px;"></i>
+                        {{ item.content_object.title }} ({{ item.content_type }})
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-outline-danger btn-delete-content" data-item-id="{{ item.id }}">Delete</button>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {# Recursively render children submodules #}
+        <div class="submodules-list" data-module-id="{{ submodule.module_id }}" data-parent-id="{{ submodule.id }}">
+            {% for child in submodule.children %}
+                {{ render_submodule(child) }}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+{% endmacro %}

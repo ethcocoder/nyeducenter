@@ -1,0 +1,48 @@
+# html_basics_session.yml
+title: "HTML Basics: Building Your First Page"
+requirements:
+  - description: "The page must start with the HTML5 doctype declaration."
+    check_type: "doctype_exists"
+    value: "html"
+    
+  - description: "There must be an `<html>` root element."
+    check_type: "element_exists"
+    selector: "html"
+
+  - description: "The `<html>` element must have its 'lang' attribute set to 'en'."
+    check_type: "attribute_exists"
+    selector: "html"
+    attribute_name: "lang"
+    value: "en"
+
+  - description: "A `<head>` element must exist inside the `<html>` element."
+    check_type: "element_exists"
+    selector: "html > head"
+    
+  - description: "A `<title>` element must be present inside the `<head>`."
+    check_type: "element_exists"
+    selector: "head > title"
+    
+  - description: "The title's text content must be exactly 'My First Webpage'."
+    check_type: "element_has_text"
+    selector: "title"
+    value: "My First Webpage"
+    
+  - description: "A `<body>` element must exist as a sibling to the `<head>` element."
+    check_type: "element_exists"
+    selector: "body"
+    
+  - description: "An `<h1>` element with the text 'Welcome to My Site' should be inside the `<body>`."
+    check_type: "element_has_text"
+    selector: "body h1"
+    value: "Welcome to My Site"
+    
+  - description: "A `<p>` (paragraph) element must exist inside the `<body>`."
+    check_type: "element_exists"
+    selector: "body p"
+    
+  - description: "The paragraph element must have an 'id' attribute with the value 'intro'."
+    check_type: "attribute_exists"
+    selector: "p"
+    attribute_name: "id"
+    value: "intro"

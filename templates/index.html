@@ -1,0 +1,190 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Home - EthCo Learning{% endblock %}
+
+
+
+{% block content %}
+<div class="landing-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">MASTER TECHNICAL SKILLS BY DOING.</h1>
+            <p class="hero-subtitle">
+                Stop just watching tutorials. Join EthCo Learning to engage with real-world interactive labs, 
+                challenging assessments, and practical coding sessions. 
+                Your journey to mastery starts here.
+            </p>
+            <div class="cta-buttons">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">GO TO DASHBOARD</a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary">GET STARTED FREE</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-secondary">LOG IN</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- Placeholder image: Replace with a screenshot of your actual app or a relevant tech image -->
+            <img src="{{ url_for('static', filename='images/image1.jpg') }}" 
+                 alt="EthCo Learning Platform Interface"
+                 onerror="this.src='https://placehold.co/800x600/1a1a2e/FFF?text=Learn+By+Doing'">
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stat-card">
+            <h2>2.5k+</h2>
+            <p>Active Learners</p>
+        </div>
+        <div class="stat-card">
+            <h2>150+</h2>
+            <p>Interactive Labs</p>
+        </div>
+        <div class="stat-card">
+            <h2>94%</h2>
+            <p>Completion Rate</p>
+        </div>
+        <div class="stat-card">
+            <h2>24/7</h2>
+            <p>Platform Uptime</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="section-header">
+            <span class="section-subtitle">What We Offer</span>
+            <h2 class="section-title">Hands-On Learning Tools</h2>
+        </div>
+        
+        <div class="features-grid">
+            <!-- Feature 1: Interactive Labs -->
+            <div class="feature-card">
+                <div class="feature-image">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Interactive Labs</h3>
+                    <p>Follow step-by-step guides in real-world scenarios. Our system validates your commands in real-time, ensuring you truly understand the material before moving on.</p>
+                    <span class="feature-link">Explore Labs <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Feature 2: Quizzes -->
+            <div class="feature-card">
+                <div class="feature-image">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Skill Assessments</h3>
+                    <p>Test your knowledge with our adaptive quizzes. Track your scores, identify weak points, and retake assessments to achieve mastery.</p>
+                    <span class="feature-link">View Assessments <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Feature 3: Practical Sessions -->
+            <div class="feature-card">
+                <div class="feature-image">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Practical Sessions</h3>
+                    <p>Submit actual code to solve complex problems. Our automated engine checks your syntax, logic, and output against industry standards.</p>
+                    <span class="feature-link">Start Coding <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section class="why-us-section">
+        <div class="why-us-image">
+             <!-- Placeholder image -->
+            <img src="{{ url_for('static', filename='images/image2.jpg') }}" 
+                 alt="Professional Coding Setup"
+                 onerror="this.src='https://placehold.co/600x700/0f0c29/FFF?text=Focus+On+Skills'">
+        </div>
+        <div class="why-us-content">
+            <span class="section-subtitle">Why Choose EthCo</span>
+            <h2>Bridge the Gap Between Theory and Practice</h2>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="benefit-text">
+                    <h4>Instant Feedback Loop</h4>
+                    <p>Don't wait for manual grading. Our automated systems provide immediate feedback on your labs and code submissions.</p>
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="benefit-text">
+                    <h4>Trackable Progress</h4>
+                    <p>Your dashboard provides detailed analytics on your performance, helping you visualize your growth over time.</p>
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="benefit-text">
+                    <h4>Structured Learning Paths</h4>
+                    <p>Our modules are designed to build upon each other, ensuring a solid foundation before tackling advanced topics.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3><i class="fas fa-layer-group"></i> EthCo Learning</h3>
+                <p>Empowering the next generation of developers through practical, hands-on learning experiences. Build real skills for the real world.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="#">All Courses</a></li>
+                    <li><a href="#">Interactive Labs</a></li>
+                    <li><a href="#">Skill Assessments</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Connect</h4>
+                <div class="footer-social" style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                    <a href="#" style="color: #aaa;"><i class="fab fa-github"></i></a>
+                    <a href="#" style="color: #aaa;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="color: #aaa;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; {{ now.year }} EthCo Learning Platform. All rights reserved.
+        </div>
+    </footer>
+</div>
+{% endblock %}

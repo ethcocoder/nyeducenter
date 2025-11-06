@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Notes{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Notes</h1>
+    <div class="list-group">
+        {% for note in notes %}
+            <a href="{{ url_for('note_viewer', note_id=note.id) }}" class="list-group-item list-group-item-action">
+                {{ note.title }}
+            </a>
+        {% else %}
+            <p>No notes available yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
