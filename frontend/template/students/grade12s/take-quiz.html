@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል ፈተናዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            margin-left: 10px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .live-quiz {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ea4335, #8e0000);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .live-quiz-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 20px;
+        }
+
+        .live-quiz-info {
+            flex: 1;
+        }
+
+        .live-quiz-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .live-quiz-description {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .live-quiz-action {
+            margin-left: 20px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-light {
+            background-color: white;
+            color: #ea4335;
+        }
+
+        .btn-light:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+
+        .quiz-tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            white-space: nowrap;
+            transition: all 0.3s;
+            margin-right: 5px;
+        }
+
+        .tab:hover {
+            background-color: #f5f5f5;
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .quiz-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .subject-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+        }
+
+        .icon-math {
+            background-color: #4285f4;
+        }
+
+        .icon-physics {
+            background-color: #ea4335;
+        }
+
+        .icon-chemistry {
+            background-color: #34a853;
+        }
+
+        .icon-biology {
+            background-color: #fbbc05;
+        }
+
+        .icon-english {
+            background-color: #9c27b0;
+        }
+
+        .icon-computer {
+            background-color: #3f51b5;
+        }
+
+        .icon-economics {
+            background-color: #009688;
+        }
+
+        .icon-uni {
+            background-color: #795548;
+        }
+
+        .icon-national {
+            background-color: #ff5722;
+        }
+
+        .quiz-title {
+            flex: 1;
+        }
+
+        .quiz-title h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .quiz-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .status-upcoming {
+            background-color: #fbbc05;
+        }
+
+        .status-completed {
+            background-color: #34a853;
+        }
+
+        .status-ongoing {
+            background-color: #ea4335;
+        }
+
+        .status-graded {
+            background-color: #4285f4;
+        }
+
+        .status-national {
+            background-color: #ff5722;
+        }
+
+        .quiz-content {
+            padding: 15px;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .quiz-description {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .search-bar {
+                width: 150px;
+            }
+
+            .quiz-container {
+                grid-template-columns: 1fr;
+            }
+
+            .live-quiz {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .live-quiz-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .live-quiz-action {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሳሙኤል ታደሰ</div>
+                    <div class="user-role">የ12ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-course.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item active">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈተናዎችን ይፈልጉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="page-title">የ12ኛ ክፍል ፈተናዎች</h1>
+
+        <div class="live-quiz">
+            <div class="live-quiz-icon">
+                <i class="fas fa-university"></i>
+            </div>
+            <div class="live-quiz-info">
+                <h2 class="live-quiz-title">የብሄራዊ ፈተና ማሟያ ሙከራ - የቅድመ ምዘና ጥያቄዎች</h2>
+                <p class="live-quiz-description">ይህ የብሄራዊ ፈተና ዝግጅት ሙከራ ምዘና አሁን ለ12ኛ ክፍል ተማሪዎች ክፍት ነው። ፈተናው የ3 ሰዓት ርዝመት አለው እና ሁሉንም ዓይነት ጥያቄዎችን ያካትታል። የምዘና ውጤቶች ወዲያውኑ በሪፖርት መልክ ይደርስዎታል።</p>
+                <div class="quiz-meta">
+                    <span>ማብቂያ ጊዜ: ዛሬ 4:00 PM</span>
+                    <span>ጠቅላላ ነጥብ: 200</span>
+                </div>
+            </div>
+            <div class="live-quiz-action">
+                <button class="btn btn-light">አሁን ፈተናውን ይጀምሩ</button>
+            </div>
+        </div>
+
+        <div class="quiz-tabs">
+            <div class="tab active">ሁሉም</div>
+            <div class="tab">የብሄራዊ ፈተና</div>
+            <div class="tab">የዩኒቨርሲቲ መግቢያ</div>
+            <div class="tab">የተጠናቀቁ</div>
+            <div class="tab">የተመዘኑ</div>
+            <div class="tab">የቅድመ ግምገማ</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-national">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>ብሄራዊ ፈተና ጠቅላላ ሙከራ - ቁጥር 3</h3>
+                    </div>
+                    <span class="quiz-status status-national">የብሄራዊ ፈተና</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 15, 2023</span>
+                        <span>ጊዜ: 180 ደቂቃ</span>
+                    </div>
+                    <p class="quiz-description">
+                        የሚመጣው ብሄራዊ ፈተና ዓይነት ጥያቄዎችን በሚያስመስል መልኩ የተዘጋጀ ሙሉ የዝግጅት ፈተና። ሁሉም ዋና ዋና ትምህርቶችን ያካትታል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ፈተና ይጀምሩ</button>
+                        <button class="btn btn-outline">ለሚመጣው ያስታውሱኝ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-math">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የሂሳብ ክለስተር የብሄራዊ ፈተና ዝግጅት</h3>
+                    </div>
+                    <span class="quiz-status status-upcoming">አስቀድሞ የተቀመጠ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 17, 2023</span>
+                        <span>ጊዜ: 120 ደቂቃ</span>
+                    </div>
+                    <p class="quiz-description">
+                        የብሄራዊ ፈተና ዝግጅት የሂሳብ ክለስተር - እጅግ አድቫንስድ ካልኩለስ፣ ስታቲስቲክስ፣ ትራንስፎርሜሽን እና አልጀብራን ያካትታል። ከቀድሞ ብሄራዊ ፈተናዎች የተመረጡ ጥያቄዎች ያካትታል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">የጥያቄ ናሙናዎች</button>
+                        <button class="btn btn-outline">ለሚመጣው ያስታውሱኝ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-uni">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የዩኒቨርሲቲ ምርጫ ብቃት ግምገማ</h3>
+                    </div>
+                    <span class="quiz-status status-graded">ተመዝኗል</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 5, 2023</span>
+                        <span>ውጤት: 92/100</span>
+                    </div>
+                    <p class="quiz-description">
+                        ይህ ምዘና የተማሪው የዩኒቨርሲቲና የትምህርት መስክ ምርጫዎችን ከተማሪው ፍላጎቶች፣ ብቃቶችና አፈጻጸም ጋር አብሮ የሚሄድ መሆኑን ለማረጋገጥ ይረዳል። የምክር ማስታወሻዎች ያጠቃልላል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ውጤት ይመልከቱ</button>
+                        <button class="btn btn-outline">የምክር ማስታወሻዎች</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-physics">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የፊዚክስ ብሄራዊ ፈተና ዳሰሳ</h3>
+                    </div>
+                    <span class="quiz-status status-upcoming">አስቀድሞ የተቀመጠ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 19, 2023</span>
+                        <span>ጊዜ: 90 ደቂቃ</span>
+                    </div>
+                    <p class="quiz-description">
+                        የኒውክሌር እና ኳንተም ፊዚክስ ላይ ያተኮረ የብሄራዊ ፈተና ዝግጅት። ውስብስብ ምሳሌዎችን እና የምዘና ጥያቄዎችን ያካትታል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ለመፈተን ይዘጋጁ</button>
+                        <button class="btn btn-outline">የጥናት ማስታወሻዎች</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-chemistry">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የኬሚስትሪ የብሄራዊ ፈተና ቅድመ ዳሰሳ</h3>
+                    </div>
+                    <span class="quiz-status status-ongoing">በመሄድ ላይ ነው</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 11, 2023</span>
+                        <span>ጊዜ: ባሉት 1 ቀን</span>
+                    </div>
+                    <p class="quiz-description">
+                        ከቀድሞ ብሄራዊ ፈተናዎች የተወሰዱ ኦርጋኒክና ኢንኦርጋኒክ ኬሚስትሪ ላይ ያተኮረ ምዘና። የኬሚስትሪ መልስ መስጫ ሰንጠረዥን ይጠቀማል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ፈተናውን ይቀጥሉ</button>
+                        <button class="btn btn-outline">ዝግጅት ማስታወሻዎች</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-english">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የእንግሊዝኛ አካዳሚክ ብቃት ፈተና</h3>
+                    </div>
+                    <span class="quiz-status status-graded">ተመዝኗል</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ኖቬምበር 28, 2023</span>
+                        <span>ውጤት: 88/100</span>
+                    </div>
+                    <p class="quiz-description">
+                        የዩኒቨርሲቲ ደረጃ የእንግሊዝኛ ብቃት ምዘና። የቋንቋ አጠቃቀም፣ የሰ/ሰ ስርዓት፣ የማዳመጥ እና የማንበብ ክሂሎችን ያካትታል። ለዩኒቨርሲቲ ይዘጋጁ።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ውጤት ይመልከቱ</button>
+                        <button class="btn btn-outline">ግብረመልስ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-biology">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የስነ-ህይወት ብሄራዊ ፈተና ዝግጅት</h3>
+                    </div>
+                    <span class="quiz-status status-upcoming">አስቀድሞ የተቀመጠ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 21, 2023</span>
+                        <span>ጊዜ: 120 ደቂቃ</span>
+                    </div>
+                    <p class="quiz-description">
+                        አድቫንስድ ሞለኪዩላር ባዮሎጂ፣ ዘረመል፣ ኢቮሉሽን እና ባዮቴክኖሎጂ ላይ ያተኮረ የብሄራዊ ፈተና ዝግጅት። የላብራቶሪ ሂደቶችንም ያካትታል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ለመፈተን ይዘጋጁ</button>
+                        <button class="btn btn-outline">ለሚመጣው ያስታውሱኝ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-computer">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የኮምፒዩተር ሳይንስ ፕሮጀክት ፈተና</h3>
+                    </div>
+                    <span class="quiz-status status-upcoming">አስቀድሞ የተቀመጠ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ዲሴምበር 22, 2023</span>
+                        <span>ጊዜ: 180 ደቂቃ</span>
+                    </div>
+                    <p class="quiz-description">
+                        የኮምፒዩተር ሳይንስ የፕሮጀክት ምዘና - አንድን ችግር የሚፈታ ፕሮግራም እንዲፈጥሩ ይጠይቃል። ለዩኒቨርሲቲ የመጀመሪያ ዓመት ትምህርቶች ተፈላጊ የሆኑ ክሂሎችን ያሳያል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ፕሮጀክት ዝርዝሮች</button>
+                        <button class="btn btn-outline">ለሚመጣው ያስታውሱኝ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-economics">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የኢኮኖሚክስ እና ፋይናንስ ሙከራ ፈተና</h3>
+                    </div>
+                    <span class="quiz-status status-graded">ተመዝኗል</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <span>ቀን: ኖቬምበር 30, 2023</span>
+                        <span>ውጤት: 91/100</span>
+                    </div>
+                    <p class="quiz-description">
+                        የኢኮኖሚክስ፣ ፋይናንስ፣ አካውንቲንግ እና ቢዝነስ መስኮች ላይ አጠቃላይ ግንዛቤን የሚለካ ፈተና። ለቢዝነስ ኮሌጅ አስፈላጊ የሆነ ግንዛቤን ያረጋግጣል።
+                    </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ውጤት ይመልከቱ</button>
+                        <button class="btn btn-outline">ግብረመልስ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // Quiz tabs functionality
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // In a real application, this would filter the quizzes based on the selected tab
+            });
+        });
+    </script>
+</body>
+</html>

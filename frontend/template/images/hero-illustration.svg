@@ -1,0 +1,55 @@
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="auto">
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="600" fill="#f5f7fa" rx="20" ry="20"/>
+  
+  <!-- Laptop -->
+  <rect x="250" y="200" width="300" height="200" fill="#2c3e50" rx="10" ry="10"/>
+  <rect x="260" y="210" width="280" height="170" fill="#3498db"/>
+  <path d="M200 400 L400 400 L400 420 L200 420 Z" fill="#34495e"/>
+  <rect x="230" y="400" width="340" height="20" fill="#34495e" rx="5" ry="5"/>
+  
+  <!-- Screen Content -->
+  <rect x="280" y="230" width="240" height="20" fill="#ecf0f1"/>
+  <rect x="280" y="260" width="180" height="10" fill="#ecf0f1"/>
+  <rect x="280" y="280" width="200" height="10" fill="#ecf0f1"/>
+  <rect x="280" y="300" width="160" height="10" fill="#ecf0f1"/>
+  <rect x="280" y="320" width="220" height="10" fill="#ecf0f1"/>
+  <rect x="280" y="340" width="190" height="10" fill="#ecf0f1"/>
+  
+  <!-- Books -->
+  <rect x="580" y="320" width="80" height="100" fill="#e74c3c" rx="5" ry="5"/>
+  <rect x="590" y="330" width="60" height="10" fill="white"/>
+  <rect x="590" y="350" width="40" height="5" fill="white"/>
+  <rect x="590" y="360" width="40" height="5" fill="white"/>
+  
+  <rect x="600" y="300" width="80" height="100" fill="#9b59b6" rx="5" ry="5"/>
+  <rect x="610" y="310" width="60" height="10" fill="white"/>
+  <rect x="610" y="330" width="40" height="5" fill="white"/>
+  <rect x="610" y="340" width="40" height="5" fill="white"/>
+  
+  <rect x="620" y="280" width="80" height="100" fill="#3498db" rx="5" ry="5"/>
+  <rect x="630" y="290" width="60" height="10" fill="white"/>
+  <rect x="630" y="310" width="40" height="5" fill="white"/>
+  <rect x="630" y="320" width="40" height="5" fill="white"/>
+  
+  <!-- Pencil -->
+  <line x1="150" y1="350" x2="200" y2="300" stroke="#f1c40f" stroke-width="8"/>
+  <polygon points="145,355 135,345 150,330 160,340" fill="#e67e22"/>
+  <polygon points="200,300 215,295 210,310" fill="#7f8c8d"/>
+  
+  <!-- Globe -->
+  <circle cx="150" cy="200" r="60" fill="#3498db"/>
+  <ellipse cx="150" cy="200" rx="60" ry="20" fill="none" stroke="#2c3e50" stroke-width="2"/>
+  <ellipse cx="150" cy="200" rx="40" ry="60" fill="none" stroke="#2c3e50" stroke-width="2" transform="rotate(30,150,200)"/>
+  <ellipse cx="150" cy="200" rx="40" ry="60" fill="none" stroke="#2c3e50" stroke-width="2" transform="rotate(60,150,200)"/>
+  <ellipse cx="150" cy="200" rx="40" ry="60" fill="none" stroke="#2c3e50" stroke-width="2" transform="rotate(90,150,200)"/>
+  <line x1="90" y1="200" x2="210" y2="200" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="150" y1="140" x2="150" y2="260" stroke="#2c3e50" stroke-width="2"/>
+  
+  <!-- Graduation Cap -->
+  <polygon points="400,100 450,130 350,130" fill="#34495e"/>
+  <rect x="385" y="130" width="30" height="20" fill="#34495e"/>
+  <rect x="395" y="150" width="10" height="20" fill="#34495e"/>
+  <circle cx="400" cy="180" r="10" fill="#34495e"/>
+  <polygon points="400,100 450,130 400,160 350,130" fill="none" stroke="#2c3e50" stroke-width="2"/>
+</svg>

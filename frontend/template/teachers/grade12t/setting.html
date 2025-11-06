@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል ማስተካከያዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href=".css">
+    <style>
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+         
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 15px center;
+            background-size: 15px;
+            padding-right: 40px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #f1f3f4;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e3e6e8;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d93025;
+            transform: translateY(-2px);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin-right: 20px;
+        }
+
+        .profile-info h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .setting-label {
+            font-weight: 500;
+        }
+
+        .setting-description {
+            font-size: 14px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .header {
+                margin-left: 50px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል ማስተካከያዎች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">መለያ ማስተካከያዎች</h1>
+        <p class="page-subtitle">የመለያ መረጃዎን እና የመተግበሪያ ምርጫዎችን ይቀይሩ</p>
+
+        <div class="card">
+            <div class="profile-header">
+                <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Profile" class="profile-avatar">
+                <div class="profile-info">
+                    <h2>አለሚቱ መኮንን</h2>
+                    <p>የ12ኛ ክፍል መምህር | ስልክ: +251 91 123 4567 | ኢሜይል: alemitu.mekonnen@example.com</p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title">የግል መረጃ</h3>
+                <form id="personal-info-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="full-name">ሙሉ ስም</label>
+                                <input type="text" id="full-name" class="form-control" value="አለሚቱ መኮንን">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="username">የተጠቃሚ ስም</label>
+                                <input type="text" id="username" class="form-control" value="alemitu_m">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="email">ኢሜይል</label>
+                                <input type="email" id="email" class="form-control" value="alemitu.mekonnen@example.com">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="phone">ስልክ ቁጥር</label>
+                                <input type="tel" id="phone" class="form-control" value="+251 91 123 4567">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">ባዮግራፊ</label>
+                        <textarea id="bio" class="form-control" rows="3">ለ15 ዓመታት ያህል የ12ኛ ክፍል ተማሪዎችን የሂሳብ እና የኬሚስትሪ ትምህርቶችን አስተምሬያለሁ። የዩኒቨርሲቲ ዝግጅት ፕሮግራም አስተባባሪ ነኝ እንዲሁም የኬሚስትሪ ቴክስት ቡክ ደራሲ ነኝ።</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="subject">የትምህርት ዓይነት</label>
+                                <select id="subject" class="form-control">
+                                    <option>ሂሳብ</option>
+                                    <option selected>ኬሚስትሪ</option>
+                                    <option>ፊዚክስ</option>
+                                    <option>ባዮሎጂ</option>
+                                    <option>ታሪክ</option>
+                                    <option>ጂኦግራፊ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="grade">ክፍል</label>
+                                <select id="grade" class="form-control">
+                                    <option>12ኛ ክፍል</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-image">የመገለጫ ምስል</label>
+                        <input type="file" id="profile-image" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">የይለፍ ቃል ይቀይሩ</label>
+                        <input type="password" id="password" class="form-control" placeholder="አዲስ የይለፍ ቃል">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">የይለፍ ቃሉን ያረጋግጡ</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="የይለፍ ቃሉን ያረጋግጡ">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> ለውጦችን አስቀምጥ
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">ማስታወቂያዎች</h2>
+            
+            <div class="settings-section">
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የኢሜይል ማስታወቂያዎች</div>
+                        <div class="setting-description">በማህደሩ ላይ ስለሚደረጉ ለውጦች በኢሜይል አሳውቅ</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የመጠቀሚያ ማሳወቂያዎች</div>
+                        <div class="setting-description">በመተግበሪያው ውስጥ የሚታዩ ማስታወቂያዎች</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">ስለ አዲስ የቤት ሥራዎች ማሳወቂያዎች</div>
+                        <div class="setting-description">አዲስ የቤት ሥራዎች ሲጀመሩ አሳውቅ</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የፈተና ማሳወቂያዎች</div>
+                        <div class="setting-description">አዲስ ፈተናዎች ሲመደቡ አሳውቅ</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የዩኒቨርሲቲ ማስታወቂያዎች</div>
+                        <div class="setting-description">ስለ ዩኒቨርሲቲ መግቢያ ዝግጅቶች እና መረጃዎች</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">የማዕከፊት ማስተካከያዎች</h2>
+            
+            <div class="settings-section">
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">ጨለማ ገጽታ</div>
+                        <div class="setting-description">ጨለማ ገጽታን አንቃ/አሰናክል</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የ12ኛ ክፍል የኬሚስትሪ ደጋፊ ፋይሎች</div>
+                        <div class="setting-description">የ12ኛ ክፍል የኬሚስትሪ ጥናቶች እና መርጃ ፋይሎች</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">ማስታወቂያዎችን ያስከብሩ</div>
+                        <div class="setting-description">ከቀኑ 8:00 እስከ 17:00 ብቻ ማስታወቂያዎችን አሳይ</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የዩኒቨርስቲ መግብያ ፈተና ዝግጅቶች</div>
+                        <div class="setting-description">ለዩኒቨርሲቲ መግብያ ተማሪዎችን የሚያዘጋጁ ተጨማሪ ግብዓቶች</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="language">ቋንቋ</label>
+                    <select id="language" class="form-control">
+                        <option>አማርኛ</option>
+                        <option>English</option>
+                        <option>ትግርኛ</option>
+                        <option>ኦሮምኛ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">የደህንነት ማስተካከያዎች</h2>
+            
+            <div class="settings-section">
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">ሁለት-ደረጃ ማረጋገጫ</div>
+                        <div class="setting-description">ለተጨማሪ ደህንነት ሁለት-ደረጃ ማረጋገጫን ያነቃቃሉ</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የመለያ ማጽዳት</div>
+                        <div class="setting-description">የመለያዎን ታሪክ እና ተግባሮች ያጽዱ</div>
+                    </div>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-trash"></i> ማጽዳትን ጀምር
+                    </button>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">ከመለያ ውጣ</div>
+                        <div class="setting-description">ከሁሉም መሳሪያዎች ላይ ይውጡ</div>
+                    </div>
+                    <button class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> ከሁሉም መሳሪያዎች ላይ ውጣ
+                    </button>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">የውጤት ሪፖርቶች ፈቃድ</div>
+                        <div class="setting-description">ለዩኒቨርሲቲ መግቢያ አመልክቶችን ለማዘጋጀት የግል መረጃን መጋራት</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // Load navigation component
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load the navigation component
+            fetch('/frontend/template/teachers/share/navigation.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('navigation-placeholder').innerHTML = html;
+                    
+                    // Add active class to current menu item
+                    const currentPath = window.location.pathname;
+                    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+                    
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        const href = item.getAttribute('href');
+                        if (href && href.endsWith(filename)) {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Mobile menu toggle
+                    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+                    if (mobileMenuToggle) {
+                        mobileMenuToggle.addEventListener('click', function() {
+                            document.querySelector('.sidebar').classList.toggle('open');
+                        });
+                    }
+                });
+                
+            // Form submission handling (just prevents default for now)
+            document.getElementById('personal-info-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('መረጃዎች በተሳካ ሁኔታ ተቀይረዋል።');
+            });
+            
+            // Toggle switches
+            document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const label = this.closest('.setting-item').querySelector('.setting-label').textContent;
+                    const state = this.checked ? 'በርቷል' : 'ጠፍቷል';
+                    console.log(`${label}: ${state}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

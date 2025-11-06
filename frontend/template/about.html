@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ስለ እኛ | ናቲ የትምህርት ማዕከል</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/home.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 3rem;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .page-subtitle {
+            font-size: 18px;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+        
+        .about-section {
+            padding: 80px 0;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-image {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-content h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: var(--dark-color);
+        }
+        
+        .about-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #666;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--dark-color);
+        }
+        
+        .mission-vision {
+            background-color: var(--light-color);
+            padding: 80px 0;
+        }
+        
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .mission-card, .vision-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 107, 53, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+        
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .card-description {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .team-section {
+            padding: 80px 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .team-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-image {
+            height: 250px;
+            background-color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .team-image i {
+            font-size: 80px;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+        
+        .team-info {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .team-name {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+        
+        .team-position {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .team-bio {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .achievements-section {
+            background-color: var(--light-color);
+            padding: 80px 0;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .achievement-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .achievement-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .achievement-text {
+            color: #666;
+        }
+        
+        .designer-credit {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #f5f7fa;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 992px) {
+            .about-grid, .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .team-grid, .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-school"></i> ከቸኔ ደብረ ሰላም
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">መነሻ</a>
+                <a href="about.html" class="active">ስለ እኛ</a>
+                <a href="contact.html">ያግኙን</a>
+                <a href="login.html">ይግቡ</a>
+                <a href="register.html">ይመዝገቡ</a>
+            </div>
+            <button class="mobile-menu-button" id="mobileMenuButton">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title">ስለ ከቸኔ ደብረ ሰላም ትምህርት ቤት</h1>
+                <p class="page-subtitle">ለትምህርታዊ ልህቀት የሚሰራ የተሻለ የትምህርት ማህበረሰብ መገንባት</p>
+            </div>
+        </div>
+    </header>
+    
+    <section class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <div style="height: 350px; background-color: #e0e7ff; display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-school" style="font-size: 100px; color: var(--primary-color); opacity: 0.5;"></i>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <h2>የእኛ ታሪክ</h2>
+                    <p>ከቸኔ ደብረ ሰላም ትምህርት ቤት በ1995 ዓ.ም ተመሠረተ። ት/ቤታችን በአዲስ አበባ ከተማ በከቸኔ አካባቢ ይገኛል። ከመጀመሪያው ጀምሮ፣ ለየተማሪዎች ጥራት ያለው ትምህርት ለመስጠት ቁርጠኝነት ነበረን።</p>
+                    <p>በተለያዩ የትምህርት ደረጃዎች እያደግን ሲሆን፣ አሁን ከ9ኛ እስከ 12ኛ ክፍል ለሚማሩ ተማሪዎች ጥራት ያለው ትምህርት እንሰጣለን። በከፍተኛ ብቃት ያላቸው መምህራን እና ዘመናዊ የትምህርት ቴክኖሎጂዎችን በመጠቀም ተማሪዎቻችን ሁሉ የበለጠ እድሎችን እንዲያገኙ ዓላማችን ነው።</p>
+                    <p>በየዓመቱ የሚመረቁ ተማሪዎቻችን በከፍተኛ የትምህርት ተቋማት ተቀባይነት አግኝተው የኔሽናል ፈተናዎችን በከፍተኛ ውጤት እያለፉ ናቸው። ይህ ደግሞ የት/ቤታችን የትምህርት ጥራት ምስክር ነው።</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="mission-vision">
+        <div class="container">
+            <h2 class="section-title">ራዕይ እና ተልዕኮ</h2>
+            <div class="mission-vision-grid">
+                <div class="mission-card">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">ተልዕኮአችን</h3>
+                    <p class="card-description">
+                        የከቸኔ ደብረ ሰላም ትምህርት ቤት ተልዕኮ በተለዋዋጭ ዓለም ውስጥ ተማሪዎች ስኬታማ እንዲሆኑ የሚያስፈልጓቸውን እውቀት፣ ክህሎቶች እና ዝንባሌዎች በማስጨበጥ ብቃት ያላቸውን፣ ሀላፊነት የሚሰማቸውን እና ፈጠራ የሚያውቁ ዜጎችን ማፍራት ነው። በሁሉም የትምህርት ደረጃዎች ምሩቃን እንደቀጣዮቹ መሪዎች፣ ፈጠራ አውጪዎች እና በብሔራዊ ደረጃ አስተዋጽኦ አድራጊዎች ሆነው እንዲያድጉ አጠቃላይ ትምህርት እንሰጣለን።
+                    </p>
+                </div>
+                <div class="vision-card">
+                    <div class="card-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="card-title">ራዕያችን</h3>
+                    <p class="card-description">
+                        ራዕያችን የከቸኔ ደብረ ሰላም ትምህርት ቤት በአካባቢው ከፍተኛ የትምህርት ጥራት ባለው ዘመናዊ ትምህርት ቤት ሆኖ በአካባቢው፣ በሀገሪቱ ብሎም በዓለም ደረጃ እውቅና ያገኘ የትምህርት ማዕከል መሆን ነው። ይህንን ራዕይ ሊያሳኩ በሚችሉ የተጠናከሩ ፕሮግራሞች እና በዕውቀት የበለፀጉ መምህራን ድጋፍ ተማሪዎቻችን አካዳሚያዊ፣ ማህበራዊ እና ሥነ ምግባራዊ በሆኑ መስኮች ሁሉ የተሟላ ዕድገት እንዲኖራቸው የምናደርግ ነን።
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">የእኛ አመራር ቡድን</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">አቶ አበባው</h3>
+                        <p class="team-position">ዋና ዳይሬክተር</p>
+                        <p class="team-bio">
+                            ከ15 ዓመታት በላይ የትምህርት አመራር ልምድ ያለው፣ በ2005 ዓ.ም የተሻለ መምህር ሽልማት ያገኘ ከፍተኛ ቁርጠኝነት ያለው የትምህርት ባለሙያ።
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">ወ/ሮ አበባ መኮንን</h3>
+                        <p class="team-position">የትምህርት ክፍል ሃላፊ</p>
+                        <p class="team-bio">
+                            ከፍተኛ ዲግሪ በትምህርት አመራር ያላት፣ ከ10 ዓመታት በላይ በትምህርት አስተዳደር ልምድ ያላት የቀድሞ የሳይንስ መምህር።
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">አቶ ገብረመድህን ደምሴ</h3>
+                        <p class="team-position">የአስተዳደር ጉዳዮች ሃላፊ</p>
+                        <p class="team-bio">
+                            ዲግሪ በአስተዳደር እና ፋይናንስ ያለው፣ ትምህርት ቤታችንን ውጤታማ እንዲሆን ከ8 ዓመታት በላይ አገልግሏል።
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="achievements-section">
+        <div class="container">
+            <h2 class="section-title">የት/ቤታችን ውጤቶች</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-number">20+</div>
+                    <p class="achievement-text">ዓመታት ልምድ</p>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-number">2000+</div>
+                    <p class="achievement-text">ተመራቂ ተማሪዎች</p>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-number">95%</div>
+                    <p class="achievement-text">በቀጣይ ደረጃ የሚቀጥሉ ተማሪዎች</p>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-number">12</div>
+                    <p class="achievement-text">የልህቀት ሽልማቶች</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">የትምህርት ማህበረሰብ</div>
+                    <p class="footer-description">
+                        የከቸኔ ደብረ ሰላም ትምህርት ቤት ተማሪዎች፣ መምህራን እና ወላጆች ለማገልገል የተዘጋጀ ዲጂታል የትምህርት መድረክ።
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>ሀብቶች</h3>
+                    <ul>
+                        <li><a href="#">የመማር ግብዓቶች</a></li>
+                        <li><a href="#">ብላክቦርድ</a></li>
+                        <li><a href="#">የእገዛ ማዕከል</a></li>
+                        <li><a href="#">ብዙ የሚጠየቁ ጥያቄዎች</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>ስለ እኛ</h3>
+                    <ul>
+                        <li><a href="about.html">ስለ ትምህርት ቤታችን</a></li>
+                        <li><a href="about.html#mission">የእኛ ራዕይ</a></li>
+                        <li><a href="#">ወላጆች</a></li>
+                        <li><a href="contact.html">ያግኙን</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>ሕጋዊ</h3>
+                    <ul>
+                        <li><a href="#">የግል መረጃ ፖሊሲ</a></li>
+                        <li><a href="#">የአጠቃቀም ደንቦች</a></li>
+                        <li><a href="#">ማህበረሰብ መመሪያዎች</a></li>
+                        <li><a href="#">ቅሬታዎች ፖሊሲ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 የከቸኔ ደብረ ሰላም ትምህርት ቤት የትምህርት ማህበረሰብ። ሁሉም መብቶች የተጠበቁ ናቸው።<br>
+                ዲዛይን በ: ናትናኤል ኤርሚያስ</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                const icon = mobileMenuButton.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Animation for elements
+            const animateElements = document.querySelectorAll('.about-content, .about-image, .mission-card, .vision-card, .team-card, .achievement-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html> 

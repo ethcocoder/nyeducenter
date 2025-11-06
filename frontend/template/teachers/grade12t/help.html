@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል እገዛ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል መምህር እገዛ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="help-container animate-fade-in">
+            <div class="search-container mb-4">
+                <div class="card p-3">
+                    <div class="d-flex align-center">
+                        <i class="fas fa-search text-secondary mr-3"></i>
+                        <input type="text" class="form-control" placeholder="የሚፈልጉትን እገዛ ይፈልጉ...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-categories mb-4">
+                <h2 class="section-title">እገዛ ማግኛ ምድቦች</h2>
+                <div class="dashboard-grid">
+                    <div class="stats-card primary animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="stats-value">ኮርሶች</h3>
+                        <p class="stats-label">የ12ኛ ክፍል ኮርሶችን መፍጠር እና ማስተዳደር</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card secondary animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3 class="stats-value">ፈተናዎች</h3>
+                        <p class="stats-label">የ12ኛ ክፍል ፈተናዎችን መፍጠር፣ ማስተላለፍ እና ማስተዳደር</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card accent animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="stats-value">የቤት ስራዎች</h3>
+                        <p class="stats-label">የቤት ስራዎችን መስጠት እና ማስተዳደር</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card danger animate-slide-up" style="animation-delay: 0.4s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="stats-value">የውጤት ምዘና</h3>
+                        <p class="stats-label">የተማሪዎችን ውጤት መመዝገብ እና ሪፖርት ማድረግ</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card primary animate-slide-up" style="animation-delay: 0.5s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="stats-value">የጊዜ ሰሌዳ</h3>
+                        <p class="stats-label">የክፍል ጊዜ ሰሌዳ እና የተግባራት መቁጠሪያ ማስተዳደር</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card secondary animate-slide-up" style="animation-delay: 0.6s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="stats-value">ተማሪዎች</h3>
+                        <p class="stats-label">የተማሪዎችን መረጃ እና ውጤት ማስተዳደር</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card accent animate-slide-up" style="animation-delay: 0.7s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 class="stats-value">መልዕክቶች</h3>
+                        <p class="stats-label">ከተማሪዎች እና ከሌሎች መምህራን ጋር መግባባት</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="stats-card danger animate-slide-up" style="animation-delay: 0.8s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h3 class="stats-value">ቅንብሮች</h3>
+                        <p class="stats-label">የመምህር መገለጫ እና የአካውንት ቅንብሮች ማስተካከል</p>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section faq-section mb-4">
+                <h2 class="section-title">ተደጋግመው የሚጠየቁ ጥያቄዎች</h2>
+                <div class="accordion card p-0 animate-slide-in-right">
+                    <div class="accordion-item p-0">
+                        <div class="accordion-header p-3">
+                            <span class="accordion-title">የ12ኛ ክፍል ፈተናዎችን እንዴት መፍጠር እችላለሁ?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content p-3 bg-card-background-alt">
+                            <p>የ12ኛ ክፍል ፈተናዎችን ለመፍጠር፣ "ፈተና መፍጠር" ገጽ ላይ ይሂዱ። ፈተናውን ለየትኛው ክፍል እንደሚያቀርቡ ይምረጡ። ከዚያ የፈተናውን ርዕስ፣ ጥያቄዎች እና ሌሎች አማራጮች ይሙሉ። ሙሉ በሙሉ ከጨረሱ በኋላ፣ ፈተናውን ለተማሪዎች ለመላክ "አስቀምጥ" ወይም "ላክ" ይምረጡ።</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item p-0">
+                        <div class="accordion-header p-3">
+                            <span class="accordion-title">የተማሪዎችን ውጤት እንዴት መመዝገብ እችላለሁ?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content p-3 bg-card-background-alt">
+                            <p>የተማሪዎችን ውጤት ለመመዝገብ፣ "ውጤቶች" ገጽ ላይ ይሂዱ። ውጤት መመዝገብ የሚፈልጉትን ክፍል እና ትምህርት ይምረጡ። የተማሪዎችን ዝርዝር ከተሰጠዎት ፈተናዎች ጋር ያገኛሉ። የእያንዳንዱን ተማሪ ውጤት እያስገቡ ካጠናቀቁ በኋላ፣ ለማስቀመጥ "ውጤቶችን አስቀምጥ" የሚለውን ይጫኑ።</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item p-0">
+                        <div class="accordion-header p-3">
+                            <span class="accordion-title">ከተማሪዎች ጋር እንዴት ውይይት መጀመር እችላለሁ?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content p-3 bg-card-background-alt">
+                            <p>ከተማሪዎች ጋር ለመግባባት፣ "መልዕክቶች" ገጽ ላይ ይሂዱ። "አዲስ መልዕክት" የሚለውን ይጫኑ። መልዕክት መላክ የሚፈልጉትን ተማሪ ይምረጡ እና "ለወላጅ መልዕክት" የሚለውን ይጫኑ። የተማሪውን እድገት፣ ስኬቶች ወይም ማሻሻያ የሚያስፈልጋቸው ነገሮች በተመለከተ ዝርዝር መረጃ ያካፍሉ። የተማሪውን ውጤቶች፣ የክፍል ተሳትፎ እና ሌሎች መረጃዎችን በማካተት ሪፖርት መላክ ይችላሉ።</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item p-0">
+                        <div class="accordion-header p-3">
+                            <span class="accordion-title">የ12ኛ ክፍል የተማሪዎችን የቤት ስራ እንዴት ማረም እችላለሁ?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content p-3 bg-card-background-alt">
+                            <p>የተማሪዎችን የቤት ስራ ለማረም፣ "የቤት ስራዎች" ገጽ ላይ ይሂዱ። ማረም የሚፈልጉትን የቤት ስራ ይምረጡ። የተማሪዎችን ማስገቢያዎች ዝርዝር ያገኛሉ። እያንዳንዱን ማስገቢያ ለማየት ተማሪውን ይጫኑ። የተማሪውን ስራ ከገመገሙ በኋላ፣ ውጤትና አስተያየት ያስገቡ። የክፍሉን ሙሉ ውጤት ለማስቀመጥ፣ ሁሉንም ማስገቢያዎች ካረሙ በኋላ "ውጤቶችን አስቀምጥ" የሚለውን ይጫኑ።</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item p-0">
+                        <div class="accordion-header p-3">
+                            <span class="accordion-title">ለወላጆች ምን ዓይነት መረጃ ማካፈል እችላለሁ?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content p-3 bg-card-background-alt">
+                            <p>ለወላጆች የተማሪዎችን እድገት በተመለከተ መረጃ ማካፈል ይችላሉ። "ወላጅ መልዕክቶች" ገጽ ላይ ይሂዱ። መልዕክት መላክ የሚፈልጉትን ተማሪ ይምረጡ እና "ለወላጅ መልዕክት" የሚለውን ይጫኑ። የተማሪውን እድገት፣ ስኬቶች ወይም ማሻሻያ የሚያስፈልጋቸው ነገሮች በተመለከተ ዝርዝር መረጃ ያካፍሉ። የተማሪውን ውጤቶች፣ የክፍል ተሳትፎ እና ሌሎች መረጃዎችን በማካተት ሪፖርት መላክ ይችላሉ።</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item p-0">
+                        <div class="accordion-header p-3">
+                            <span class="accordion-title">የአካውንት መረጃዬን እንዴት ማዘመን እችላለሁ?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content p-3 bg-card-background-alt">
+                            <p>የአካውንት መረጃዎን ለማዘመን፣ "ቅንብሮች" ገጽ ላይ ይሂዱ። በግራ የጎን ምናሌው ላይ "መገለጫ" የሚለውን ይምረጡ። ከዚያ ማዘመን የሚፈልጉትን መረጃ ማስተካከል ይችላሉ። ይህ ማለት የተጠቃሚ ስም፣ ኢሜይል አድራሻ፣ ስልክ ቁጥር፣ እና የመሳሰሉትን ያካትታል። ለውጦችን ለማስቀመጥ፣ ገጹ ስር ያለውን "አስቀምጥ" ወይም "ማዘመኛ" የሚለውን አዝራር ይጫኑ።</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section popular-articles mb-4">
+                <h2 class="section-title">ተመራጭ ጽሑፎች</h2>
+                <div class="dashboard-grid">
+                    <div class="card p-0 animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="article-image">
+                            <img src="https://via.placeholder.com/300x200" alt="የ12ኛ ክፍል ፈተና ዝግጅት" style="width:100%; height:200px; object-fit:cover; border-radius:12px 12px 0 0;">
+                        </div>
+                        <div class="article-content p-3">
+                            <h3 class="card-title">ውጤታማ የፈተና ዝግጅት ምክሮች ለ12ኛ ክፍል መምህራን</h3>
+                            <p class="text-secondary">የተመጣጠነ ፈተና ለማዘጋጀት፣ ፈተናውን ከማስተላለፍዎ በፊት ሊከተሏቸው የሚገቡ ሂደቶች</p>
+                            <div class="d-flex justify-between mt-2">
+                                <span class="text-muted"><i class="far fa-calendar-alt"></i> መስከረም 10, 2016</span>
+                                <span class="text-primary"><i class="fas fa-eye"></i> 245</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-0 animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="article-image">
+                            <img src="https://via.placeholder.com/300x200" alt="የቡድን ስራዎች በክፍል ውስጥ" style="width:100%; height:200px; object-fit:cover; border-radius:12px 12px 0 0;">
+                        </div>
+                        <div class="article-content p-3">
+                            <h3 class="card-title">የቡድን ስራዎችን ውጤታማ በሆነ መንገድ ለ12ኛ ክፍል ማቀድ</h3>
+                            <p class="text-secondary">የቡድን ስራዎችን በተሻለ ሁኔታ ለ12ኛ ክፍል ተማሪዎች እንዴት ማቀድ እና ማስተዳደር እንደሚቻል የሚያሳዩ ሂደቶች</p>
+                            <div class="d-flex justify-between mt-2">
+                                <span class="text-muted"><i class="far fa-calendar-alt"></i> መስከረም 5, 2016</span>
+                                <span class="text-primary"><i class="fas fa-eye"></i> 187</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-0 animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="article-image">
+                            <img src="https://via.placeholder.com/300x200" alt="ቴክኖሎጂ በክፍል ውስጥ" style="width:100%; height:200px; object-fit:cover; border-radius:12px 12px 0 0;">
+                        </div>
+                        <div class="article-content p-3">
+                            <h3 class="card-title">ቴክኖሎጂን ለ12ኛ ክፍል ትምህርት መጠቀም</h3>
+                            <p class="text-secondary">ለ12ኛ ክፍል ተማሪዎች የመማሪያ ብቃትን ለማሻሻል የሚረዱ ዲጂታል መሳሪያዎችና ምንጮች</p>
+                            <div class="d-flex justify-between mt-2">
+                                <span class="text-muted"><i class="far fa-calendar-alt"></i> ነሐሴ 25, 2016</span>
+                                <span class="text-primary"><i class="fas fa-eye"></i> 156</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section contact-section">
+                <h2 class="section-title">አሁንም ጥያቄ አሎት?</h2>
+                <div class="dashboard-grid">
+                    <div class="card animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="stats-icon bg-primary mb-3">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="card-title">ኢሜይል ይላኩ</h3>
+                        <p class="mb-3">በኢሜይል ለጥያቄዎ ምላሽ ያግኙ</p>
+                        <a href="mailto:support@educenter.et" class="btn btn-primary">support@educenter.et</a>
+                    </div>
+
+                    <div class="card animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="stats-icon bg-secondary mb-3">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3 class="card-title">ይደውሉ</h3>
+                        <p class="mb-3">ቀጥታ ባለሙያ ጋር ይነጋገሩ</p>
+                        <a href="tel:+251111234567" class="btn btn-secondary">+251 11 123 4567</a>
+                    </div>
+
+                    <div class="card animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="stats-icon bg-accent mb-3">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <h3 class="card-title">ቀጥታ ውይይት</h3>
+                        <p class="mb-3">ወዲያውኑ ምላሽ ይረከቡ</p>
+                        <button class="btn btn-accent btn-chat">ውይይት ይጀምሩ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script referencing -->
+    <script src="../../js/utils.js"></script>
+    <script>
+       
+            // Accordion functionality
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const item = this.parentElement;
+                    const content = this.nextElementSibling;
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                    
+                    // Adjust content height
+                    if (item.classList.contains('active')) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        this.querySelector('.accordion-icon').classList.add('fa-rotate-180');
+                    } else {
+                        content.style.maxHeight = null;
+                        this.querySelector('.accordion-icon').classList.remove('fa-rotate-180');
+                    }
+                });
+            });
+            
+            // Category cards click event with bounce animation
+            document.querySelectorAll('.stats-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('.stats-value').textContent;
+                    
+                    // Add click animation
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        this.classList.remove('animate-pulse');
+                        alert(`"${title}" ምድብ ተመርጧል`);
+                    }, 300);
+                });
+            });
+            
+            // Chat button click event
+            document.querySelector('.btn-chat').addEventListener('click', function() {
+                this.classList.add('animate-pulse');
+                setTimeout(() => {
+                    this.classList.remove('animate-pulse');
+                    alert('የእገዛ ውይይት በቅርብ ጊዜ ይጀመራል...');
+                }, 300);
+            });
+            
+            // Search functionality
+            const searchInput = document.querySelector('.form-control');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    alert(`ፍለጋ: "${this.value}"`);
+                }
+            });
+            
+            // Apply some animations on load
+            // Initialize accordion styles
+            document.querySelectorAll('.accordion-content').forEach(content => {
+                content.style.maxHeight = null;
+            });
+            
+            // Add transitions to accordion content
+            const style = document.createElement('style');
+            style.textContent = `
+                .accordion-content {
+                    overflow: hidden;
+                    transition: max-height 0.3s ease;
+                    max-height: 0;
+                }
+                .accordion-header {
+                    position: relative;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                    border-bottom: 1px solid var(--border-light);
+                }
+                .accordion-header:hover {
+                    background-color: rgba(79, 70, 229, 0.05);
+                }
+                .accordion-icon {
+                    transition: transform 0.3s ease;
+                }
+                .category-arrow {
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    transition: transform 0.3s ease;
+                }
+                .stats-card:hover .category-arrow {
+                    transform: translateX(5px);
+                }
+                .mr-3 {
+                    margin-right: 16px;
+                }
+                .bg-card-background-alt {
+                    background-color: var(--card-background-alt);
+                }
+            `;
+            document.head.appendChild(style);
+      
+    </script>
+</body>
+</html> 

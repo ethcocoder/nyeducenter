@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ10ኛ ክፍል ፈተና መላክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Additional styles specific to quiz page */
+        .quizzes-tabs {
+            display: flex;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            white-space: nowrap;
+            transition: all 0.3s;
+            margin-right: 5px;
+        }
+
+        .tab:hover {
+            background-color: var(--hover-color);
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .quizzes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            position: relative;
+        }
+
+        .subject-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .icon-math {
+            background-color: #4285f4;
+        }
+
+        .icon-physics {
+            background-color: #ea4335;
+        }
+
+        .icon-chemistry {
+            background-color: #fbbc05;
+        }
+
+        .icon-biology {
+            background-color: #34a853;
+        }
+
+        .icon-history {
+            background-color: #9c27b0;
+        }
+
+        .quiz-title {
+            flex: 1;
+        }
+
+        .quiz-title h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .quiz-status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(var(--secondary-rgb), 0.2);
+            color: var(--secondary-color);
+        }
+
+        .status-draft {
+            background-color: rgba(var(--accent-rgb), 0.2);
+            color: var(--accent-color);
+        }
+
+        .status-ended {
+            background-color: rgba(var(--danger-rgb), 0.2);
+            color: var(--danger-color);
+        }
+
+        .status-scheduled {
+            background-color: rgba(var(--primary-rgb), 0.2);
+            color: var(--primary-color);
+        }
+
+        .quiz-content {
+            padding: 15px;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .quiz-description {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .quiz-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .quiz-detail {
+            text-align: center;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .create-new {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .quizzes-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-actions {
+                flex-wrap: wrap;
+            }
+            
+            .quiz-actions button {
+                flex: 1;
+                min-width: calc(50% - 5px);
+            }
+        }
+    </style>
+</head>
+<body>
+   <!-- Navigation Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">የትምህርት ማህበረሰብ</div>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">መምህር</div>
+                <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ዋና ገጾች</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+            <i class="fas fa-home"></i>
+            <span>ዳሽቦርድ</span>
+        </a>
+        <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+            <i class="fas fa-tasks"></i>
+            <span>የቤት ስራ መፍጠር</span>
+        </a>
+        <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+            <i class="fas fa-paper-plane"></i>
+            <span>የቤት ስራ መላክ</span>
+        </a>
+        <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+            <i class="fas fa-edit"></i>
+            <span>ፈተና መፍጠር</span>
+        </a>
+        <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+            <i class="fas fa-question-circle"></i>
+            <span>ፈተና መላክ</span>
+        </a>
+        <a href="create-course.html" class="menu-item" data-page="create-course">
+            <i class="fas fa-book"></i>
+            <span>ኮርስ መፍጠር</span>
+        </a>
+        <a href="send-course.html" class="menu-item" data-page="send-course">
+            <i class="fas fa-book-reader"></i>
+            <span>ኮርስ መላክ</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+            <i class="fas fa-comments"></i>
+            <span>ውይይት መድረክ</span>
+        </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+            <i class="fas fa-bullhorn"></i>
+            <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ተጨማሪ</div>
+        <a href="help.html" class="menu-item" data-page="help">
+            <i class="fas fa-question-circle"></i>
+            <span>እገዛ</span>
+        </a>
+        <a href="setting.html" class="menu-item" data-page="setting">
+            <i class="fas fa-cog"></i>
+            <span>ሴቲንግ</span>
+        </a>
+        <a href="../../index.html" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>ውጣ</span>
+        </a>
+    </div>
+</div>
+
+<!-- Mobile Navigation Toggle -->
+<div class="mobile-menu-toggle">
+    <i class="fas fa-bars"></i>
+</div> 
+<script>
+
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ10ኛ ክፍል ፈተናዎች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">የ10ኛ ክፍል ፈተናዎች</h1>
+        <p class="page-subtitle">የተዘጋጁ ፈተናዎችን ለ10ኛ ክፍል ተማሪዎች ይላኩ</p>
+
+        <div class="create-new">
+            <a href="create-quiz.html" class="btn btn-primary">
+                <i class="fas fa-plus"></i> አዲስ ፈተና ይፍጠሩ
+            </a>
+        </div>
+
+        <div class="quizzes-tabs">
+            <div class="tab active">ሁሉም</div>
+            <div class="tab">ንቁ</div>
+            <div class="tab">የተመደቡ</div>
+            <div class="tab">ረቂቆች</div>
+            <div class="tab">የተጠናቀቁ</div>
+        </div>
+
+        <div class="quizzes-container">
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-math">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>1ኛ ወር የሂሳብ ፈተና</h3>
+                        <small>ሂሳብ</small>
+                    </div>
+                    <span class="quiz-status status-active">ንቁ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <div>መምህር: ዘውዲቱ ተፈራ</div>
+                        <div>ቀን: መስከረም 24, 2016</div>
+                    </div>
+                    <div class="quiz-description">
+                        የ10ኛ ክፍል የመጀመሪያ ወር ፈተና። ምዕራፍ 1 እና 2 ላይ ያተኮረ የምርጫ እና የማብራሪያ ጥያቄዎች።
+                    </div>
+                    <div class="quiz-details">
+                        <div class="quiz-detail">
+                            <div class="detail-value">25</div>
+                            <div class="detail-label">ጥያቄዎች</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">45 ደቂቃ</div>
+                            <div class="detail-label">ጊዜ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">100</div>
+                            <div class="detail-label">ነጥብ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">42</div>
+                            <div class="detail-label">ተማሪዎች</div>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button class="btn btn-warning">
+                            <i class="fas fa-edit"></i> ያርትዑ
+                        </button>
+                        <button class="btn btn-danger">
+                            <i class="fas fa-stop"></i> ያቁሙ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-physics">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የመጀመሪያ ምዕራፍ ትምህርት ፈተና</h3>
+                        <small>ፊዚክስ</small>
+                    </div>
+                    <span class="quiz-status status-scheduled">የተመደበ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <div>መምህር: ዘውዲቱ ተፈራ</div>
+                        <div>ቀን: መስከረም 27, 2016</div>
+                    </div>
+                    <div class="quiz-description">
+                        የፊዚክስ መሰረታዊ ህጎች እና ንድፈ ሀሳቦችን የሚመለከት ፈተና። የንድፈ ሀሳብ እና ተግባራዊ ጥያቄዎችን ይጨምራል።
+                    </div>
+                    <div class="quiz-details">
+                        <div class="quiz-detail">
+                            <div class="detail-value">20</div>
+                            <div class="detail-label">ጥያቄዎች</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">40 ደቂቃ</div>
+                            <div class="detail-label">ጊዜ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">80</div>
+                            <div class="detail-label">ነጥብ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">0</div>
+                            <div class="detail-label">ተማሪዎች</div>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button class="btn btn-warning">
+                            <i class="fas fa-edit"></i> ያርትዑ
+                        </button>
+                        <button class="btn btn-success">
+                            <i class="fas fa-play"></i> አሁን ይጀምሩ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-chemistry">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የኬሚካል ምልክቶች ፈተና</h3>
+                        <small>ኬሚስትሪ</small>
+                    </div>
+                    <span class="quiz-status status-draft">ረቂቅ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <div>መምህር: ዘውዲቱ ተፈራ</div>
+                        <div>ቀን: መስከረም 30, 2016</div>
+                    </div>
+                    <div class="quiz-description">
+                        የኬሚካል ምልክቶች እና አቀላጥፈው የመጻፍ መልመጃ ፈተና። ስለ መዳብር፣ ኤሲድ፣ ቤዝ እና ሶልቶች መሰረታዊ ገጽታዎችን ይመለከታል።
+                    </div>
+                    <div class="quiz-details">
+                        <div class="quiz-detail">
+                            <div class="detail-value">30</div>
+                            <div class="detail-label">ጥያቄዎች</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">50 ደቂቃ</div>
+                            <div class="detail-label">ጊዜ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">90</div>
+                            <div class="detail-label">ነጥብ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">0</div>
+                            <div class="detail-label">ተማሪዎች</div>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button class="btn btn-warning">
+                            <i class="fas fa-edit"></i> ያርትዑ
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-calendar"></i> ይመድቡ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-biology">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የህዋሳት ክፍል ፈተና</h3>
+                        <small>ባዮሎጂ</small>
+                    </div>
+                    <span class="quiz-status status-ended">የተጠናቀቀ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <div>መምህር: ዘውዲቱ ተፈራ</div>
+                        <div>ቀን: መስከረም 15, 2016</div>
+                    </div>
+                    <div class="quiz-description">
+                        የባዮሎጂ የመጀመሪያ ፈተና። የተማሪዎችን የሕዋሳት ክፍሎች እና ተግባራቸውን የሚመለከት እውቀት ይፈትሻል።
+                    </div>
+                    <div class="quiz-details">
+                        <div class="quiz-detail">
+                            <div class="detail-value">25</div>
+                            <div class="detail-label">ጥያቄዎች</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">40 ደቂቃ</div>
+                            <div class="detail-label">ጊዜ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">75</div>
+                            <div class="detail-label">ነጥብ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">38</div>
+                            <div class="detail-label">ተማሪዎች</div>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-chart-bar"></i> ውጤቶችን ይመልከቱ
+                        </button>
+                        <button class="btn btn-success">
+                            <i class="fas fa-copy"></i> እንደገና ይጠቀሙ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-english">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>Grammar and Vocabulary Test</h3>
+                        <small>እንግሊዘኛ</small>
+                    </div>
+                    <span class="quiz-status status-draft">ረቂቅ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <div>መምህር: ዘውዲቱ ተፈራ</div>
+                        <div>ቀን: ጥቅምት 5, 2016</div>
+                    </div>
+                    <div class="quiz-description">
+                        የእንግሊዘኛ ቋንቋ ንድፈ ሀሳቦችን፣ ቃላትን እና አጠቃቀሞችን የሚመለከት ፈተና። ትክክለኛ የቋንቋ አጠቃቀምን ይፈትሻል።
+                    </div>
+                    <div class="quiz-details">
+                        <div class="quiz-detail">
+                            <div class="detail-value">40</div>
+                            <div class="detail-label">ጥያቄዎች</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">60 ደቂቃ</div>
+                            <div class="detail-label">ጊዜ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">100</div>
+                            <div class="detail-label">ነጥብ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">0</div>
+                            <div class="detail-label">ተማሪዎች</div>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button class="btn btn-warning">
+                            <i class="fas fa-edit"></i> ያርትዑ
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-calendar"></i> ይመድቡ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="subject-icon icon-civics">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="quiz-title">
+                        <h3>የአገራዊ አስተዳደር ፈተና</h3>
+                        <small>ሲቪክስ</small>
+                    </div>
+                    <span class="quiz-status status-scheduled">የተመደበ</span>
+                </div>
+                <div class="quiz-content">
+                    <div class="quiz-meta">
+                        <div>መምህር: ዘውዲቱ ተፈራ</div>
+                        <div>ቀን: ጥቅምት 2, 2016</div>
+                    </div>
+                    <div class="quiz-description">
+                        ስለ ኢትዮጵያ አገራዊ አስተዳደር እና መዋቅር የሚመለከት ፈተና። የመንግስት መዋቅሮችን እና ከሀገር ፖለቲካ ጋር የሚኖሩ ግንኙነቶችን ይፈትሻል።
+                    </div>
+                    <div class="quiz-details">
+                        <div class="quiz-detail">
+                            <div class="detail-value">30</div>
+                            <div class="detail-label">ጥያቄዎች</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">50 ደቂቃ</div>
+                            <div class="detail-label">ጊዜ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">90</div>
+                            <div class="detail-label">ነጥብ</div>
+                        </div>
+                        <div class="quiz-detail">
+                            <div class="detail-value">0</div>
+                            <div class="detail-label">ተማሪዎች</div>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button class="btn btn-warning">
+                            <i class="fas fa-edit"></i> ያርትዑ
+                        </button>
+                        <button class="btn btn-success">
+                            <i class="fas fa-play"></i> አሁን ይጀምሩ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script referencing -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        
+            // Quiz card actions
+            document.querySelectorAll('.quiz-actions button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.textContent.trim();
+                    const quizCard = this.closest('.quiz-card');
+                    const quizTitle = quizCard.querySelector('.quiz-title h3').textContent;
+                    
+                    console.log(`Action "${action}" on quiz "${quizTitle}"`);
+                    
+                    if (this.classList.contains('btn-danger')) {
+                        if (confirm(`"${quizTitle}" ፈተናን ማቆም ይፈልጋሉ?`)) {
+                            alert(`"${quizTitle}" ፈተና በተሳካ ሁኔታ ቆሟል።`);
+                        }
+                    } else if (this.classList.contains('btn-success')) {
+                        alert(`"${quizTitle}" ፈተና በተሳካ ሁኔታ ተጀምሯል።`);
+                    } else if (this.classList.contains('btn-primary') && this.innerHTML.includes('fa-calendar')) {
+                        alert(`"${quizTitle}" ፈተናን ለመመደብ ቀን ይምረጡ።`);
+                    } else if (this.classList.contains('btn-primary') && this.innerHTML.includes('fa-chart-bar')) {
+                        alert(`"${quizTitle}" ፈተና ውጤቶች እየታዩ ነው...`);
+                    }
+                });
+            });
+            
+            // Tab functionality
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // In a real app, this would filter the quizzes based on the selected tab
+                    const tabText = this.textContent.trim();
+                    alert(`"${tabText}" ፈተናዎችን በማሳየት ላይ...`);
+                });
+            });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የውሂብ ቤት አስተዳደር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --warning-color: #fbbc05;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --border-color: #dadce0;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--background-color);
+            font-weight: 500;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 10% auto;
+            padding: 20px;
+            width: 50%;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>የውሂብ ቤት አስተዳደር</h1>
+            <button class="btn btn-primary" onclick="openCreateTableModal()">
+                <i class="fas fa-plus"></i> አዲስ ሰንጠረዥ ይፍጠሩ
+            </button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ሰንጠረዥ ይፈልጉ..." onkeyup="searchTables()">
+        </div>
+
+        <div class="table-container">
+            <table id="tablesList">
+                <thead>
+                    <tr>
+                        <th>ሰንጠረዥ ስም</th>
+                        <th>የሚያካትት መረጃዎች</th>
+                        <th>የመጨረሻ የተሻሻለበት ቀን</th>
+                        <th>ድርጊቶች</th>
+                    </tr>
+                </thead>
+                <tbody id="tablesBody">
+                    <!-- Tables will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Create Table Modal -->
+    <div id="createTableModal" class="modal">
+        <div class="modal-content">
+            <h2>አዲስ ሰንጠረዥ ይፍጠሩ</h2>
+            <form id="createTableForm">
+                <div class="form-group">
+                    <label for="tableName">ሰንጠረዥ ስም</label>
+                    <input type="text" id="tableName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tableFields">የሚያካትት መረጃዎች (ከሰንጠረዥ በኋላ)</label>
+                    <textarea id="tableFields" class="form-control" rows="4" placeholder="ስም:ተክስት,ዕድሜ:ቁጥር,ቀን:ቀን" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateTableModal()">ይቅር</button>
+                    <button type="submit" class="btn btn-primary">ይፍጠሩ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Database operations
+        const db = {
+            tables: [],
+            
+            init() {
+                this.loadTables();
+            },
+            
+            loadTables() {
+                // Load tables from JSON file
+                fetch('/api/tables')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.tables = data;
+                        this.renderTables();
+                    })
+                    .catch(error => console.error('Error loading tables:', error));
+            },
+            
+            createTable(name, fields) {
+                const table = {
+                    name,
+                    fields: fields.split(',').map(field => {
+                        const [fieldName, fieldType] = field.split(':');
+                        return { name: fieldName.trim(), type: fieldType.trim() };
+                    }),
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                // Save to JSON file
+                fetch('/api/tables', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(table)
+                })
+                .then(response => response.json())
+                .then(() => {
+                    this.tables.push(table);
+                    this.renderTables();
+                    closeCreateTableModal();
+                })
+                .catch(error => console.error('Error creating table:', error));
+            },
+            
+            renderTables() {
+                const tbody = document.getElementById('tablesBody');
+                tbody.innerHTML = '';
+                
+                this.tables.forEach(table => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${table.name}</td>
+                        <td>${table.fields.map(f => f.name).join(', ')}</td>
+                        <td>${new Date(table.updatedAt).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="viewTable('${table.name}')">
+                                <i class="fas fa-eye"></i> ይመልከቱ
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteTable('${table.name}')">
+                                <i class="fas fa-trash"></i> ይሰርዙ
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        };
+
+        // Modal functions
+        function openCreateTableModal() {
+            document.getElementById('createTableModal').style.display = 'block';
+        }
+
+        function closeCreateTableModal() {
+            document.getElementById('createTableModal').style.display = 'none';
+        }
+
+        // Form submission
+        document.getElementById('createTableForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('tableName').value;
+            const fields = document.getElementById('tableFields').value;
+            db.createTable(name, fields);
+        });
+
+        // Search functionality
+        function searchTables() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#tablesBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchText) ? '' : 'none';
+            });
+        }
+
+        // Initialize database
+        document.addEventListener('DOMContentLoaded', function() {
+            db.init();
+        });
+    </script>
+</body>
+</html> 

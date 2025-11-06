@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ9ኛ ክፍል ፈተና መላክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+ 
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">9ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ9ኛ ክፍል ፈተና መላክ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">0</span>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header d-flex justify-between align-center">
+                    <div>
+                        <h2>ፈተናዎች</h2>
+                        <p class="text-secondary">የተዘጋጁ ፈተናዎችን ይመልከቱ እና ለተማሪዎች ይላኩ</p>
+                    </div>
+                    <a href="create-quiz.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> አዲስ ፈተና ይፍጠሩ
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <!-- Filters -->
+                    <div class="filters mb-4">
+                        <div class="d-flex gap-3">
+                            <div class="form-group">
+                                <select id="subject-filter" class="form-control">
+                                    <option value="">ሁሉም ትምህርቶች</option>
+                                    <option value="mathematics">ሂሳብ</option>
+                                    <option value="science">ሳይንስ</option>
+                                    <option value="amharic">አማርኛ</option>
+                                    <option value="english">እንግሊዘኛ</option>
+                                    <option value="geography">ጂኦግራፊ</option>
+                                    <option value="history">ታሪክ</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select id="status-filter" class="form-control">
+                                    <option value="">ሁሉም ሁኔታዎች</option>
+                                    <option value="draft">ረቂቅ</option>
+                                    <option value="published">የተላከ</option>
+                                    <option value="completed">ተጠናቅቋል</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz List -->
+                    <div class="quiz-list">
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <div class="quiz-title">የሂሳብ ፈተና</div>
+                                <div class="quiz-meta">
+                                    <span class="date">ሚያዝያ 15</span>
+                                    <span class="status badge badge-success">ተጠናቅቋል</span>
+                                </div>
+                            </div>
+                            <div class="quiz-info">
+                                <div class="info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>45 ተማሪዎች</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>30 ደቂቃ</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>85% አማካይ ውጤት</span>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> ውጤቶች
+                                </button>
+                                <button class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-edit"></i> አርትዕ
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> ሰርዝ
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <div class="quiz-title">የአማርኛ ፈተና</div>
+                                <div class="quiz-meta">
+                                    <span class="date">ሚያዝያ 14</span>
+                                    <span class="status badge badge-warning">በሂደት ላይ</span>
+                                </div>
+                            </div>
+                            <div class="quiz-info">
+                                <div class="info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>45 ተማሪዎች</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>45 ደቂቃ</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>92% አማካይ ውጤት</span>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> ውጤቶች
+                                </button>
+                                <button class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-edit"></i> አርትዕ
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> ሰርዝ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Script -->
+    <script src="navigation.js"></script>
+</body>
+</html>

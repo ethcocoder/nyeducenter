@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ማስታወቂያዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="./chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+        
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">ማስታወቂያዎች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="d-flex justify-between align-center mb-4">
+        <div>
+                    <h1 class="page-title">ማስታወቂያዎች</h1>
+                    <p class="text-secondary">ለመምህራን የሚመለከቱ ወቅታዊ ማስታወቂያዎች እና መረጃዎች</p>
+        </div>
+                <div>
+                    <button class="btn btn-primary" id="create-announcement-btn">
+                        <i class="fas fa-plus"></i> አዲስ ማስታወቂያ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="card p-3 mb-4">
+                <div class="d-flex justify-between align-center">
+                    <div class="d-flex align-center">
+                        <div class="form-group mb-0 mr-3">
+                            <select id="category-filter" class="form-control">
+                                <option value="">ሁሉም ምድቦች</option>
+                                <option value="general">አጠቃላይ</option>
+                                <option value="events">ዝግጅቶች</option>
+                                <option value="meetings">ስብሰባዎች</option>
+                                <option value="trainings">ስልጠናዎች</option>
+                                <option value="important">አስፈላጊ ማስታወቂያዎች</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-0 mr-3">
+                            <select id="time-filter" class="form-control">
+                                <option value="all">ሁሉም ጊዜ</option>
+                                <option value="today">ዛሬ</option>
+                                <option value="week">ባለፈው ሳምንት</option>
+                                <option value="month">ባለፈው ወር</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="search-container">
+                            <i class="fas fa-search text-secondary"></i>
+                            <input type="text" class="form-control" placeholder="ማስታወቂያዎችን ይፈልጉ...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Announcement (Pinned) -->
+            <div class="card mb-4 border-left-danger animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="d-flex">
+                    <div class="announcement-icon danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h3 class="fw-bold mb-0">የማጠቃለያ ፈተና ጊዜ ሰሌዳ ማሳወቂያ</h3>
+                            <div class="badge badge-danger">አስፈላጊ</div>
+                        </div>
+                        <p class="text-secondary mb-3">የዚህ አመት የማጠቃለያ ፈተናዎች በሰኔ 5 - 11, 2023 ይካሄዳሉ። ሁሉም መምህራን የፈተና ጥያቄዎቻቸውን እስከ ግንቦት 30, 2023 ማስገባት አለባቸው።</p>
+                        <div class="d-flex justify-between align-center">
+                            <div class="d-flex align-center">
+                                <div class="avatar-xs mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Tadesse+Alemu&background=4f46e5&color=fff" alt="Tadesse Alemu">
+                            </div>
+                                <span class="fs-sm">ታደሰ አለሙ (ርዕሰ መምህር)</span>
+                            </div>
+                            <div class="d-flex align-center text-secondary fs-sm">
+                                <i class="far fa-calendar-alt mr-1"></i> ሚያዝያ 25, 2023
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regular Announcements -->
+            <div class="card mb-4 border-left-primary animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="d-flex">
+                    <div class="announcement-icon primary">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h3 class="fw-bold mb-0">የአዲስ የማስተማሪያ ዘዴዎች ስልጠና</h3>
+                            <div class="badge badge-primary">ስልጠና</div>
+                        </div>
+                        <p class="text-secondary mb-3">ለሁሉም መምህራን የሚሆን የአዲስ የማስተማሪያ ዘዴዎች ስልጠና በሚቀጥለው ቅዳሜ በትምህርት ቤቱ አዳራሽ ከጠዋቱ 9:00 - 12:00 ይካሄዳል። ሁሉም መምህራን እንዲገኙ ይጠበቃል።</p>
+                        <div class="d-flex justify-between align-center">
+                            <div class="d-flex align-center">
+                                <div class="avatar-xs mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Hana+Girma&background=4f46e5&color=fff" alt="Hana Girma">
+                                </div>
+                                <span class="fs-sm">ሐና ግርማ (የመምህራን አሰልጣኝ)</span>
+                            </div>
+                            <div class="d-flex align-center text-secondary fs-sm">
+                                <i class="far fa-calendar-alt mr-1"></i> ሚያዝያ 22, 2023
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4 border-left-success animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="d-flex">
+                    <div class="announcement-icon success">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h3 class="fw-bold mb-0">የወላጆች እና መምህራን ስብሰባ</h3>
+                            <div class="badge badge-success">ስብሰባ</div>
+                        </div>
+                        <p class="text-secondary mb-3">የወላጆች እና መምህራን ስብሰባ ስለ ሁለተኛ ሴሚስተር የተማሪዎች እድገት ለመወያየት በሚያዝያ 29, 2023 ከ4:00 PM - 6:00 PM ይካሄዳል። ሁሉም መምህራን በዚህ ስብሰባ ላይ መገኘት አለባቸው እና የተማሪዎቻቸውን ሪፖርት ማዘጋጀት አለባቸው።</p>
+                        <div class="d-flex justify-between align-center">
+                            <div class="d-flex align-center">
+                                <div class="avatar-xs mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Samuel+Negash&background=4f46e5&color=fff" alt="Samuel Negash">
+                            </div>
+                                <span class="fs-sm">ሳሙኤል ነጋሽ (ም/ርዕሰ መምህር)</span>
+                            </div>
+                            <div class="d-flex align-center text-secondary fs-sm">
+                                <i class="far fa-calendar-alt mr-1"></i> ሚያዝያ 20, 2023
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                        </div>
+
+            <div class="card mb-4 border-left-info animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="d-flex">
+                    <div class="announcement-icon info">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h3 class="fw-bold mb-0">አዲስ የመማሪያ መጽሐፍት መድረስ</h3>
+                            <div class="badge badge-info">አጠቃላይ</div>
+                        </div>
+                        <p class="text-secondary mb-3">አዲስ የመማሪያ መጽሐፍት ለሁሉም የትምህርት ዓይነቶች ከየካቲት ወር 2015 ዓ.ም ጀምሮ ወደ ትምህርት ቤታችን መድረስ ጀምሯል። ሁሉም መምህራን አዲሶቹን መጽሐፍት ከትምህርት መርጃ መሳሪያዎች ክፍል በመቀበል መጠቀም ይችላሉ።</p>
+                        <div class="d-flex justify-between align-center">
+                            <div class="d-flex align-center">
+                                <div class="avatar-xs mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Kidist+Haile&background=4f46e5&color=fff" alt="Kidist Haile">
+                            </div>
+                                <span class="fs-sm">ቅድስት ኃይሌ (የመጽሐፍት ክፍል ኃላፊ)</span>
+                            </div>
+                            <div class="d-flex align-center text-secondary fs-sm">
+                                <i class="far fa-calendar-alt mr-1"></i> ሚያዝያ 15, 2023
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                        </div>
+
+            <div class="card mb-4 border-left-warning animate-fade-in" style="animation-delay: 0.5s;">
+                <div class="d-flex">
+                    <div class="announcement-icon warning">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h3 class="fw-bold mb-0">የሳይንስ እና ቴክኖሎጂ ፌስቲቫል ዝግጅት</h3>
+                            <div class="badge badge-warning">ዝግጅት</div>
+                        </div>
+                        <p class="text-secondary mb-3">የትምህርት ቤታችን ዓመታዊ የሳይንስ እና ቴክኖሎጂ ፌስቲቫል ከግንቦት 15-17, 2023 ይካሄዳል። የሳይንስ፣ ሒሳብ እና ቴክኖሎጂ መምህራን ተማሪዎቻቸውን ለዝግጅቱ ማዘጋጀት ይጠበቅባቸዋል። ዝርዝር መመሪያ በቅርቡ ይሰራጫል።</p>
+                        <div class="d-flex justify-between align-center">
+                            <div class="d-flex align-center">
+                                <div class="avatar-xs mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Abebe+Kebede&background=4f46e5&color=fff" alt="Abebe Kebede">
+                            </div>
+                                <span class="fs-sm">አበበ ከበደ (የሳይንስ ትምህርት ክፍል ኃላፊ)</span>
+                            </div>
+                            <div class="d-flex align-center text-secondary fs-sm">
+                                <i class="far fa-calendar-alt mr-1"></i> ሚያዝያ 10, 2023
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <nav class="pagination">
+                    <a href="#" class="pagination-item disabled">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="pagination-item active">1</a>
+                    <a href="#" class="pagination-item">2</a>
+                    <a href="#" class="pagination-item">3</a>
+                    <a href="#" class="pagination-item">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
+        </div>
+
+    <!-- Create Announcement Modal -->
+    <div class="modal" id="create-announcement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">አዲስ ማስታወቂያ ይፍጠሩ</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="announcement-form">
+                    <div class="form-group">
+                        <label for="announcement-title">ርዕስ</label>
+                        <input type="text" id="announcement-title" class="form-control" placeholder="የማስታወቂያ ርዕስ ያስገቡ" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="announcement-category">ምድብ</label>
+                        <select id="announcement-category" class="form-control" required>
+                                    <option value="general">አጠቃላይ</option>
+                            <option value="events">ዝግጅቶች</option>
+                            <option value="meetings">ስብሰባዎች</option>
+                            <option value="trainings">ስልጠናዎች</option>
+                            <option value="important">አስፈላጊ ማስታወቂያዎች</option>
+                                </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="announcement-content">ይዘት</label>
+                        <textarea id="announcement-content" class="form-control" rows="6" placeholder="የማስታወቂያ ይዘት ያስገቡ" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="d-flex align-center">
+                            <input type="checkbox" id="announcement-important" class="mr-2">
+                            <label for="announcement-important" class="mb-0">አስፈላጊ ማስታወቂያ</label>
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-cancel">ይቅር</button>
+                <button type="button" class="btn btn-primary" id="submit-announcement">ማስታወቂያ ይፍጠሩ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize UI
+            initializeUI();
+            
+            // Modal functionality
+            const modal = document.getElementById('create-announcement-modal');
+            const openModalBtn = document.getElementById('create-announcement-btn');
+            const closeModalBtn = document.querySelector('.modal-close');
+            const cancelModalBtn = document.querySelector('.modal-cancel');
+            
+            openModalBtn.addEventListener('click', function() {
+                modal.classList.add('show');
+            });
+            
+            function closeModal() {
+                modal.classList.remove('show');
+            }
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelModalBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Handle announcement submission
+            document.getElementById('submit-announcement').addEventListener('click', function() {
+                const form = document.getElementById('announcement-form');
+                
+                // Validate form
+                if (!validateForm(form)) {
+                    return;
+                }
+                
+                // Get form data
+                const title = document.getElementById('announcement-title').value;
+                const category = document.getElementById('announcement-category').value;
+                const content = document.getElementById('announcement-content').value;
+                const isImportant = document.getElementById('announcement-important').checked;
+                
+                // In a real app, this would send data to the server
+                alert(`ማስታወቂያ "${title}" በተሳካ ሁኔታ ተፈጥሯል`);
+                
+                // Close modal and reset form
+                closeModal();
+                form.reset();
+            });
+            
+            // Filter functionality
+            const filterInputs = document.querySelectorAll('select[id$="-filter"]');
+            filterInputs.forEach(filter => {
+                filter.addEventListener('change', function() {
+                    applyFilters();
+                });
+            });
+            
+            // Handle search input
+            const searchInput = document.querySelector('.search-container input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    applyFilters();
+                });
+            }
+            
+            // Apply filters function
+            function applyFilters() {
+                const categoryFilter = document.getElementById('category-filter').value;
+                const timeFilter = document.getElementById('time-filter').value;
+                const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
+                
+                // In a real app, this would filter the announcements
+                if (categoryFilter || timeFilter || searchQuery) {
+                    alert('ማስታወቂያዎችን በመፈለግ ላይ... ይህ በወቅቱ ንድፍ ነው።');
+                }
+            }
+        });
+
+        // Validate form function (would be in utils.js in real app)
+        function validateForm(form) {
+            let isValid = true;
+            const requiredInputs = form.querySelectorAll('[required]');
+            
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('error');
+                    
+                    // Remove error class when user starts typing
+                    input.addEventListener('input', function() {
+                        if (this.value.trim()) {
+                            this.classList.remove('error');
+                        }
+                    }, { once: true });
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+            
+            if (!isValid) {
+                alert('እባክዎ ሁሉንም አስፈላጊ መስኮች ይሙሉ።');
+            }
+            
+            return isValid;
+        }
+    </script>
+</body>
+</html>

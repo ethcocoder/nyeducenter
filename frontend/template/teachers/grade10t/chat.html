@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ10ኛ ክፍል መምህር መልዕክቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Additional styles specific to chat page */
+        .chat-container {
+            display: flex;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .contacts-sidebar {
+            width: 300px;
+            background-color: var(--card-background);
+            height: 100%;
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .contacts-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            background-color: var(--card-background);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: var(--background-color);
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            max-width: 70%;
+        }
+        
+        .message.sent {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+        
+        .message.received {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+        
+        .message-content {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .message.sent .message-content {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+        
+        .message.received .message-content {
+            background-color: var(--card-background);
+            border-bottom-left-radius: 0;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .chat-input {
+            padding: 15px 20px;
+            background-color: var(--card-background);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-item {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            align-items: center;
+        }
+        
+        .contact-item:hover {
+            background-color: var(--hover-color);
+        }
+        
+        .contact-item.active {
+            background-color: rgba(var(--primary-rgb), 0.1);
+        }
+        
+        .contact-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .contact-last-message {
+            font-size: 13px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+        
+        .contact-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        
+        .contact-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        
+        .contact-badge {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-input-field {
+            flex: 1;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin: 0 10px;
+        }
+        
+        .chat-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .chat-action-btn:hover {
+            background-color: var(--hover-color);
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+ <!-- Navigation Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">የትምህርት ማህበረሰብ</div>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">መምህር</div>
+                <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ዋና ገጾች</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+            <i class="fas fa-home"></i>
+            <span>ዳሽቦርድ</span>
+        </a>
+        <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+            <i class="fas fa-tasks"></i>
+            <span>የቤት ስራ መፍጠር</span>
+        </a>
+        <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+            <i class="fas fa-paper-plane"></i>
+            <span>የቤት ስራ መላክ</span>
+        </a>
+        <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+            <i class="fas fa-edit"></i>
+            <span>ፈተና መፍጠር</span>
+        </a>
+        <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+            <i class="fas fa-question-circle"></i>
+            <span>ፈተና መላክ</span>
+        </a>
+        <a href="create-course.html" class="menu-item" data-page="create-course">
+            <i class="fas fa-book"></i>
+            <span>ኮርስ መፍጠር</span>
+        </a>
+        <a href="send-course.html" class="menu-item" data-page="send-course">
+            <i class="fas fa-book-reader"></i>
+            <span>ኮርስ መላክ</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+            <i class="fas fa-comments"></i>
+            <span>ውይይት መድረክ</span>
+        </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+            <i class="fas fa-bullhorn"></i>
+            <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ተጨማሪ</div>
+        <a href="help.html" class="menu-item" data-page="help">
+            <i class="fas fa-question-circle"></i>
+            <span>እገዛ</span>
+        </a>
+        <a href="setting.html" class="menu-item" data-page="setting">
+            <i class="fas fa-cog"></i>
+            <span>ሴቲንግ</span>
+        </a>
+        <a href="../../index.html" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>ውጣ</span>
+        </a>
+    </div>
+</div>
+
+<!-- Mobile Navigation Toggle -->
+<div class="mobile-menu-toggle">
+    <i class="fas fa-bars"></i>
+</div> 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ10ኛ ክፍል መምህር መልዕክቶች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="contacts-sidebar">
+                <div class="contacts-header">
+                    <div class="contacts-title">መልዕክቶች</div>
+                    <div class="contacts-actions">
+                        <button class="btn-icon" title="አዲስ ውይይት">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" title="ማጣሪያዎች">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-container p-3">
+                    <i class="fas fa-search text-secondary"></i>
+                    <input type="text" class="form-control" placeholder="ውይይት ይፈልጉ...">
+                </div>
+                
+                <div class="contacts-list">
+                    <div class="contact-item active">
+                        <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ሰላም አብርሃም - 10ሀ ተማሪ</div>
+                            <div class="contact-last-message">ሰላም መምህር, ስለ ቀጣዩ ፕሮጀክት መጠየቅ ፈልጌ ነበር...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">10:32 AM</div>
+                            <div class="contact-badge">2</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ባሩህ ታዬ - 10ለ ክፍል መሪ</div>
+                            <div class="contact-last-message">መምህር, ይቅርታ ለማድረግ ለተማሪዎቹ...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Yesterday</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">መሰረት አለሙ - 10ሐ ተማሪ</div>
+                            <div class="contact-last-message">አመሰግናለሁ መምህር፣ ጥሩ ቀን ይሁንልዎት!</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Yesterday</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ዘውዲቱ ታደሰ - ምክትል ርዕሰ መምህር</div>
+                            <div class="contact-last-message">ሰላም ከበደ፣ ስለ ዕቅዱ ማውራት እንፈልጋለን...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Wednesday</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ታምራት ገብሬ - የሒሳብ መምህር</div>
+                            <div class="contact-last-message">ሰላም ከበደ, ስለሚቀጥለው ኮንፈረንስ...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Monday</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/36.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ብሩክ ደምሴ - 10መ ተማሪ</div>
+                            <div class="contact-last-message">መምህር፣ የቤት ሥራውን ልጨርሰው ተጨማሪ...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Feb 25</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ሂሩት ስዩም - የማህበራዊ ሳይንስ መምህር</div>
+                            <div class="contact-last-message">ስለትብብሩ አመሰግናለሁ!</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Feb 24</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">ቴዎድሮስ አበበ - ወላጅ</div>
+                            <div class="contact-last-message">ስለልጄ እድገት መጠየቅ እፈልጋለሁ...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Feb 20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-area">
+                <div class="chat-header">
+                    <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Contact" class="chat-avatar">
+                    <div>
+                        <h4 class="mb-0">ሰላም አብርሃም - 10ሀ ተማሪ</h4>
+                        <div class="text-secondary fs-sm">
+                            <i class="fas fa-circle fs-xs text-success"></i> መስመር ላይ አለች
+                        </div>
+                    </div>
+                    <div class="ml-auto">
+                        <button class="btn-icon" title="ስልክ">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="btn-icon" title="ቪዲዮ">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button class="btn-icon" title="ተጨማሪ">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-messages">
+                    <div class="message received">
+                        <div class="message-content">
+                            ሰላም መምህር, እንደምን አደሩ?
+                        </div>
+                        <div class="message-time">10:15 AM</div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-content">
+                            ስለ ቀጣዩ የቤት ስራ መጠየቅ ፈልጌ ነበር። የፊዚክስ ሪፖርቱ መቼ መድረስ አለበት?
+                        </div>
+                        <div class="message-time">10:15 AM</div>
+                    </div>
+                    
+                    <div class="message sent">
+                        <div class="message-content">
+                            ሰላም ሰላም, በደህና አለሁ አመሰግናለሁ!
+                        </div>
+                        <div class="message-time">10:17 AM</div>
+                    </div>
+                    
+                    <div class="message sent">
+                        <div class="message-content">
+                            የፊዚክስ ሪፖርቱ ከሳምንት በኋላ ማለትም ጥቅምት 3 ቀን እስከ ምሽቱ 11:59 መድረስ አለበት።
+                        </div>
+                        <div class="message-time">10:17 AM</div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-content">
+                            አመሰግናለሁ መምህር! እናም ስለቀሪው ሁለት ክፍለ ትምህርቶች ምን ዓይነት ስራዎች ይጠበቃሉ?
+                        </div>
+                        <div class="message-time">10:20 AM</div>
+                    </div>
+                    
+                    <div class="message sent">
+                        <div class="message-content">
+                            በእርግጥ፣ በቀጣዩ ማክሰኞ ሙከራ እናደርጋለን። ስለ ኦሕምስ ሕግ እና የኤሌክትሪክ ሰርኪቶች ይሆናል። እሁድ ላይ ተጨማሪ የንባብ መመሪያዎችን እልካለሁ።
+                        </div>
+                        <div class="message-time">10:25 AM</div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-content">
+                            እሺ መምህር! አመሰግናለሁ ለዚህ መረጃ። ተጨማሪ ጥያቄዎች ካሉኝ እንደገና እፅፋለሁ።
+                        </div>
+                        <div class="message-time">10:30 AM</div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-content">
+                            ለዚህ ሙከራ ስንት ያክል የጥናት ጊዜ ይመክራሉ?
+                        </div>
+                        <div class="message-time">10:32 AM</div>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <button class="chat-action-btn">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <input type="text" class="chat-input-field" placeholder="መልዕክትዎን ይፃፉ...">
+                    <button class="chat-action-btn">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    <button class="chat-action-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button class="chat-action-btn" style="background-color: var(--primary-color); color: white;">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script referencing -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load navigation component
+            fetch('../share/navigation.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navigation-placeholder').innerHTML = data;
+                    
+                    // Re-run any navigation initialization that might be needed
+                    const navScript = document.createElement('script');
+                    navScript.textContent = `
+                        // Re-initialize navigation features
+                        const navEvent = new Event('nav-loaded');
+                        document.dispatchEvent(navEvent);
+                    `;
+                    document.body.appendChild(navScript);
+                })
+                .catch(error => {
+                    console.error('Error loading navigation:', error);
+                    document.getElementById('navigation-placeholder').innerHTML = '<div class="alert alert-danger">Error loading navigation component</div>';
+                });
+                
+            // Contact selection
+            document.querySelectorAll('.contact-item').forEach(contact => {
+                contact.addEventListener('click', function() {
+                    document.querySelectorAll('.contact-item').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // In a real app, this would load the conversation with the selected contact
+                    const contactName = this.querySelector('.contact-name').textContent;
+                    console.log(`Selected contact: ${contactName}`);
+                });
+            });
+            
+            // Send message
+            const chatInput = document.querySelector('.chat-input-field');
+            const sendButton = document.querySelector('.chat-action-btn:last-child');
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    const chatMessages = document.querySelector('.chat-messages');
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'message sent';
+                    newMessage.innerHTML = `
+                        <div class="message-content">${message}</div>
+                        <div class="message-time">Just now</div>
+                    `;
+                    chatMessages.appendChild(newMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    chatInput.value = '';
+                }
+            }
+            
+            sendButton.addEventListener('click', sendMessage);
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Auto-scroll to bottom of chat
+            const chatMessages = document.querySelector('.chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+    </script>
+</body>
+</html>

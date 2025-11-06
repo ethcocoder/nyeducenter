@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ውይይት መድረክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+      <!-- Include navigation component -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+         
+            <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">ውይይት መድረክ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">5</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="d-flex justify-between align-center mb-4">
+        <div>
+                    <h1 class="page-title">ውይይት መድረክ</h1>
+                    <p class="text-secondary">ከሌሎች መምህራን ጋር ይወያዩ፣ ጥያቄዎችን ይጠይቁ፣ ልምዶችን ያጋሩ</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="new-topic-btn">
+                        <i class="fas fa-plus"></i> አዲስ ርዕስ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="card p-3 mb-4">
+                <div class="d-flex justify-between align-center">
+                    <div class="d-flex align-center">
+                        <div class="form-group mb-0 mr-3">
+                            <select id="category-filter" class="form-control">
+                                <option value="">ሁሉም ምድቦች</option>
+                                <option value="general">አጠቃላይ</option>
+                                <option value="teaching">የማስተማር ዘዴዎች</option>
+                                <option value="curriculum">ሥርዓተ ትምህርት</option>
+                                <option value="resources">የትምህርት ግብዓቶች</option>
+                                <option value="technology">ቴክኖሎጂ</option>
+                                <option value="support">ድጋፍ</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-0 mr-3">
+                            <select id="sort-filter" class="form-control">
+                                <option value="recent">በቅርብ ጊዜ</option>
+                                <option value="popular">ታዋቂ</option>
+                                <option value="active">ንቁ ውይይቶች</option>
+                                <option value="unanswered">ምላሽ ያልተሰጣቸው</option>
+                            </select>
+                </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="search-container">
+                            <i class="fas fa-search text-secondary"></i>
+                            <input type="text" class="form-control" placeholder="ውይይቶችን ይፈልጉ...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topics List -->
+            <div class="card p-0 mb-4">
+                <div class="forum-header d-flex py-3 px-4 border-bottom">
+                    <div class="forum-topic-col">ርዕስ</div>
+                    <div class="forum-category-col text-center">ምድብ</div>
+                    <div class="forum-stats-col text-center">ምላሾች</div>
+                    <div class="forum-activity-col text-center">መጨረሻ እንቅስቃሴ</div>
+                </div>
+                
+                <div class="forum-topics-list">
+                    <!-- Pinned Topic -->
+                    <div class="forum-topic pinned animate-fade-in" style="animation-delay: 0.1s;">
+                        <div class="forum-topic-col">
+                            <div class="d-flex align-center">
+                                <div class="topic-icon pinned-icon">
+                                    <i class="fas fa-thumbtack"></i>
+                                </div>
+                                <div>
+                                    <div class="topic-title">
+                                        <a href="#" class="fw-bold">አዲሱን የሂሳብ ሥርዓተ ትምህርት አተገባበር ፈተና</a>
+                                        <span class="badge badge-primary ml-2">አዲስ</span>
+                                    </div>
+                                    <div class="topic-meta">
+                                        <span class="topic-author">በ: <a href="#">ሳሙኤል አለማየሁ</a></span>
+                                        <span class="topic-date">ዛሬ, 09:45 AM</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="forum-category-col">
+                            <span class="badge badge-outline-primary">ሥርዓተ ትምህርት</span>
+                        </div>
+                        <div class="forum-stats-col">
+                            <div class="text-center">
+                                <div class="fw-bold fs-lg">12</div>
+                                <div class="text-secondary fs-sm">ምላሾች</div>
+                            </div>
+                        </div>
+                        <div class="forum-activity-col">
+                            <div class="d-flex align-center justify-center">
+                                <div class="avatar-sm mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Hana+Girma&background=4f46e5&color=fff" alt="Last Reply">
+                </div>
+                                <div>
+                                    <div class="fw-medium fs-sm">ሐና ግርማ</div>
+                                    <div class="text-secondary fs-xs">ከ 2 ሰዓት በፊት</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+                    <!-- Regular Topic -->
+                    <div class="forum-topic animate-fade-in" style="animation-delay: 0.2s;">
+                        <div class="forum-topic-col">
+                            <div class="d-flex align-center">
+                                <div class="topic-icon regular-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div>
+                                    <div class="topic-title">
+                                        <a href="#" class="fw-bold">የተማሪዎችን የቡድን ስራ ለማበረታታት ምን ዘዴዎችን ትጠቀማላችሁ?</a>
+                </div>
+                                    <div class="topic-meta">
+                                        <span class="topic-author">በ: <a href="#">ፍሬሃይማኖት ሙሉዓለም</a></span>
+                                        <span class="topic-date">ትላንት, 14:20 PM</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="forum-category-col">
+                            <span class="badge badge-outline-success">የማስተማር ዘዴዎች</span>
+                        </div>
+                        <div class="forum-stats-col">
+                            <div class="text-center">
+                                <div class="fw-bold fs-lg">23</div>
+                                <div class="text-secondary fs-sm">ምላሾች</div>
+                            </div>
+                </div>
+                        <div class="forum-activity-col">
+                            <div class="d-flex align-center justify-center">
+                                <div class="avatar-sm mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Abel+Kebede&background=4f46e5&color=fff" alt="Last Reply">
+                    </div>
+                                <div>
+                                    <div class="fw-medium fs-sm">አቤል ከበደ</div>
+                                    <div class="text-secondary fs-xs">ከ 5 ሰዓት በፊት</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                    <!-- Regular Topic -->
+                    <div class="forum-topic animate-fade-in" style="animation-delay: 0.3s;">
+                        <div class="forum-topic-col">
+                            <div class="d-flex align-center">
+                                <div class="topic-icon regular-icon">
+                                    <i class="fas fa-comments"></i>
+                </div>
+                                <div>
+                    <div class="topic-title">
+                                        <a href="#" class="fw-bold">በማህበራዊ ሚዲያ ትምህርትን ማስፋፋት - ልምዶች እና ጥንቃቄዎች</a>
+                    </div>
+                    <div class="topic-meta">
+                                        <span class="topic-author">በ: <a href="#">ዮሐንስ ደምሴ</a></span>
+                                        <span class="topic-date">2 ቀን በፊት</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forum-category-col">
+                            <span class="badge badge-outline-danger">ቴክኖሎጂ</span>
+                        </div>
+                        <div class="forum-stats-col">
+                            <div class="text-center">
+                                <div class="fw-bold fs-lg">17</div>
+                                <div class="text-secondary fs-sm">ምላሾች</div>
+                    </div>
+                </div>
+                        <div class="forum-activity-col">
+                            <div class="d-flex align-center justify-center">
+                                <div class="avatar-sm mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Rahel+Mekonnen&background=4f46e5&color=fff" alt="Last Reply">
+                                </div>
+                                <div>
+                                    <div class="fw-medium fs-sm">ራሄል መኮንን</div>
+                                    <div class="text-secondary fs-xs">ትላንት</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+                    <!-- Regular Topic -->
+                    <div class="forum-topic animate-fade-in" style="animation-delay: 0.4s;">
+                        <div class="forum-topic-col">
+                            <div class="d-flex align-center">
+                                <div class="topic-icon regular-icon">
+                                    <i class="fas fa-comments"></i>
+                </div>
+                                <div>
+                    <div class="topic-title">
+                                        <a href="#" class="fw-bold">ለተማሪዎች ግብረመልስ የምትሰጡት እንዴት ነው?</a>
+                    </div>
+                    <div class="topic-meta">
+                                        <span class="topic-author">በ: <a href="#">ሰላም ታደሰ</a></span>
+                                        <span class="topic-date">3 ቀን በፊት</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forum-category-col">
+                            <span class="badge badge-outline-success">የማስተማር ዘዴዎች</span>
+                        </div>
+                        <div class="forum-stats-col">
+                            <div class="text-center">
+                                <div class="fw-bold fs-lg">9</div>
+                                <div class="text-secondary fs-sm">ምላሾች</div>
+                    </div>
+                </div>
+                        <div class="forum-activity-col">
+                            <div class="d-flex align-center justify-center">
+                                <div class="avatar-sm mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Daniel+Tekle&background=4f46e5&color=fff" alt="Last Reply">
+                                </div>
+                                <div>
+                                    <div class="fw-medium fs-sm">ዳንኤል ተክሌ</div>
+                                    <div class="text-secondary fs-xs">ከ 2 ቀን በፊት</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+                    <!-- Regular Topic -->
+                    <div class="forum-topic animate-fade-in" style="animation-delay: 0.5s;">
+                        <div class="forum-topic-col">
+                            <div class="d-flex align-center">
+                                <div class="topic-icon regular-icon">
+                                    <i class="fas fa-comments"></i>
+                </div>
+                                <div>
+                    <div class="topic-title">
+                                        <a href="#" class="fw-bold">ለአካል ጉዳተኛ ተማሪዎች የትምህርት ድጋፍ</a>
+                    </div>
+                    <div class="topic-meta">
+                                        <span class="topic-author">በ: <a href="#">ሙሉዓለም ከበደ</a></span>
+                                        <span class="topic-date">5 ቀን በፊት</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forum-category-col">
+                            <span class="badge badge-outline-warning">ድጋፍ</span>
+                        </div>
+                        <div class="forum-stats-col">
+                            <div class="text-center">
+                                <div class="fw-bold fs-lg">15</div>
+                                <div class="text-secondary fs-sm">ምላሾች</div>
+                    </div>
+                </div>
+                        <div class="forum-activity-col">
+                            <div class="d-flex align-center justify-center">
+                                <div class="avatar-sm mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Feven+Alemu&background=4f46e5&color=fff" alt="Last Reply">
+                                </div>
+                                <div>
+                                    <div class="fw-medium fs-sm">ፍቅርተ አለሙ</div>
+                                    <div class="text-secondary fs-xs">ከ 3 ቀን በፊት</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+                    <!-- Regular Topic -->
+                    <div class="forum-topic animate-fade-in" style="animation-delay: 0.6s;">
+                        <div class="forum-topic-col">
+                            <div class="d-flex align-center">
+                                <div class="topic-icon regular-icon">
+                                    <i class="fas fa-comments"></i>
+                </div>
+                                <div>
+                    <div class="topic-title">
+                                        <a href="#" class="fw-bold">ከትምህርት ቤት ውጭ የሚካሄዱ የልምምድ ዝግጅቶች አስፈላጊነት</a>
+                    </div>
+                    <div class="topic-meta">
+                                        <span class="topic-author">በ: <a href="#">ደጀን አብርሃም</a></span>
+                                        <span class="topic-date">1 ሳምንት በፊት</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forum-category-col">
+                            <span class="badge badge-outline-info">የትምህርት ግብዓቶች</span>
+                        </div>
+                        <div class="forum-stats-col">
+                            <div class="text-center">
+                                <div class="fw-bold fs-lg">31</div>
+                                <div class="text-secondary fs-sm">ምላሾች</div>
+                            </div>
+                        </div>
+                        <div class="forum-activity-col">
+                            <div class="d-flex align-center justify-center">
+                                <div class="avatar-sm mr-2">
+                                    <img src="https://ui-avatars.com/api/?name=Martha+Bekele&background=4f46e5&color=fff" alt="Last Reply">
+                                </div>
+                                <div>
+                                    <div class="fw-medium fs-sm">ማርታ በቀለ</div>
+                                    <div class="text-secondary fs-xs">ከ 2 ቀን በፊት</div>
+                    </div>
+                </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <nav class="pagination">
+                    <a href="#" class="pagination-item disabled">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="pagination-item active">1</a>
+                    <a href="#" class="pagination-item">2</a>
+                    <a href="#" class="pagination-item">3</a>
+                    <a href="#" class="pagination-item">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Forum Categories Summary -->
+            <div class="card p-4 mt-4">
+                <h3 class="fw-bold mb-3">የውይይት ምድቦች</h3>
+                <div class="grid-3">
+                    <div class="category-card p-3 border rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                            <i class="fas fa-comments text-primary mr-2 fs-lg"></i>
+                            <h4 class="fw-medium">አጠቃላይ</h4>
+                        </div>
+                        <p class="text-secondary mb-2">ለሁሉም ነገር የሚሆን አጠቃላይ ውይይት</p>
+                        <div class="text-primary fs-sm">
+                            <span class="fw-medium">45</span> ርዕሶች •
+                            <span class="fw-medium">328</span> ምላሾች
+                        </div>
+                    </div>
+                    
+                    <div class="category-card p-3 border rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                            <i class="fas fa-chalkboard-teacher text-success mr-2 fs-lg"></i>
+                            <h4 class="fw-medium">የማስተማር ዘዴዎች</h4>
+                        </div>
+                        <p class="text-secondary mb-2">ስለማስተማር ስልቶች እና በክፍል ውስጥ ለመተግበር ዘዴዎች ይወያዩ</p>
+                        <div class="text-primary fs-sm">
+                            <span class="fw-medium">72</span> ርዕሶች •
+                            <span class="fw-medium">513</span> ምላሾች
+                        </div>
+                    </div>
+                    
+                    <div class="category-card p-3 border rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                            <i class="fas fa-book text-primary mr-2 fs-lg"></i>
+                            <h4 class="fw-medium">ሥርዓተ ትምህርት</h4>
+                        </div>
+                        <p class="text-secondary mb-2">ስለ ሥርዓተ ትምህርት ይዘት፣ ለውጦች እና አተገባበር ይወያዩ</p>
+                        <div class="text-primary fs-sm">
+                            <span class="fw-medium">38</span> ርዕሶች •
+                            <span class="fw-medium">275</span> ምላሾች
+                </div>
+                    </div>
+                    
+                    <div class="category-card p-3 border rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                            <i class="fas fa-tools text-info mr-2 fs-lg"></i>
+                            <h4 class="fw-medium">የትምህርት ግብዓቶች</h4>
+                        </div>
+                        <p class="text-secondary mb-2">የትምህርት ቁሳቁሶች እና ሀብቶችን ያጋሩ እና ይፈልጉ</p>
+                        <div class="text-primary fs-sm">
+                            <span class="fw-medium">56</span> ርዕሶች •
+                            <span class="fw-medium">412</span> ምላሾች
+                        </div>
+                    </div>
+                    
+                    <div class="category-card p-3 border rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                            <i class="fas fa-laptop text-danger mr-2 fs-lg"></i>
+                            <h4 class="fw-medium">ቴክኖሎጂ</h4>
+                        </div>
+                        <p class="text-secondary mb-2">ቴክኖሎጂን በትምህርት ስለመጠቀም ጥያቄዎች እና ምክሮች</p>
+                        <div class="text-primary fs-sm">
+                            <span class="fw-medium">63</span> ርዕሶች •
+                            <span class="fw-medium">487</span> ምላሾች
+                </div>
+                    </div>
+                    
+                    <div class="category-card p-3 border rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                            <i class="fas fa-hands-helping text-warning mr-2 fs-lg"></i>
+                            <h4 class="fw-medium">ድጋፍ</h4>
+                        </div>
+                        <p class="text-secondary mb-2">መምህራን እርስ በርስ የሚረዳዱበት እና ስለሙያዊ ተግዳሮቶች የሚወያዩበት</p>
+                        <div class="text-primary fs-sm">
+                            <span class="fw-medium">47</span> ርዕሶች •
+                            <span class="fw-medium">358</span> ምላሾች
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Topic Modal -->
+    <div class="modal" id="create-topic-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">አዲስ የውይይት ርዕስ ይፍጠሩ</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="topic-form">
+                    <div class="form-group">
+                        <label for="topic-title">ርዕስ</label>
+                        <input type="text" id="topic-title" class="form-control" placeholder="የውይይት ርዕስ ያስገቡ" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="topic-category">ምድብ</label>
+                        <select id="topic-category" class="form-control" required>
+                            <option value="general">አጠቃላይ</option>
+                            <option value="teaching">የማስተማር ዘዴዎች</option>
+                            <option value="curriculum">ሥርዓተ ትምህርት</option>
+                            <option value="resources">የትምህርት ግብዓቶች</option>
+                            <option value="technology">ቴክኖሎጂ</option>
+                            <option value="support">ድጋፍ</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="topic-content">ይዘት</label>
+                        <textarea id="topic-content" class="form-control" rows="6" placeholder="ዝርዝር ውይይትዎን ያስገቡ" required></textarea>
+        </div>
+
+                    <div class="form-group">
+                        <label for="topic-tags">መለያዎች</label>
+                        <input type="text" id="topic-tags" class="form-control" placeholder="በኮማ የተለዩ መለያዎች (ለምሳሌ: ተማሪዎች, ልምድ, ምክር)">
+        </div>
+
+                    <div class="form-group">
+                        <div class="d-flex align-center">
+                            <input type="checkbox" id="topic-notify" class="mr-2">
+                            <label for="topic-notify" class="mb-0">ለዚህ ርዕስ ምላሾች ሲደርሱ በኢሜይል ማሳወቂያ ይላኩልኝ</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-cancel">ይቅር</button>
+                <button type="button" class="btn btn-primary" id="submit-topic">ርዕስ ይፍጠሩ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize UI
+            initializeUI();
+            
+            // Modal functionality
+            const modal = document.getElementById('create-topic-modal');
+            const openModalBtn = document.getElementById('new-topic-btn');
+            const closeModalBtn = document.querySelector('.modal-close');
+            const cancelModalBtn = document.querySelector('.modal-cancel');
+            
+            openModalBtn.addEventListener('click', function() {
+                modal.classList.add('show');
+            });
+            
+            function closeModal() {
+                modal.classList.remove('show');
+            }
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelModalBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Handle topic submission
+            document.getElementById('submit-topic').addEventListener('click', function() {
+                const form = document.getElementById('topic-form');
+                
+                // Validate form
+                if (!validateForm(form)) {
+                    return;
+                }
+                
+                // Get form data
+                const title = document.getElementById('topic-title').value;
+                const category = document.getElementById('topic-category').value;
+                const content = document.getElementById('topic-content').value;
+                
+                // In a real app, this would send data to the server
+                alert(`ርዕስ "${title}" በተሳካ ሁኔታ ተፈጥሯል`);
+                
+                // Close modal and reset form
+                closeModal();
+                form.reset();
+            });
+            
+            // Filter functionality
+            const filterInputs = document.querySelectorAll('select[id$="-filter"]');
+            filterInputs.forEach(filter => {
+                filter.addEventListener('change', function() {
+                    applyFilters();
+                });
+            });
+            
+            // Handle search input
+            const searchInput = document.querySelector('.search-container input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    applyFilters();
+                });
+            }
+            
+            // Apply filters function
+            function applyFilters() {
+                const categoryFilter = document.getElementById('category-filter').value;
+                const sortFilter = document.getElementById('sort-filter').value;
+                const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
+                
+                // In a real app, this would filter the topics
+                if (categoryFilter || sortFilter || searchQuery) {
+                    alert('ውይይቶችን በመፈለግ ላይ... ይህ በወቅቱ ንድፍ ነው።');
+                }
+            }
+            
+            // Make topics clickable
+            const topicLinks = document.querySelectorAll('.topic-title a');
+            topicLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const title = this.textContent;
+                    alert(`"${title}" ውይይት በመመልከት ላይ... (ንድፍ)`);
+                });
+            });
+            
+            // Make categories clickable
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.querySelector('h4').textContent;
+                    const categoryFilter = document.getElementById('category-filter');
+                    
+                    // Find the option that matches the category
+                    for (let i = 0; i < categoryFilter.options.length; i++) {
+                        if (categoryFilter.options[i].text === category) {
+                            categoryFilter.selectedIndex = i;
+                            applyFilters();
+                            break;
+                        }
+                    }
+                    
+                    // If not found, select the first matching option by substring
+                    if (!categoryFilter.value) {
+                        for (let i = 0; i < categoryFilter.options.length; i++) {
+                            if (category.includes(categoryFilter.options[i].text)) {
+                                categoryFilter.selectedIndex = i;
+                                applyFilters();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Scroll to top of topics list
+                    document.querySelector('.forum-topics-list').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+
+        // Validate form function (would be in utils.js in real app)
+        function validateForm(form) {
+            let isValid = true;
+            const requiredInputs = form.querySelectorAll('[required]');
+            
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('error');
+                    
+                    // Remove error class when user starts typing
+                    input.addEventListener('input', function() {
+                        if (this.value.trim()) {
+                            this.classList.remove('error');
+                        }
+                    }, { once: true });
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+            
+            if (!isValid) {
+                alert('እባክዎ ሁሉንም አስፈላጊ መስኮች ይሙሉ።');
+            }
+            
+            return isValid;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ9ኛ ክፍል የቤት ስራ መፍጠር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+ <!-- Navigation Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">የትምህርት ማህበረሰብ</div>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">መምህር</div>
+                <div class="user-role">የ<span class="grade-title">9ኛ</span> ክፍል</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ዋና ገጾች</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+            <i class="fas fa-home"></i>
+            <span>ዳሽቦርድ</span>
+        </a>
+        <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+            <i class="fas fa-tasks"></i>
+            <span>የቤት ስራ መፍጠር</span>
+        </a>
+        <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+            <i class="fas fa-paper-plane"></i>
+            <span>የቤት ስራ መላክ</span>
+        </a>
+        <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+            <i class="fas fa-edit"></i>
+            <span>ፈተና መፍጠር</span>
+        </a>
+        <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+            <i class="fas fa-question-circle"></i>
+            <span>ፈተና መላክ</span>
+        </a>
+        <a href="create-course.html" class="menu-item" data-page="create-course">
+            <i class="fas fa-book"></i>
+            <span>ኮርስ መፍጠር</span>
+        </a>
+        <a href="send-course.html" class="menu-item" data-page="send-course">
+            <i class="fas fa-book-reader"></i>
+            <span>ኮርስ መላክ</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+            <i class="fas fa-comments"></i>
+            <span>ውይይት መድረክ</span>
+        </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+            <i class="fas fa-bullhorn"></i>
+            <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ተጨማሪ</div>
+        <a href="help.html" class="menu-item" data-page="help">
+            <i class="fas fa-question-circle"></i>
+            <span>እገዛ</span>
+        </a>
+        <a href="setting.html" class="menu-item" data-page="setting">
+            <i class="fas fa-cog"></i>
+            <span>ሴቲንግ</span>
+        </a>
+        <a href="../../index.html" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>ውጣ</span>
+        </a>
+    </div>
+</div>
+
+<!-- Mobile Navigation Toggle -->
+<div class="mobile-menu-toggle">
+    <i class="fas fa-bars"></i>
+</div> 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ9ኛ ክፍል የቤት ስራ መፍጠር</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="card p-4 mb-4">
+                <form id="assignment-form">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="title">የስራው ርዕስ<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" placeholder="የስራው ርዕስ ያስገቡ" required>
+                </div>
+                        <div class="form-group col-md-6">
+                            <label for="subject">የትምህርት አይነት<span class="text-danger">*</span></label>
+                            <select class="form-control" id="subject" required>
+                                <option value="">ይምረጡ...</option>
+                                <option value="mathematics">ሂሳብ</option>
+                                <option value="science">ሳይንስ</option>
+                                <option value="amharic">አማርኛ</option>
+                        <option value="english">እንግሊዘኛ</option>
+                                <option value="geography">ጂኦግራፊ</option>
+                        <option value="history">ታሪክ</option>
+                                <option value="civics">ስነ-ዜጋ</option>
+                                <option value="biology">ባዮሎጂ</option>
+                                <option value="chemistry">ኬሚስትሪ</option>
+                                <option value="physics">ፊዚክስ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="class">የክፍል ደረጃ<span class="text-danger">*</span></label>
+                            <select class="form-control" id="class" required>
+                                <option value="">ይምረጡ...</option>
+                                <option value="9A">9ኛ "ሀ"</option>
+                                <option value="9B">9ኛ "ለ"</option>
+                                <option value="9C">9ኛ "ሐ"</option>
+                                <option value="9D">9ኛ "መ"</option>
+                                <option value="all">ሁሉም 9ኛ ክፍል</option>
+                    </select>
+                </div>
+                        <div class="form-group col-md-6">
+                            <label for="dueDate">የመጨረሻ ቀን<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="dueDate" required>
+                </div>
+            </div>
+                    <div class="form-group">
+                        <label for="instructions">መመሪያዎች<span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="instructions" rows="4" placeholder="ለተማሪዎች መመሪያዎችን ያስገቡ" required></textarea>
+            </div>
+
+                <div class="form-group">
+                        <label>የስራ ዓይነት<span class="text-danger">*</span></label>
+                        <div class="d-flex">
+                            <div class="custom-control custom-radio mr-4">
+                                <input type="radio" id="typeText" name="assignmentType" class="custom-control-input" value="text" checked>
+                                <label class="custom-control-label" for="typeText">ጽሁፍ</label>
+                            </div>
+                            <div class="custom-control custom-radio mr-4">
+                                <input type="radio" id="typeFile" name="assignmentType" class="custom-control-input" value="file">
+                                <label class="custom-control-label" for="typeFile">ፋይል መጫን</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="typeBoth" name="assignmentType" class="custom-control-input" value="both">
+                                <label class="custom-control-label" for="typeBoth">ሁለቱም</label>
+                </div>
+                </div>
+            </div>
+
+                    <div id="questionsSection" class="form-group">
+                        <div class="d-flex justify-between align-center mb-3">
+                            <label>ጥያቄዎች</label>
+                            <button type="button" id="addQuestion" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-plus"></i> ጥያቄ ጨምር
+                            </button>
+                        </div>
+                        
+                        <div id="questionsList">
+                            <div class="question-item card p-3 mb-3">
+                                <div class="d-flex justify-between align-center mb-2">
+                                    <h5 class="mb-0">ጥያቄ 1</h5>
+                                    <div>
+                                        <button type="button" class="btn-icon question-action" title="ይሰርዙ">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                <div class="form-group">
+                                    <label>ጥያቄ<span class="text-danger">*</span></label>
+                                    <textarea class="form-control question-text" rows="2" placeholder="ጥያቄውን ያስገቡ" required></textarea>
+                </div>
+                <div class="form-group">
+                                    <label>ነጥብ<span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control question-points" placeholder="ነጥብ" min="1" value="5" required>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+                    <div class="form-group">
+                        <label>የማጣቀሻ ቁሳቁሶች (አማራጭ)</label>
+                        <div id="resourcesList">
+                            <div class="resource-item d-flex align-center mb-2">
+                                <input type="text" class="form-control mr-2" placeholder="የማጣቀሻ ማስፈንጠሪያ">
+                                <input type="text" class="form-control mr-2" placeholder="የማጣቀሻ ሊንክ">
+                                <button type="button" class="btn-icon resource-delete" title="ይሰርዙ">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" id="addResource" class="btn btn-sm btn-outline-secondary mt-2">
+                            <i class="fas fa-plus"></i> ማጣቀሻ ጨምር
+                        </button>
+                    </div>
+                    
+                <div class="form-group">
+                        <label>አባሪዎች (አማራጭ)</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="attachments" multiple>
+                            <label class="custom-file-label" for="attachments">ፋይሎችን ይምረጡ</label>
+                        </div>
+                        <small class="form-text text-muted">እስከ 5 ፋይሎች ማስገባት ይችላሉ (እያንዳንዱ እስከ 10MB)</small>
+                        
+                        <div id="attachmentsList" class="mt-2">
+                            <!-- Attachment items will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="notifyStudents">
+                            <label class="custom-control-label" for="notifyStudents">ተማሪዎችን በኢሜይል ማሳወቅ</label>
+                </div>
+            </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> ይሰርዙ
+                        </button>
+                        <div>
+                            <button type="button" id="saveAsDraft" class="btn btn-outline-primary mr-2">
+                                <i class="fas fa-save"></i> እንደ ረቂቅ ያስቀምጡ
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> ይለጥፉ
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script referencing -->
+
+    <script>
+        
+                
+            // Add question functionality
+            const addQuestionBtn = document.getElementById('addQuestion');
+            const questionsList = document.getElementById('questionsList');
+            
+            addQuestionBtn.addEventListener('click', function() {
+                const questionCount = questionsList.children.length + 1;
+                
+                const questionItem = document.createElement('div');
+                questionItem.className = 'question-item card p-3 mb-3 animate-fade-in';
+                questionItem.innerHTML = `
+                    <div class="d-flex justify-between align-center mb-2">
+                        <h5 class="mb-0">ጥያቄ ${questionCount}</h5>
+                        <div>
+                            <button type="button" class="btn-icon question-action" title="ይሰርዙ">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>ጥያቄ<span class="text-danger">*</span></label>
+                        <textarea class="form-control question-text" rows="2" placeholder="ጥያቄውን ያስገቡ" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>ነጥብ<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control question-points" placeholder="ነጥብ" min="1" value="5" required>
+                    </div>
+                `;
+                
+                questionsList.appendChild(questionItem);
+                
+                // Add event listener to the delete button
+                const deleteBtn = questionItem.querySelector('.question-action');
+                deleteBtn.addEventListener('click', function() {
+                    if (confirm('እርግጠኛ ነዎት ይህን ጥያቄ መሰረዝ ይፈልጋሉ?')) {
+                        questionItem.remove();
+                        // Update question numbers
+                        updateQuestionNumbers();
+                    }
+                });
+            });
+            
+            // Initialize delete functionality for the first question
+            document.querySelector('.question-action').addEventListener('click', function() {
+                if (confirm('እርግጠኛ ነዎት ይህን ጥያቄ መሰረዝ ይፈልጋሉ?')) {
+                    if (questionsList.children.length > 1) {
+                        this.closest('.question-item').remove();
+                        // Update question numbers
+                        updateQuestionNumbers();
+            } else {
+                        alert('ቢያንስ አንድ ጥያቄ መኖር አለበት።');
+                    }
+                }
+            });
+            
+            // Function to update question numbers
+            function updateQuestionNumbers() {
+                const questions = questionsList.querySelectorAll('.question-item');
+                questions.forEach((question, index) => {
+                    question.querySelector('h5').textContent = `ጥያቄ ${index + 1}`;
+                });
+            }
+            
+            // Add resource functionality
+            const addResourceBtn = document.getElementById('addResource');
+            const resourcesList = document.getElementById('resourcesList');
+            
+            addResourceBtn.addEventListener('click', function() {
+                const resourceItem = document.createElement('div');
+                resourceItem.className = 'resource-item d-flex align-center mb-2 animate-fade-in';
+                resourceItem.innerHTML = `
+                    <input type="text" class="form-control mr-2" placeholder="የማጣቀሻ ማስፈንጠሪያ">
+                    <input type="text" class="form-control mr-2" placeholder="የማጣቀሻ ሊንክ">
+                    <button type="button" class="btn-icon resource-delete" title="ይሰርዙ">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                resourcesList.appendChild(resourceItem);
+                
+                // Add event listener to the delete button
+                const deleteBtn = resourceItem.querySelector('.resource-delete');
+                deleteBtn.addEventListener('click', function() {
+                    resourceItem.remove();
+                });
+            });
+            
+            // Initialize delete functionality for the existing resource
+            document.querySelector('.resource-delete').addEventListener('click', function() {
+                this.closest('.resource-item').remove();
+            });
+            
+            // File upload functionality
+            const attachmentsInput = document.getElementById('attachments');
+            const attachmentsList = document.getElementById('attachmentsList');
+            
+            attachmentsInput.addEventListener('change', function() {
+                attachmentsList.innerHTML = ''; // Clear previous attachments
+                
+                if (this.files.length > 5) {
+                    alert('እስከ 5 ፋይሎች ብቻ ማስገባት ይችላሉ።');
+                    this.value = '';
+                    return;
+                }
+                
+                for (let i = 0; i < this.files.length; i++) {
+                    const file = this.files[i];
+                    
+                    if (file.size > 10 * 1024 * 1024) {
+                        alert(`"${file.name}" ከ10MB በላይ ነው። እባክዎ ያነሰ ፋይል ይምረጡ።`);
+                        continue;
+                    }
+                    
+                    const attachmentItem = document.createElement('div');
+                    attachmentItem.className = 'attachment-item d-flex align-items-center p-2 border rounded mb-2 animate-fade-in';
+                    
+                    // Determine file type icon
+                    let fileIcon = 'fa-file';
+                    if (file.type.includes('image')) fileIcon = 'fa-file-image';
+                    else if (file.type.includes('pdf')) fileIcon = 'fa-file-pdf';
+                    else if (file.type.includes('word') || file.name.endsWith('.doc') || file.name.endsWith('.docx')) 
+                        fileIcon = 'fa-file-word';
+                    else if (file.type.includes('excel') || file.name.endsWith('.xls') || file.name.endsWith('.xlsx')) 
+                        fileIcon = 'fa-file-excel';
+                    else if (file.type.includes('powerpoint') || file.name.endsWith('.ppt') || file.name.endsWith('.pptx')) 
+                        fileIcon = 'fa-file-powerpoint';
+                    
+                    // Format file size
+                    let fileSize = '';
+                    if (file.size < 1024) {
+                        fileSize = file.size + ' B';
+                    } else if (file.size < 1024 * 1024) {
+                        fileSize = (file.size / 1024).toFixed(1) + ' KB';
+                    } else {
+                        fileSize = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+                    }
+                    
+                    attachmentItem.innerHTML = `
+                        <i class="fas ${fileIcon} fa-lg text-primary mr-3"></i>
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">${file.name}</div>
+                            <div class="text-secondary fs-sm">${fileSize}</div>
+                        </div>
+                        <button type="button" class="btn-icon attachment-delete" title="ይሰርዙ">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    attachmentsList.appendChild(attachmentItem);
+                    
+                    // Add event listener to the delete button
+                    const deleteBtn = attachmentItem.querySelector('.attachment-delete');
+                    deleteBtn.addEventListener('click', function() {
+                        attachmentItem.remove();
+                    });
+                }
+                
+                // Update the file input label
+                document.querySelector('.custom-file-label').textContent = 
+                    this.files.length > 0 ? `${this.files.length} ፋይሎች ተመርጠዋል` : 'ፋይሎችን ይምረጡ';
+            });
+            
+            // Form submission
+            const form = document.getElementById('assignment-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!form.checkValidity()) {
+                    alert('እባክዎ ሁሉንም አስፈላጊ መረጃዎች ያስገቡ።');
+                    return;
+                }
+                
+                // Get form data
+                const title = document.getElementById('title').value;
+                const subject = document.getElementById('subject').value;
+                const classLevel = document.getElementById('class').value;
+                const dueDate = document.getElementById('dueDate').value;
+                
+                // Confirmation
+                if (confirm(`"${title}" የቤት ስራ መለጠፍ ይፈልጋሉ?`)) {
+                    alert('የቤት ስራው በተሳካ ሁኔታ ተልኳል!');
+                    // Here you would normally send the data to a server
+                    
+                    // Redirect to the assignments page
+                    setTimeout(() => {
+                        window.location.href = 'send-assignment.html';
+                    }, 1000);
+                }
+            });
+            
+            // Save as draft functionality
+            document.getElementById('saveAsDraft').addEventListener('click', function() {
+                // Validate form (minimal validation for draft)
+                const title = document.getElementById('title').value;
+                if (!title) {
+                    alert('እባክዎ ቢያንስ የስራው ርዕስ ያስገቡ።');
+                    return;
+                }
+                
+                if (confirm(`"${title}" የቤት ስራ እንደ ረቂቅ ማስቀመጥ ይፈልጋሉ?`)) {
+                    alert('የቤት ስራው በተሳካ ሁኔታ እንደ ረቂቅ ተቀምጧል!');
+                    // Here you would normally send the data to a server
+                    
+                    // Redirect to the assignments page
+                    setTimeout(() => {
+                        window.location.href = 'send-assignment.html';
+                    }, 1000);
+                }
+            });
+        
+    </script>
+</body>
+</html> 

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ፈተና መፍጠር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Styles specific to quiz creation page */
+        .quiz-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-header .form-group {
+            flex: 1 0 300px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-card {
+            background: var(--card-background);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-number {
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .question-content {
+            padding: 10px 0;
+        }
+
+        .options-container {
+            margin-top: 15px;
+        }
+
+        .option-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .option-input {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            gap: 10px;
+        }
+
+        .option-input input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .true-false-container,
+        .short-answer-container,
+        .essay-container {
+            margin-top: 15px;
+        }
+
+        .true-false-options {
+            display: flex;
+            gap: 20px;
+        }
+
+        .true-false-options .option-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add-option {
+            margin-top: 10px;
+            width: 100%;
+            padding: 8px;
+            background-color: transparent;
+            border: 1px dashed var(--border-color);
+            color: var(--primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-add-option:hover {
+            background-color: rgba(66, 133, 244, 0.05);
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .left-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .right-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-header .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .quiz-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .right-actions, .left-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 10% auto;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            animation: modalFade 0.3s ease;
+        }
+        
+        @keyframes modalFade {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--danger-color);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-body p {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: right;
+        }
+        
+        .close-modal {
+            color: var(--text-secondary);
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--danger-color);
+        }
+        
+        .modal-footer .btn {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ10ኛ ክፍል መምህር - ፈተና መፍጠር</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">4</span>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <form id="quiz-form" class="card">
+                <div class="card-section quiz-header">
+                    <h2 class="section-title">የፈተና ዝርዝሮች</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quizTitle">የፈተና ርዕስ</label>
+                            <input type="text" id="quizTitle" class="form-control" placeholder="የፈተና ርዕስ ያስገቡ" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">የትምህርት አይነት</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="" disabled selected>ይምረጡ</option>
+                                <option value="mathematics">ሂሳብ</option>
+                                <option value="physics">ፊዚክስ</option>
+                                <option value="chemistry">ኬሚስትሪ</option>
+                                <option value="biology">ባዮሎጂ</option>
+                                <option value="history">ታሪክ</option>
+                                <option value="geography">ጂኦግራፊ</option>
+                                <option value="amharic">አማርኛ</option>
+                                <option value="english">እንግሊዘኛ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="totalMarks">ጠቅላላ ነጥብ</label>
+                            <input type="number" id="totalMarks" class="form-control" min="1" value="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="timeLimit">የፈተና ጊዜ (ደቂቃዎች)</label>
+                            <input type="number" id="timeLimit" class="form-control" min="1" value="60" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dueDate">መጨረሻ ቀን</label>
+                            <input type="date" id="dueDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="instructions">የፈተና መመሪያዎች</label>
+                            <textarea id="instructions" class="form-control" rows="3" placeholder="ለተማሪዎች የሚሰጡ መመሪያዎችን ያስገቡ"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-section quiz-questions">
+                    <div class="section-header">
+                        <h2 class="section-title">ጥያቄዎች</h2>
+                        <div class="actions">
+                            <button type="button" id="addQuestionBtn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> ጥያቄ ጨምር
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="questions-container">
+                        <!-- Question template will be added here dynamically -->
+                        <div class="question-card" data-question-id="1">
+                            <div class="question-header">
+                                <div class="question-number">ጥያቄ 1</div>
+                                <div class="question-actions">
+                                    <button type="button" class="btn btn-icon btn-copy" title="ቅጂ">
+                                        <i class="far fa-copy"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-icon btn-delete" title="ሰርዝ">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="question-content">
+                                <div class="form-group">
+                                    <label for="questionText1">ጥያቄ</label>
+                                    <textarea id="questionText1" class="form-control" rows="2" placeholder="ጥያቄውን ያስገቡ" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="questionType1">የጥያቄ አይነት</label>
+                                    <select id="questionType1" class="form-control question-type" required>
+                                        <option value="multiple-choice">ምርጫ</option>
+                                        <option value="true-false">እውነት/ሐሰት</option>
+                                        <option value="short-answer">አጭር መልስ</option>
+                                        <option value="essay">ድርሰት</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="questionMarks1">ነጥብ</label>
+                                    <input type="number" id="questionMarks1" class="form-control" min="1" value="5" required>
+                                </div>
+                                
+                                <div class="options-container" id="optionsContainer1">
+                                    <div class="option-row" data-option-id="1">
+                                        <div class="option-input">
+                                            <input type="radio" name="correctOption1" id="correctOption1_1" value="1">
+                                            <input type="text" class="form-control" placeholder="አማራጭ 1" required>
+                                        </div>
+                                        <button type="button" class="btn btn-icon btn-delete-option">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="option-row" data-option-id="2">
+                                        <div class="option-input">
+                                            <input type="radio" name="correctOption1" id="correctOption1_2" value="2">
+                                            <input type="text" class="form-control" placeholder="አማራጭ 2" required>
+                                        </div>
+                                        <button type="button" class="btn btn-icon btn-delete-option">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="option-row" data-option-id="3">
+                                        <div class="option-input">
+                                            <input type="radio" name="correctOption1" id="correctOption1_3" value="3">
+                                            <input type="text" class="form-control" placeholder="አማራጭ 3" required>
+                                        </div>
+                                        <button type="button" class="btn btn-icon btn-delete-option">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="option-row" data-option-id="4">
+                                        <div class="option-input">
+                                            <input type="radio" name="correctOption1" id="correctOption1_4" value="4">
+                                            <input type="text" class="form-control" placeholder="አማራጭ 4" required>
+                                        </div>
+                                        <button type="button" class="btn btn-icon btn-delete-option">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <button type="button" class="btn btn-add-option">
+                                        <i class="fas fa-plus"></i> አማራጭ ጨምር
+                                    </button>
+                                </div>
+                                
+                                <div class="true-false-container" style="display: none;">
+                                    <div class="true-false-options">
+                                        <div class="option-row">
+                                            <input type="radio" name="trueFalseOption1" id="trueFalseOption1_true" value="true" checked>
+                                            <label for="trueFalseOption1_true">እውነት</label>
+                                        </div>
+                                        <div class="option-row">
+                                            <input type="radio" name="trueFalseOption1" id="trueFalseOption1_false" value="false">
+                                            <label for="trueFalseOption1_false">ሐሰት</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="short-answer-container" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="shortAnswerKey1">የመልስ ቁልፍ (ይህ መሆን አለበት)</label>
+                                        <input type="text" id="shortAnswerKey1" class="form-control" placeholder="ትክክለኛውን መልስ ያስገቡ">
+                                    </div>
+                                </div>
+                                
+                                <div class="essay-container" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="essayWordLimit1">የቃል ገደብ (አማራጭ)</label>
+                                        <input type="number" id="essayWordLimit1" class="form-control" min="1" placeholder="ለምሳሌ፣ 500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-section quiz-actions">
+                    <div class="left-actions">
+                        <button type="button" class="btn btn-outline-secondary">
+                            <i class="far fa-save"></i> እንደ ረቂቅ አስቀምጥ
+                        </button>
+                    </div>
+                    <div class="right-actions">
+                        <button type="button" class="btn btn-outline-secondary">
+                            <i class="far fa-eye"></i> ቅድመ እይታ
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="far fa-paper-plane"></i> ፈተና ላክ
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Template for adding new questions -->
+    <template id="question-template">
+        <div class="question-card" data-question-id="{{id}}">
+            <div class="question-header">
+                <div class="question-number">ጥያቄ {{number}}</div>
+                <div class="question-actions">
+                    <button type="button" class="btn btn-icon btn-copy" title="ቅጂ">
+                        <i class="far fa-copy"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-delete" title="ሰርዝ">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="question-content">
+                <div class="form-group">
+                    <label for="questionText{{id}}">ጥያቄ</label>
+                    <textarea id="questionText{{id}}" class="form-control" rows="2" placeholder="ጥያቄውን ያስገቡ" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="questionType{{id}}">የጥያቄ አይነት</label>
+                    <select id="questionType{{id}}" class="form-control question-type" required>
+                        <option value="multiple-choice">ምርጫ</option>
+                        <option value="true-false">እውነት/ሐሰት</option>
+                        <option value="short-answer">አጭር መልስ</option>
+                        <option value="essay">ድርሰት</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="questionMarks{{id}}">ነጥብ</label>
+                    <input type="number" id="questionMarks{{id}}" class="form-control" min="1" value="5" required>
+                </div>
+                
+                <div class="options-container" id="optionsContainer{{id}}">
+                    <div class="option-row" data-option-id="1">
+                        <div class="option-input">
+                            <input type="radio" name="correctOption{{id}}" id="correctOption{{id}}_1" value="1">
+                            <input type="text" class="form-control" placeholder="አማራጭ 1" required>
+                        </div>
+                        <button type="button" class="btn btn-icon btn-delete-option">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <div class="option-row" data-option-id="2">
+                        <div class="option-input">
+                            <input type="radio" name="correctOption{{id}}" id="correctOption{{id}}_2" value="2">
+                            <input type="text" class="form-control" placeholder="አማራጭ 2" required>
+                        </div>
+                        <button type="button" class="btn btn-icon btn-delete-option">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-add-option">
+                        <i class="fas fa-plus"></i> አማራጭ ጨምር
+                    </button>
+                </div>
+                
+                <div class="true-false-container" style="display: none;">
+                    <div class="true-false-options">
+                        <div class="option-row">
+                            <input type="radio" name="trueFalseOption{{id}}" id="trueFalseOption{{id}}_true" value="true" checked>
+                            <label for="trueFalseOption{{id}}_true">እውነት</label>
+                        </div>
+                        <div class="option-row">
+                            <input type="radio" name="trueFalseOption{{id}}" id="trueFalseOption{{id}}_false" value="false">
+                            <label for="trueFalseOption{{id}}_false">ሐሰት</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="short-answer-container" style="display: none;">
+                    <div class="form-group">
+                        <label for="shortAnswerKey{{id}}">የመልስ ቁልፍ (ይህ መሆን አለበት)</label>
+                        <input type="text" id="shortAnswerKey{{id}}" class="form-control" placeholder="ትክክለኛውን መልስ ያስገቡ">
+                    </div>
+                </div>
+                
+                <div class="essay-container" style="display: none;">
+                    <div class="form-group">
+                        <label for="essayWordLimit{{id}}">የቃል ገደብ (አማራጭ)</label>
+                        <input type="number" id="essayWordLimit{{id}}" class="form-control" min="1" placeholder="ለምሳሌ፣ 500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizForm = document.getElementById('quiz-form');
+            const questionsContainer = document.getElementById('questions-container');
+            const addQuestionBtn = document.getElementById('addQuestionBtn');
+            const saveAsDraftBtn = document.getElementById('saveAsDraftBtn');
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const errorModal = document.getElementById('errorModal');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Set today as the minimum due date
+            const dueDateInput = document.getElementById('dueDate');
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            dueDateInput.min = formattedDate;
+            
+            // Default to a date 7 days from now
+            const defaultDueDate = new Date();
+            defaultDueDate.setDate(defaultDueDate.getDate() + 7);
+            dueDateInput.value = defaultDueDate.toISOString().split('T')[0];
+            
+            let questionCounter = 1;
+            
+            // Function to show error modal
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorModal.style.display = 'block';
+            }
+            
+            // Close modal when clicking the X or Close button
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    errorModal.style.display = 'none';
+                });
+            });
+            
+            // Click outside to close modal
+            window.addEventListener('click', function(event) {
+                if (event.target === errorModal) {
+                    errorModal.style.display = 'none';
+                }
+            });
+            
+            // Add event listener for question type change
+            function setupQuestionTypeListener(questionId) {
+                const questionType = document.getElementById(`questionType${questionId}`);
+                const optionsContainer = document.getElementById(`optionsContainer${questionId}`);
+                const trueFalseContainer = document.querySelector(`#questions-container .question-card[data-question-id="${questionId}"] .true-false-container`);
+                const shortAnswerContainer = document.querySelector(`#questions-container .question-card[data-question-id="${questionId}"] .short-answer-container`);
+                const essayContainer = document.querySelector(`#questions-container .question-card[data-question-id="${questionId}"] .essay-container`);
+                
+                questionType.addEventListener('change', function() {
+                    // Hide all containers first
+                    if (optionsContainer) optionsContainer.style.display = 'none';
+                    if (trueFalseContainer) trueFalseContainer.style.display = 'none';
+                    if (shortAnswerContainer) shortAnswerContainer.style.display = 'none';
+                    if (essayContainer) essayContainer.style.display = 'none';
+                    
+                    // Show the appropriate container based on question type
+                    switch(this.value) {
+                        case 'multiple-choice':
+                            if (optionsContainer) optionsContainer.style.display = 'block';
+                            break;
+                        case 'true-false':
+                            if (trueFalseContainer) trueFalseContainer.style.display = 'block';
+                            break;
+                        case 'short-answer':
+                            if (shortAnswerContainer) shortAnswerContainer.style.display = 'block';
+                            break;
+                        case 'essay':
+                            if (essayContainer) essayContainer.style.display = 'block';
+                            break;
+                    }
+                });
+            }
+            
+            // Setup for the initial question
+            setupQuestionTypeListener(1);
+            
+            // Add Question button click handler
+            addQuestionBtn.addEventListener('click', function() {
+                questionCounter++;
+                
+                // Create new question template and append to container
+                const template = document.getElementById('question-template').innerHTML;
+                const questionHtml = template
+                    .replace(/{{id}}/g, questionCounter)
+                    .replace(/{{number}}/g, questionCounter);
+                
+                const tempContainer = document.createElement('div');
+                tempContainer.innerHTML = questionHtml;
+                const newQuestion = tempContainer.firstElementChild;
+                
+                questionsContainer.appendChild(newQuestion);
+                
+                // Setup the question type listener for the new question
+                setupQuestionTypeListener(questionCounter);
+            });
+            
+            // Form validation and submission
+            quizForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic validation
+                const quizTitle = document.getElementById('quizTitle').value.trim();
+                const subject = document.getElementById('subject').value;
+                const totalMarks = document.getElementById('totalMarks').value;
+                const timeLimit = document.getElementById('timeLimit').value;
+                const dueDate = document.getElementById('dueDate').value;
+                
+                // Validation checks
+                if (!quizTitle) {
+                    showError('እባክዎ የፈተና ርዕስ ያስገቡ።');
+                    return;
+                }
+                
+                if (!subject) {
+                    showError('እባክዎ የትምህርት አይነት ይምረጡ።');
+                    return;
+                }
+                
+                if (parseInt(totalMarks) <= 0) {
+                    showError('ጠቅላላ ነጥብ ከ 0 መብለጥ አለበት።');
+                    return;
+                }
+                
+                if (parseInt(timeLimit) <= 0) {
+                    showError('የፈተና ጊዜ ከ 0 መብለጥ አለበት።');
+                    return;
+                }
+                
+                if (!dueDate) {
+                    showError('እባክዎ መጨረሻ ቀን ይምረጡ።');
+                    return;
+                }
+                
+                // Validate each question
+                const questions = document.querySelectorAll('.question-card');
+                if (questions.length === 0) {
+                    showError('እባክዎ ቢያንስ አንድ ጥያቄ ያክሉ።');
+                    return;
+                }
+                
+                let totalConfiguredMarks = 0;
+                
+                for (let i = 0; i < questions.length; i++) {
+                    const questionId = questions[i].dataset.questionId;
+                    const questionText = document.getElementById(`questionText${questionId}`).value.trim();
+                    const questionType = document.getElementById(`questionType${questionId}`).value;
+                    const questionMarks = parseInt(document.getElementById(`questionMarks${questionId}`).value);
+                    
+                    if (!questionText) {
+                        showError(`ጥያቄ ${i+1}: እባክዎ የጥያቄ ጽሑፍ ያስገቡ።`);
+                        return;
+                    }
+                    
+                    if (questionMarks <= 0) {
+                        showError(`ጥያቄ ${i+1}: ነጥብ ከ 0 መብለጥ አለበት።`);
+                        return;
+                    }
+                    
+                    totalConfiguredMarks += questionMarks;
+                    
+                    // Validate options for multiple choice questions
+                    if (questionType === 'multiple-choice') {
+                        const options = questions[i].querySelectorAll('.option-row');
+                        if (options.length < 2) {
+                            showError(`ጥያቄ ${i+1}: እባክዎ ቢያንስ ሁለት አማራጮችን ያክሉ።`);
+                            return;
+                        }
+                        
+                        // Ensure at least one option is selected as correct
+                        const correctOption = questions[i].querySelector(`input[name="correctOption${questionId}"]:checked`);
+                        if (!correctOption) {
+                            showError(`ጥያቄ ${i+1}: እባክዎ ትክክለኛውን መልስ ይምረጡ።`);
+                            return;
+                        }
+                        
+                        // Ensure all options have text
+                        let emptyOptions = false;
+                        options.forEach(option => {
+                            const optionText = option.querySelector('input[type="text"]').value.trim();
+                            if (!optionText) {
+                                emptyOptions = true;
+                            }
+                        });
+                        
+                        if (emptyOptions) {
+                            showError(`ጥያቄ ${i+1}: እባክዎ ለሁሉም አማራጮች ጽሑፍ ያስገቡ።`);
+                            return;
+                        }
+                    }
+                }
+                
+                // Check if total marks from questions matches the specified total
+                if (totalConfiguredMarks !== parseInt(totalMarks)) {
+                    showError(`ጠቅላላ የጥያቄዎች ነጥብ (${totalConfiguredMarks}) ከተገለጸው ጠቅላላ ነጥብ (${totalMarks}) ጋር አይዛመድም።`);
+                    return;
+                }
+                
+                // Process form data for submission
+                const formData = new FormData(quizForm);
+                
+                // API submission with error handling
+                try {
+                    // Replace with actual API endpoint
+                    const apiUrl = '/api/quizzes';
+                    
+                    // Simulate API call (replace with actual fetch)
+                    console.log('Submitting quiz:', Object.fromEntries(formData));
+                    
+                    // Success message (replace with actual implementation)
+                    alert('ፈተናው በተሳካ ሁኔታ ተልኳል!');
+                    
+                    // Optional: redirect to quizzes list
+                    // window.location.href = 'send-quiz.html';
+                } catch (error) {
+                    showError('ፈተናውን መላክ አልተቻለም። እባክዎ ዳግም ይሞክሩ።');
+                    console.error('Error submitting quiz:', error);
+                }
+            });
+            
+            // Save as Draft functionality
+            saveAsDraftBtn.addEventListener('click', function() {
+                // Minimal validation for draft
+                const quizTitle = document.getElementById('quizTitle').value.trim();
+                if (!quizTitle) {
+                    showError('እባክዎ የፈተና ርዕስ ያስገቡ።');
+                    return;
+                }
+                
+                // Process form data for draft saving
+                const formData = new FormData(quizForm);
+                formData.append('status', 'draft');
+                
+                // API submission with error handling
+                try {
+                    // Replace with actual API endpoint
+                    const apiUrl = '/api/quizzes/drafts';
+                    
+                    // Simulate API call (replace with actual fetch)
+                    console.log('Saving draft:', Object.fromEntries(formData));
+                    
+                    // Success message (replace with actual implementation)
+                    alert('ፈተናው እንደ ረቂቅ ተቀምጧል!');
+                } catch (error) {
+                    showError('ፈተናውን እንደ ረቂቅ ማስቀመጥ አልተቻለም። እባክዎ ዳግም ይሞክሩ።');
+                    console.error('Error saving draft:', error);
+                }
+            });
+        });
+    </script>
+
+    <!-- Error Alert Modal -->
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ስህተት</h3>
+                <button type="button" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary close-modal">ዝጋ</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

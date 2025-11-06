@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ10ኛ ክፍል ፈተናዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            margin-left: 10px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .quiz-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .quiz-tab {
+            padding: 15px 25px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .quiz-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .quiz-tab:hover:not(.active) {
+            background-color: #f9f9f9;
+        }
+
+        .live-quiz {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .live-quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .live-quiz-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .live-quiz-badge {
+            background-color: #ea4335;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .live-quiz-badge i {
+            margin-right: 5px;
+        }
+
+        .live-quiz-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .live-quiz-detail {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .live-quiz-detail i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        .join-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .join-button i {
+            margin-right: 8px;
+        }
+
+        .join-button:hover {
+            background-color: #3367d6;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-card-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .quiz-subject {
+            font-size: 12px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .quiz-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .quiz-card-body {
+            padding: 15px;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .quiz-meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .quiz-meta-item i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        .quiz-description {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-scheduled {
+            background-color: #e6f4ea;
+            color: var(--secondary-color);
+        }
+
+        .status-ongoing {
+            background-color: #fff8e1;
+            color: #f9a825;
+        }
+
+        .status-completed {
+            background-color: #e8f0fe;
+            color: var(--primary-color);
+        }
+
+        .status-missed {
+            background-color: #fce8e6;
+            color: #ea4335;
+        }
+
+        .subject-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .math-icon {
+            background-color: rgba(66, 133, 244, 0.1);
+            color: var(--primary-color);
+        }
+
+        .science-icon {
+            background-color: rgba(52, 168, 83, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .language-icon {
+            background-color: rgba(251, 188, 5, 0.1);
+            color: var(--accent-color);
+        }
+
+        .social-icon {
+            background-color: rgba(234, 67, 53, 0.1);
+            color: #ea4335;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .empty-state-icon {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .empty-state-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .search-bar {
+                width: 150px;
+            }
+
+            .quiz-tab {
+                padding: 15px 15px;
+            }
+
+            .live-quiz-details {
+                gap: 10px;
+            }
+
+            .quiz-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሳሙኤል ታደሰ</div>
+                    <div class="user-role">የ10ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-course.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item active">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="../settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="../help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈተናዎችን ይፈልጉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="page-title">ፈተናዎች</h1>
+
+        <div class="quiz-tabs">
+            <div class="quiz-tab active">ሁሉም ፈተናዎች</div>
+            <div class="quiz-tab">የመጪ ፈተናዎች</div>
+            <div class="quiz-tab">በመካሄድ ላይ ያሉ</div>
+            <div class="quiz-tab">ያልተሞከሩ</div>
+            <div class="quiz-tab">የተጠናቀቁ</div>
+            <div class="quiz-tab">የቤት ፈተናዎች</div>
+        </div>
+
+        <div class="live-quiz">
+            <div class="live-quiz-header">
+                <h2 class="live-quiz-title">የ10ኛ ክፍል የፊዚክስ ሙከራ ፈተና</h2>
+                <div class="live-quiz-badge">
+                    <i class="fas fa-circle"></i>
+                    አሁን በመካሄድ ላይ
+                </div>
+            </div>
+            <div class="live-quiz-details">
+                <div class="live-quiz-detail">
+                    <i class="fas fa-clock"></i>
+                    <span>የቀረው ጊዜ: 45 ደቂቃ</span>
+                </div>
+                <div class="live-quiz-detail">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>ጥያቄዎች: 25</span>
+                </div>
+                <div class="live-quiz-detail">
+                    <i class="fas fa-user"></i>
+                    <span>አስተማሪ: አቶ ሰለሞን አበበ</span>
+                </div>
+                <div class="live-quiz-detail">
+                    <i class="fas fa-users"></i>
+                    <span>ተሳታፊዎች: 28/32</span>
+                </div>
+            </div>
+            <button class="join-button">
+                <i class="fas fa-play"></i>
+                አሁን ፈተናውን ጀምር
+            </button>
+        </div>
+
+        <div class="quiz-grid">
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div class="quiz-subject">ሒሳብ</div>
+                    <h3 class="quiz-title">የአልጀብራ ሙከራ ፈተና</h3>
+                    <div class="status-badge status-scheduled">የመጪ</div>
+                </div>
+                <div class="quiz-card-body">
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>30 ደቂቃ</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-question"></i>
+                            <span>20 ጥያቄዎች</span>
+                        </div>
+                    </div>
+                    <p class="quiz-description">የ10ኛ ክፍል ሒሳብ ሙከራ ፈተና። ይህ ፈተና የመጨረሻውን ፈተና ለመዘጋጀት ይረዳዎታል። የድምሮች፣ ፍቺዎች፣ እኩሌታዎች እና ኢኩዌሽኖችን ይሸፍናል።</p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ዝርዝር ይመልከቱ</button>
+                        <div class="quiz-meta-item">
+                            <i class="far fa-calendar"></i>
+                            <span>ዲሴምበር 15, 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div class="quiz-subject">ኬሚስትሪ</div>
+                    <h3 class="quiz-title">የሞላር ኮንሰፕቶች ፈተና</h3>
+                    <div class="status-badge status-completed">የተጠናቀቀ</div>
+                </div>
+                <div class="quiz-card-body">
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>45 ደቂቃ</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-question"></i>
+                            <span>15 ጥያቄዎች</span>
+                        </div>
+                    </div>
+                    <p class="quiz-description">የኬሚስትሪ የሞላር ኮንሰፕቶች ፈተና። ይህ ፈተና ስለ ሞላር ማስ፣ የአቶሚክ ክብደቶች እና ሌሎች ተዛማጅ ኮንሰፕቶች ያካትታል። ከፈተናው ምንባብ ነጥቦች አሉ።</p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">ውጤቶችን ይመልከቱ</button>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>ውጤት: 85%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div class="quiz-subject">ስነ-ህይወት</div>
+                    <h3 class="quiz-title">የሰውነት ስርዓቶች ፈተና</h3>
+                    <div class="status-badge status-ongoing">የቤት ፈተና</div>
+                </div>
+                <div class="quiz-card-body">
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>60 ደቂቃ</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-question"></i>
+                            <span>30 ጥያቄዎች</span>
+                        </div>
+                    </div>
+                    <p class="quiz-description">የሰውነት ተግባር ስርዓቶች ላይ ያተኮረ ፈተና። ይህ ፈተና የሰውነት የተለያዩ ስርዓቶችን እንደ የእንፍሳት ስርዓት፣ የዑሮ እና የምግብ ስርዓት ጨምሮ ይሸፍናል። </p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ፈተናውን ወስድ</button>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>ቀሪ: 2 ቀናት</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div class="quiz-subject">ኢንግሊዝኛ</div>
+                    <h3 class="quiz-title">ሰዋስው እና ጥቅጥቅ ፈተና</h3>
+                    <div class="status-badge status-scheduled">የመጪ</div>
+                </div>
+                <div class="quiz-card-body">
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>40 ደቂቃ</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-question"></i>
+                            <span>25 ጥያቄዎች</span>
+                        </div>
+                    </div>
+                    <p class="quiz-description">በአፍ መፍቻ ቋንቋ ላይ የተመሠረተ ፈተና። ይህ ፈተና ስለ ሰዋስው የጥቅስ እስትራከቸር እና አጠቃቀሙ ይፈትናል። ዝግጁ ይሁኑ።</p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary">ዝርዝር ይመልከቱ</button>
+                        <div class="quiz-meta-item">
+                            <i class="far fa-calendar"></i>
+                            <span>ዲሴምበር 18, 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div class="quiz-subject">ፊዚክስ</div>
+                    <h3 class="quiz-title">ሙቀት እና ሙቀት ሽግግር ፈተና</h3>
+                    <div class="status-badge status-completed">የተጠናቀቀ</div>
+                </div>
+                <div class="quiz-card-body">
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>50 ደቂቃ</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-question"></i>
+                            <span>20 ጥያቄዎች</span>
+                        </div>
+                    </div>
+                    <p class="quiz-description">የስሜት እና ሙቀት ሽግግር ላይ ያተኮረ ፈተና። ይህ ፈተና ስለ ሙቀት ዓይነቶች፣ የሙቀት መጠኖች እና የሙቀት ሽግግር ሂደቶች ያካትታል።</p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">ውጤቶችን ይመልከቱ</button>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>ውጤት: 90%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div class="quiz-subject">ማህበራዊ ሳይንስ</div>
+                    <h3 class="quiz-title">የኢትዮጵያ ታሪክ ፈተና</h3>
+                    <div class="status-badge status-missed">ያመለጠ</div>
+                </div>
+                <div class="quiz-card-body">
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>45 ደቂቃ</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-question"></i>
+                            <span>30 ጥያቄዎች</span>
+                        </div>
+                    </div>
+                    <p class="quiz-description">የኢትዮጵያ ታሪክ ፈተና። ይህ ፈተና ስለ ኢትዮጵያ ጥንታዊና ዘመናዊ ታሪክ ያካትታል።</p>
+                    <div class="quiz-actions">
+                        <button class="btn btn-outline">ዝርዝር ይመልከቱ</button>
+                        <div class="quiz-meta-item">
+                            <i class="fas fa-ban"></i>
+                            <span>ያመለጠ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // Quiz tabs functionality
+        const quizTabs = document.querySelectorAll('.quiz-tab');
+        quizTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                quizTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // In a real application, this would filter the quizzes based on the selected tab
+            });
+        });
+    </script>
+</body>
+</html>

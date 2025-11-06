@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | እገዛ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            margin-left: 10px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .help-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .help-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .help-card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: 500;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            display: none;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item i {
+            width: 30px;
+            height: 30px;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .contact-item span {
+            font-size: 14px;
+        }
+
+        .guide-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .guide-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .guide-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .guide-content h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .guide-content p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .search-bar {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ብርሃኑ ደምሴ</div>
+                    <div class="user-role">የ12ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-course.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="help.html" class="menu-item active">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="እገዛ ይፈልጉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-container">
+            <!-- FAQs -->
+            <div class="help-card">
+                <h2>ተደጋጋሚ ጥያቄዎች</h2>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ለብሄራዊ ፈተና እንዴት በተሻለ መንገድ እዘጋጃለሁ?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ለብሄራዊ ፈተና ዝግጅት፣ "የብሄራዊ ፈተና ዝግጅት" ኮርስ ላይ ይመዝገቡ። በየቀኑ የሙከራ ፈተናዎችን ይሞክሩ፣ የጥናት ቡድኖችን ያዋቅሩ፣ እና ከመምህራን ድጋፍ ይጠይቁ። በፈተናዎች ገጽ ላይ ባሉት የቀድሞ ዓመት ፈተናዎች ላይ ይለማመዱ። የጊዜ አጠቃቀም ስልቶችን ይማሩ።
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ዩኒቨርሲቲዎችን እንዴት መርጣለሁ?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ዩኒቨርሲቲዎችን ለመምረጥ፣ "የዩኒቨርሲቲ ምርጫ" መመሪያን ይመልከቱ። የዩኒቨርሲቲዎችን መረጃ ለማግኘት "የዩኒቨርሲቲ ካታሎግ" ይመልከቱ። የምርጫ ቅጹን ለመሙላት "የምርጫ መመሪያዎች" ይመልከቱ። ተጨማሪ ምክር ለማግኘት ከመምህርዎ ጋር ይነጋገሩ። የምርጫ የመጨረሻ ጊዜውን አይርሱ።
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        የተመራቂዎች ፕሮግራሞች መረጃ እንዴት አገኛለሁ?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        የተመራቂዎች ፕሮግራም መረጃዎችን በማስታወቂያ ገጽ ላይ ያገኛሉ። ለተመራቂዎች ፕሮግራም መመዝገቢያ ቀኖች፣ አካባቢዎች፣ እና የአልባሳት መረጃ ለማግኘት "የተመራቂዎች መመሪያ" ይመልከቱ። ተጨማሪ ጥያቄዎች ካሉዎት፣ ከክፍል አስተባባሪዎ ጋር ይገናኙ።
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        የስራ እድሎችን እንዴት አገኛለሁ?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        የስራ እድሎችን ለማግኘት፣ "የስራ ምክር" ገጽን ይጎብኙ። ሲቪ እንዴት እንደሚዘጋጅ ለማወቅ "የሲቪ አዘገጃጀት" ይመልከቱ። ለቃለ መጠይቅ ለመዘጋጀት "የቃለ መጠይቅ ስልቶች" ይመልከቱ። ከዚያም ቀጣሪዎችን ለማግኘት "የስራ ፈላጊዎች መተዋወቂያ" ፕሮግራሞችን ይሳተፉ።
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="help-card">
+                <h2>ድጋፍ እገዛ</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+251 11 234 5678</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@edu-center.et</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>ሰኞ - አርብ: 8:00 AM - 6:00 PM</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>አዲስ አበባ፣ ኢትዮጵያ</span>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">ድጋፍ እገዛ ይጠይቁ</a>
+            </div>
+
+            <!-- Quick Guides -->
+            <div class="help-card">
+                <h2>ፈጣን መመሪያዎች</h2>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የብሄራዊ ፈተና መመሪያ</h3>
+                        <p>ለብሄራዊ ፈተና የሚያስፈልጉ ነገሮች፣ ፈተናው የሚካሄድበት ቦታዎች፣ ጊዜያት፣ እና ሌሎች ጠቃሚ መረጃዎች።</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የዩኒቨርሲቲ ምርጫ መመሪያ</h3>
+                        <p>የዩኒቨርሲቲ ምርጫ ሂደት፣ የዩኒቨርሲቲዎች መረጃ፣ እና የምርጫ ማስተላለፊያ ስልቶች።</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የተመራቂዎች መመሪያ</h3>
+                        <p>የተመራቂዎች ፕሮግራም መረጃ፣ የአልባሳት አከራይዎች፣ ፎቶግራፈሮች፣ እና ሌሎች የሚያስፈልጉ መረጃዎች።</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የስራ እድሎች መመሪያ</h3>
+                        <p>ሲቪ እንዴት እንደሚዘጋጅ፣ ለቃለ መጠይቅ እንዴት እንደሚዘጋጁ፣ እና የስራ ፈላጊዎች መተዋወቂያ ፕሮግራሞች መረጃዎች።</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grade 12 Specific Help -->
+            <div class="help-card">
+                <h2>የ12ኛ ክፍል ልዩ እገዛ</h2>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የብሄራዊ ፈተና የአጠናን ስልቶች</h3>
+                        <p>ለብሄራዊ ፈተና አጠናን ስልቶች፣ የጥያቄ አይነቶች፣ እና ውጤታማ የጊዜ አጠቃቀም መመሪያዎች።</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የዩኒቨርሲቲ መግቢያ መሰረታዊ ነገሮች</h3>
+                        <p>ለዩኒቨርሲቲ መግቢያ ሂደት፣ የድምር ነጥቦች አስላት፣ ምርጫ ሂደት፣ እና ሌሎች ጠቃሚ መረጃዎች።</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>ከት/ቤት በኋላ ያሉ አማራጮች</h3>
+                        <p>ከትምህርት ቤት በኋላ ዩኒቨርሲቲ፣ ሙያዊ ስልጠና፣ ወይም ቀጥታ ስራ ስለመምረጥ የሚረዱ ምክሮች።</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="guide-content">
+                        <h3>የመጨረሻ ዓመት ላይ መጠንቀቂያዎች</h3>
+                        <p>የተማሪነት ማታ ላይ ያሉ ጠቃሚ ነገሮችን እና በየጊዜዎቹ ማሟላት የሚገቡ መስፈርቶች ዝርዝር።</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // FAQ toggle functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

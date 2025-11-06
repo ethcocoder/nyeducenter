@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ9ኛ ክፍል ቅንብሮች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">9ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ9ኛ ክፍል ቅንብሮች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="row">
+                <!-- Settings sidebar -->
+                <div class="col-md-3 mb-4">
+                    <div class="card settings-sidebar p-0">
+                        <div class="list-group">
+                            <a href="#profile" class="list-group-item active" data-toggle="tab">
+                                <i class="fas fa-user mr-2"></i> መገለጫ
+                            </a>
+                            <a href="#personal-info" class="list-group-item" data-toggle="tab">
+                                <i class="fas fa-id-card mr-2"></i> የግል መረጃ
+                            </a>
+                            <a href="#notifications" class="list-group-item" data-toggle="tab">
+                                <i class="fas fa-bell mr-2"></i> ማሳወቂያዎች
+                            </a>
+                            <a href="#security" class="list-group-item" data-toggle="tab">
+                                <i class="fas fa-lock mr-2"></i> ደህንነት
+                            </a>
+                            <a href="#appearance" class="list-group-item" data-toggle="tab">
+                                <i class="fas fa-paint-brush mr-2"></i> የገጽታ ቅንብሮች
+                            </a>
+                            <a href="#language" class="list-group-item" data-toggle="tab">
+                                <i class="fas fa-language mr-2"></i> ቋንቋ
+                            </a>
+                            <a href="#help" class="list-group-item" data-toggle="tab">
+                                <i class="fas fa-question-circle mr-2"></i> እገዛ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings content -->
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <!-- Profile Tab -->
+                        <div id="profile" class="tab-pane active">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">መገለጫ</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center mb-4">
+                                        <div class="profile-image-container mb-3">
+                                            <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="Profile" class="profile-image">
+                                            <div class="profile-image-overlay">
+                                                <i class="fas fa-camera"></i>
+                                            </div>
+                                        </div>
+                                        <h4 class="mb-1">ዘውዲቱ ተፈራ</h4>
+                                        <p class="text-secondary mb-3">የ9ኛ ክፍል መምህር</p>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-camera"></i> ፎቶ ይቀይሩ
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="profile-stats">
+                                        <div class="row">
+                                            <div class="col-4 text-center">
+                                                <div class="stat-value">185</div>
+                                                <div class="stat-label">ተማሪዎች</div>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <div class="stat-value">28</div>
+                                                <div class="stat-label">የቤት ስራዎች</div>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <div class="stat-value">7</div>
+                                                <div class="stat-label">ክፍሎች</div>
+                                            </div>
+                                        </div>
+        </div>
+
+                                    <hr>
+            
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="profile-bio">ስለ እኔ</label>
+                                            <textarea class="form-control" id="profile-bio" rows="4">ከ9ኛ ክፍል ተማሪዎች ጋር በማሰራት የምደሰት የሂሳብ መምህር ነኝ። ከተማሪዎች ጋር አዲስ የመማሪያ ዘዴዎችን ለመሞከር ጓጉቼ እየተበረታታሁ ነው። ያለኝን ልምድ ለመጋራት ሁሌም ዝግጁ ነኝ።</textarea>
+                                        </div>
+            <div class="form-group">
+                                            <label for="profile-expertise">ልዩ ችሎታዎች</label>
+                                            <input type="text" class="form-control" id="profile-expertise" value="ሂሳብ, ፊዚክስ, የጥናት ክህሎት, የፈተና ዝግጅት">
+                                        </div>
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-primary">መገለጫ ያስቀምጡ</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+            </div>
+
+                        <!-- Personal Info Tab -->
+                        <div id="personal-info" class="tab-pane">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">የግል መረጃ</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="first-name">መጠሪያ ስም</label>
+                                                    <input type="text" class="form-control" id="first-name" value="ዘውዲቱ">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="last-name">የአባት ስም</label>
+                                                    <input type="text" class="form-control" id="last-name" value="ተፈራ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+            <div class="form-group">
+                <label for="email">ኢሜይል</label>
+                                                    <input type="email" class="form-control" id="email" value="zewd.tefera@edu.et">
+                                                </div>
+            </div>
+                                            <div class="col-md-6">
+            <div class="form-group">
+                <label for="phone">ስልክ ቁጥር</label>
+                                                    <input type="tel" class="form-control" id="phone" value="+251912345678">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address">አድራሻ</label>
+                                            <input type="text" class="form-control" id="address" value="አዲስ አበባ, ኢትዮጵያ">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="education">የትምህርት ደረጃ</label>
+                                                    <select class="form-control" id="education">
+                                                        <option>ዲፕሎማ</option>
+                                                        <option selected>የመጀመሪያ ዲግሪ</option>
+                                                        <option>ማስተርስ</option>
+                                                        <option>ዶክትሬት</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="experience">የልምድ ዓመት</label>
+                                                    <input type="number" class="form-control" id="experience" value="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-primary">መረጃ ያስቀምጡ</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notifications Tab -->
+                        <div id="notifications" class="tab-pane">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">የማሳወቂያ ቅንብሮች</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="notification-option d-flex justify-between align-center mb-4">
+                                        <div>
+                                            <h5 class="mb-1">ኢሜይል ማሳወቂያዎች</h5>
+                                            <p class="text-secondary mb-0">በኢሜይል ማሳወቂያዎችን ይቀበሉ</p>
+                                        </div>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="email-notifications" class="toggle-input" checked>
+                                            <label for="email-notifications" class="toggle-label"></label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="notification-option d-flex justify-between align-center mb-4">
+                                        <div>
+                                            <h5 class="mb-1">የቤት ስራ ማሳወቂያዎች</h5>
+                                            <p class="text-secondary mb-0">ተማሪዎች ስራ ሲያስገቡ ማሳወቂያ ይቀበሉ</p>
+                                        </div>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="homework-notifications" class="toggle-input" checked>
+                                            <label for="homework-notifications" class="toggle-label"></label>
+                                        </div>
+            </div>
+            
+                                    <div class="notification-option d-flex justify-between align-center mb-4">
+                                        <div>
+                                            <h5 class="mb-1">የመልዕክት ማሳወቂያዎች</h5>
+                                            <p class="text-secondary mb-0">አዲስ መልዕክት ሲደርስ ማሳወቂያ ይቀበሉ</p>
+                                        </div>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="message-notifications" class="toggle-input" checked>
+                                            <label for="message-notifications" class="toggle-label"></label>
+                                        </div>
+            </div>
+
+                                    <div class="notification-option d-flex justify-between align-center mb-4">
+                                        <div>
+                                            <h5 class="mb-1">የፈተና ውጤቶች</h5>
+                                            <p class="text-secondary mb-0">ተማሪዎች ፈተና ሲወስዱ ማሳወቂያ ይቀበሉ</p>
+                                        </div>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="quiz-notifications" class="toggle-input" checked>
+                                            <label for="quiz-notifications" class="toggle-label"></label>
+                                        </div>
+                    </div>
+                                    
+                                    <div class="notification-option d-flex justify-between align-center">
+                                        <div>
+                                            <h5 class="mb-1">የሲስተም ማሳወቂያዎች</h5>
+                                            <p class="text-secondary mb-0">የሲስተም ዝማኔዎችን እና ማሳወቂያዎችን ይቀበሉ</p>
+                    </div>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="system-notifications" class="toggle-input">
+                                            <label for="system-notifications" class="toggle-label"></label>
+                    </div>
+                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">ማሳወቂያዎችን ያስቀምጡ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                        <!-- Security Tab -->
+                        <div id="security" class="tab-pane">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">የደህንነት ቅንብሮች</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="current-password">አሁን ያለው የይለፍ ቃል</label>
+                                            <input type="password" class="form-control" id="current-password">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="new-password">አዲስ የይለፍ ቃል</label>
+                                            <input type="password" class="form-control" id="new-password">
+                </div>
+                                        <div class="form-group">
+                                            <label for="confirm-password">አዲስ የይለፍ ቃል ያረጋግጡ</label>
+                                            <input type="password" class="form-control" id="confirm-password">
+            </div>
+
+                                        <hr>
+                                        
+                                        <div class="notification-option d-flex justify-between align-center mb-4">
+                                            <div>
+                                                <h5 class="mb-1">ሁለት-ደረጃ ማረጋገጫ</h5>
+                                                <p class="text-secondary mb-0">በሁለት ደረጃ ደህንነትዎን ያሻሽሉ</p>
+                                            </div>
+                                            <div class="toggle-switch">
+                                                <input type="checkbox" id="two-factor" class="toggle-input">
+                                                <label for="two-factor" class="toggle-label"></label>
+                </div>
+            </div>
+
+                                        <div class="notification-option d-flex justify-between align-center">
+                                            <div>
+                                                <h5 class="mb-1">የመግቢያ ማሳወቂያዎች</h5>
+                                                <p class="text-secondary mb-0">አዲስ መግቢያዎች ሲኖሩ ማሳወቂያ ይላክልዎ</p>
+                                            </div>
+                                            <div class="toggle-switch">
+                                                <input type="checkbox" id="login-notifications" class="toggle-input" checked>
+                                                <label for="login-notifications" class="toggle-label"></label>
+                </div>
+            </div>
+
+                                        <hr>
+                                        
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-primary">ለውጦችን ያስቀምጡ</button>
+                                        </div>
+                                    </form>
+                                </div>
+                </div>
+            </div>
+
+                        <!-- Appearance Tab -->
+                        <div id="appearance" class="tab-pane">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">የገጽታ ቅንብሮች</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>ገጽታ ሁኔታ</label>
+                                        <div class="d-flex mt-2">
+                                            <div class="theme-option light active mr-3">
+                                                <div class="theme-preview"></div>
+                                                <div class="theme-label">ብርሃን ገጽታ</div>
+                </div>
+                                            <div class="theme-option dark mr-3">
+                                                <div class="theme-preview"></div>
+                                                <div class="theme-label">ጨለማ ገጽታ</div>
+            </div>
+                                            <div class="theme-option auto">
+                                                <div class="theme-preview"></div>
+                                                <div class="theme-label">አውቶማቲክ</div>
+                </div>
+            </div>
+        </div>
+
+                                    <div class="form-group">
+                                        <label>ቀለም ገጽታ</label>
+                                        <div class="d-flex mt-2">
+                                            <div class="color-option blue active mr-3" data-color="blue"></div>
+                                            <div class="color-option green mr-3" data-color="green"></div>
+                                            <div class="color-option purple mr-3" data-color="purple"></div>
+                                            <div class="color-option orange mr-3" data-color="orange"></div>
+                                            <div class="color-option red" data-color="red"></div>
+                </div>
+            </div>
+
+                                    <div class="form-group">
+                                        <label>የፊደል መጠን</label>
+                                        <div class="d-flex align-center mt-2">
+                                            <span class="mr-2 font-sm">ኤ</span>
+                                            <input type="range" class="form-control-range" min="1" max="5" value="3">
+                                            <span class="ml-2 font-lg">ኤ</span>
+                </div>
+            </div>
+
+                                    <hr>
+                                    
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-outline-secondary mr-2">ወደ ነባሪ ይመልሱ</button>
+                                        <button type="submit" class="btn btn-primary">ለውጦችን ያስቀምጡ</button>
+                                    </div>
+                                </div>
+                </div>
+            </div>
+
+                        <!-- Language Tab -->
+                        <div id="language" class="tab-pane">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">የቋንቋ ቅንብሮች</h4>
+                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="interface-language">የተጠቃሚ ገጽ ቋንቋ</label>
+                                        <select class="form-control" id="interface-language">
+                                            <option selected>አማርኛ</option>
+                                            <option>English</option>
+                                            <option>ትግርኛ</option>
+                                            <option>Afaan Oromo</option>
+                                            <option>Af Soomaali</option>
+                                        </select>
+            </div>
+
+            <div class="form-group">
+                                        <label for="date-format">የቀን ፎርማት</label>
+                                        <select class="form-control" id="date-format">
+                                            <option selected>DD/MM/YYYY</option>
+                                            <option>MM/DD/YYYY</option>
+                                            <option>YYYY-MM-DD</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                                        <label for="time-format">የሰዓት ፎርማት</label>
+                                        <select class="form-control" id="time-format">
+                                            <option selected>12-ሰዓት (AM/PM)</option>
+                                            <option>24-ሰዓት</option>
+                </select>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">ቅንብሮችን ያስቀምጡ</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Help Tab -->
+                        <div id="help" class="tab-pane">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">እገዛ እና ድጋፍ</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="help-section mb-4">
+                                        <h5>የተደጋጋሚ ጥያቄዎች</h5>
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action">እንዴት ነው የተማሪዎችን ውጤት መመዝገብ የምችለው?</a>
+                                            <a href="#" class="list-group-item list-group-item-action">እንዴት ነው አዲስ የቤት ስራ መፍጠር የምችለው?</a>
+                                            <a href="#" class="list-group-item list-group-item-action">አዲስ ተማሪዎችን እንዴት ማከል እችላለሁ?</a>
+                                            <a href="#" class="list-group-item list-group-item-action">የይለፍ ቃሌን ከረሳሁት ምን ማድረግ አለብኝ?</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="help-section mb-4">
+                                        <h5>የእገዛ ሰነዶች</h5>
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action d-flex align-center">
+                                                <i class="fas fa-file-pdf text-danger mr-2"></i>
+                                                <span>የተጠቃሚ መመሪያ (PDF)</span>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action d-flex align-center">
+                                                <i class="fas fa-video text-primary mr-2"></i>
+                                                <span>አጋዥ ቪዲዮዎች</span>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action d-flex align-center">
+                                                <i class="fas fa-book text-success mr-2"></i>
+                                                <span>ለመምህራን የተዘጋጀ መምሪያ</span>
+                                            </a>
+            </div>
+        </div>
+
+                                    <div class="help-section">
+                                        <h5>ያግኙን</h5>
+                                        <p>እርዳታ ከፈለጉ በሚከተሉት ዘዴዎች ሊያገኙን ይችላሉ:</p>
+                                        <div class="d-flex flex-wrap">
+                                            <a href="#" class="btn btn-outline-primary mr-2 mb-2">
+                                                <i class="fas fa-envelope mr-1"></i> ኢሜይል ይላኩ
+                                            </a>
+                                            <a href="#" class="btn btn-outline-success mr-2 mb-2">
+                                                <i class="fas fa-phone mr-1"></i> ይደውሉ
+                                            </a>
+                                            <a href="#" class="btn btn-outline-info mb-2">
+                                                <i class="fas fa-comment-dots mr-1"></i> ቀጥታ ውይይት
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script referencing -->
+    <script src="../../js/utils.js"></script>
+    <script>
+      
+                
+            // Tab functionality
+            const tabLinks = document.querySelectorAll('.list-group-item');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all tabs
+                    tabLinks.forEach(tab => tab.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    
+                    // Add active class to current tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab content
+                    const tabId = this.getAttribute('href').substring(1);
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Toggle switches
+            document.querySelectorAll('.toggle-input').forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const status = this.checked ? 'enabled' : 'disabled';
+                    const settingName = this.id.replace('-notifications', '').replace('-', ' ');
+                    console.log(`${settingName} notifications ${status}`);
+                });
+            });
+            
+            // Theme options
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    const theme = this.classList.contains('light') ? 'light' : 
+                                this.classList.contains('dark') ? 'dark' : 'auto';
+                    console.log(`Theme changed to ${theme}`);
+                });
+            });
+            
+            // Color options
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                    const color = this.getAttribute('data-color');
+                    console.log(`Color theme changed to ${color}`);
+                });
+            });
+            
+            // Profile image change
+            document.querySelector('.profile-image-container').addEventListener('click', function() {
+                // In a real app, this would trigger a file upload dialog
+                console.log('Changing profile picture');
+            });
+            
+            // Form submissions
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('ለውጦችዎ በተሳካ ሁኔታ ተቀምጠዋል!');
+                });
+            });
+
+    </script>
+    
+    <style>
+        /* Additional styles specific to settings page */
+        .settings-sidebar .list-group-item {
+            border-radius: 0;
+            border-left: 3px solid transparent;
+        }
+        
+        .settings-sidebar .list-group-item.active {
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+        
+        .profile-image-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .profile-image-container:hover .profile-image-overlay {
+            opacity: 1;
+        }
+        
+        .profile-stats {
+            background-color: var(--card-background-alt);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-label {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-label:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .toggle-input:checked + .toggle-label {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-input:checked + .toggle-label:before {
+            transform: translateX(26px);
+        }
+        
+        .theme-option, .color-option {
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .theme-option .theme-preview {
+            width: 80px;
+            height: 50px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            border: 2px solid #ddd;
+        }
+        
+        .theme-option.active .theme-preview {
+            border-color: var(--primary-color);
+        }
+        
+        .theme-option.light .theme-preview {
+            background-color: #f5f7fa;
+        }
+        
+        .theme-option.dark .theme-preview {
+            background-color: #2d3748;
+        }
+        
+        .theme-option.auto .theme-preview {
+            background: linear-gradient(to right, #f5f7fa 50%, #2d3748 50%);
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+        
+        .color-option.active {
+            border-color: #333;
+        }
+        
+        .color-option.blue {
+            background-color: #4285f4;
+        }
+        
+        .color-option.green {
+            background-color: #34a853;
+        }
+        
+        .color-option.purple {
+            background-color: #9c27b0;
+        }
+        
+        .color-option.orange {
+            background-color: #fbbc05;
+        }
+        
+        .color-option.red {
+            background-color: #ea4335;
+        }
+        
+        .font-sm {
+            font-size: 12px;
+        }
+        
+        .font-lg {
+            font-size: 24px;
+        }
+    </style>
+</body>
+</html>

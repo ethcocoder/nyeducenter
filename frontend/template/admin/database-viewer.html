@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የውሂብ ቤት አስተዳደር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --warning-color: #fbbc05;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --border-color: #dadce0;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--background-color);
+            font-weight: 500;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 10% auto;
+            padding: 20px;
+            width: 70%;
+            border-radius: 8px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .tab-btn {
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            margin-right: 2px;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .directory-item {
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .directory-header {
+            padding: 10px;
+            background-color: var(--background-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .directory-content {
+            padding: 10px;
+        }
+        
+        .empty-message, .error-message, .loading {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .error-message {
+            color: var(--danger-color);
+        }
+        
+        .json-preview {
+            max-height: 100px;
+            overflow: auto;
+            white-space: pre-wrap;
+            margin: 0;
+            font-size: 12px;
+        }
+        
+        pre {
+            max-height: 200px;
+            overflow: auto;
+            background-color: #f5f5f5;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .directory-files {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .directory-files th, .directory-files td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tabs {
+            margin-bottom: 20px;
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Sidebar adjustment */
+        .main-content {
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+        
+        .spinner {
+            font-size: 32px;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navigation-placeholder"></div>
+    
+    <div class="main-content">
+        <div class="container">
+            <div class="header">
+                <h1>የውሂብ ቤት አስተዳደር</h1>
+                <div>
+                    <button class="btn btn-primary" onclick="openCreateTableModal()">
+                        <i class="fas fa-plus"></i> አዲስ ሰንጠረዥ ይፍጠሩ
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadAllFiles()">
+                        <i class="fas fa-sync"></i> ሁሉንም ፋይሎች ይጫኑ
+                    </button>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ይፈልጉ..." onkeyup="filterItems()">
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('tables')">ሰንጠረዦች</button>
+                <button class="tab-btn" onclick="showTab('files')">ፋይሎች</button>
+                <button class="tab-btn" onclick="showTab('directories')">አቃፊዎች</button>
+            </div>
+
+            <!-- Tables Tab -->
+            <div id="tables-tab" class="tab-content active">
+                <div class="table-container">
+                    <table id="tablesList">
+                        <thead>
+                            <tr>
+                                <th>ሰንጠረዥ ስም</th>
+                                <th>የሚያካትት መረጃዎች</th>
+                                <th>የመጨረሻ የተሻሻለበት ቀን</th>
+                                <th>ድርጊቶች</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablesBody">
+                            <!-- Tables will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Files Tab -->
+            <div id="files-tab" class="tab-content">
+                <div class="table-container">
+                    <table id="filesList">
+                        <thead>
+                            <tr>
+                                <th>ፋይል ስም</th>
+                                <th>ይዘት</th>
+                                <th>ድርጊቶች</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filesBody">
+                            <!-- Files will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Directories Tab -->
+            <div id="directories-tab" class="tab-content">
+                <div class="directory-list" id="directoriesList">
+                    <!-- Directories will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Table Modal -->
+    <div id="createTableModal" class="modal">
+        <div class="modal-content">
+            <h2>አዲስ ሰንጠረዥ ይፍጠሩ</h2>
+            <form id="createTableForm">
+                <div class="form-group">
+                    <label for="tableName">ሰንጠረዥ ስም</label>
+                    <input type="text" id="tableName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tableFields">የሚያካትት መረጃዎች (ከሰንጠረዥ በኋላ)</label>
+                    <textarea id="tableFields" class="form-control" rows="4" placeholder="ስም:ተክስት,ዕድሜ:ቁጥር,ቀን:ቀን" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateTableModal()">ይቅር</button>
+                    <button type="submit" class="btn btn-primary">ይፍጠሩ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- View Data Modal -->
+    <div id="viewDataModal" class="modal">
+        <div class="modal-content">
+            <h2 id="dataModalTitle">ይዘት ይመልከቱ</h2>
+            <div class="table-container">
+                <table id="dataTable">
+                    <thead id="dataTableHead">
+                        <!-- Column headers will be generated here -->
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Data rows will be generated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeViewDataModal()">ዝጋ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/navigation.js"></script>
+    <script>
+        // Database operations
+        const db = {
+            tables: [],
+            files: [],
+            directories: [],
+            directoryData: {},
+            
+            init() {
+                this.loadTables();
+            },
+            
+            loadTables() {
+                showLoading();
+                // Load tables from API
+                fetch('/api/database/tables', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        hideLoading();
+                        this.tables = data;
+                        this.renderTables();
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        console.error('Error loading tables:', error);
+                        document.getElementById('tablesBody').innerHTML = `
+                            <tr>
+                                <td colspan="4" class="error-message">
+                                    Error loading tables. Make sure you're logged in as an admin.
+                                </td>
+                            </tr>
+                        `;
+                    });
+            },
+            
+            loadAllFiles() {
+                showLoading();
+                // Load all files from API
+                fetch('/api/database/files', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        hideLoading();
+                        this.files = data.jsonFiles;
+                        this.directories = data.directories;
+                        this.renderFiles();
+                        this.renderDirectories();
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        console.error('Error loading files:', error);
+                        document.getElementById('filesBody').innerHTML = `
+                            <tr>
+                                <td colspan="3" class="error-message">
+                                    Error loading files. Make sure you're logged in as an admin.
+                                </td>
+                            </tr>
+                        `;
+                    });
+            },
+            
+            loadDirectoryFiles(directory) {
+                showLoading();
+                // Load files from a specific directory
+                fetch(`/api/database/files/${directory}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        hideLoading();
+                        this.directoryData[directory] = data;
+                        this.renderDirectoryFiles(directory);
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        console.error(`Error loading files from ${directory}:`, error);
+                    });
+            },
+            
+            createTable(name, fields) {
+                const formattedFields = fields.split(',').map(field => {
+                    const [fieldName, fieldType] = field.split(':');
+                    return {
+                        name: fieldName.trim(),
+                        type: fieldType.trim(),
+                        required: true
+                    };
+                });
+                
+                showLoading();
+                // Save to API
+                fetch('/api/database/tables', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        name,
+                        fields: formattedFields
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    hideLoading();
+                    if (result.error) {
+                        alert(`Error: ${result.error}`);
+                        return;
+                    }
+                    
+                    // Reload tables
+                    this.loadTables();
+                    closeCreateTableModal();
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Error creating table:', error);
+                    alert('Error creating table. See console for details.');
+                });
+            },
+            
+            viewTableData(tableName) {
+                showLoading();
+                fetch(`/api/database/tables/${tableName}/data`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        hideLoading();
+                        renderDataTable(tableName, data);
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        console.error(`Error loading data for table ${tableName}:`, error);
+                        alert('Error loading table data. See console for details.');
+                    });
+            },
+            
+            deleteTable(tableName) {
+                if (!confirm(`Are you sure you want to delete table "${tableName}"?`)) {
+                    return;
+                }
+                
+                showLoading();
+                fetch(`/api/database/tables/${tableName}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    hideLoading();
+                    if (result.error) {
+                        alert(`Error: ${result.error}`);
+                        return;
+                    }
+                    
+                    // Reload tables
+                    this.loadTables();
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error(`Error deleting table ${tableName}:`, error);
+                    alert('Error deleting table. See console for details.');
+                });
+            },
+            
+            renderTables() {
+                const tbody = document.getElementById('tablesBody');
+                tbody.innerHTML = '';
+                
+                if (this.tables.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="empty-message">
+                                No tables found. Create your first table using the button above.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                this.tables.forEach(table => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${table.name}</td>
+                        <td>${table.schemaName || 'N/A'}</td>
+                        <td>${table.createdAt ? new Date(table.createdAt).toLocaleDateString() : 'N/A'}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="viewTable('${table.name}')">
+                                <i class="fas fa-eye"></i> ይመልከቱ
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteTable('${table.name}')">
+                                <i class="fas fa-trash"></i> ይሰርዙ
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            },
+            
+            renderFiles() {
+                const tbody = document.getElementById('filesBody');
+                tbody.innerHTML = '';
+                
+                if (this.files.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="3" class="empty-message">
+                                No JSON files found in the database directory.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                this.files.forEach(file => {
+                    const tr = document.createElement('tr');
+                    
+                    // Format the content for display
+                    let content = '';
+                    if (typeof file.content === 'object') {
+                        content = JSON.stringify(file.content, null, 2).substring(0, 100) + '...';
+                    } else {
+                        content = file.content;
+                    }
+                    
+                    tr.innerHTML = `
+                        <td>${file.name}</td>
+                        <td><pre class="json-preview">${content}</pre></td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="viewFileContent('${file.name}', ${JSON.stringify(file.content).replace(/"/g, '&quot;')})">
+                                <i class="fas fa-eye"></i> ይመልከቱ
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            },
+            
+            renderDirectories() {
+                const dirList = document.getElementById('directoriesList');
+                dirList.innerHTML = '';
+                
+                if (this.directories.length === 0) {
+                    dirList.innerHTML = `
+                        <div class="empty-message">
+                            No directories found in the database.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                this.directories.forEach(directory => {
+                    const dirDiv = document.createElement('div');
+                    dirDiv.className = 'directory-item';
+                    dirDiv.innerHTML = `
+                        <div class="directory-header" onclick="toggleDirectory('${directory}')">
+                            <i class="fas fa-folder"></i> ${directory}
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="dir-${directory}" class="directory-content" style="display: none;">
+                            <div class="loading">Loading...</div>
+                        </div>
+                    `;
+                    dirList.appendChild(dirDiv);
+                });
+            },
+            
+            renderDirectoryFiles(directory) {
+                const dirContent = document.getElementById(`dir-${directory}`);
+                const files = this.directoryData[directory];
+                
+                if (!files || files.length === 0) {
+                    dirContent.innerHTML = `
+                        <div class="empty-message">
+                            No JSON files found in this directory.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Create a table for the files
+                let html = `
+                    <table class="directory-files">
+                        <thead>
+                            <tr>
+                                <th>ፋይል ስም</th>
+                                <th>ይዘት</th>
+                                <th>ድርጊቶች</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                files.forEach(file => {
+                    // Format the content for display
+                    let content = '';
+                    if (typeof file.content === 'object') {
+                        content = JSON.stringify(file.content, null, 2).substring(0, 100) + '...';
+                    } else {
+                        content = file.content;
+                    }
+                    
+                    html += `
+                        <tr>
+                            <td>${file.name}</td>
+                            <td><pre class="json-preview">${content}</pre></td>
+                            <td>
+                                <button class="btn btn-secondary" onclick="viewFileContent('${directory}/${file.name}', ${JSON.stringify(file.content).replace(/"/g, '&quot;')})">
+                                    <i class="fas fa-eye"></i> ይመልከቱ
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                dirContent.innerHTML = html;
+            }
+        };
+
+        // Loading indicator
+        function showLoading() {
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = `
+                <div class="spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            `;
+            document.body.appendChild(loadingOverlay);
+        }
+        
+        function hideLoading() {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+                document.body.removeChild(loadingOverlay);
+            }
+        }
+
+        // Modal functions
+        function openCreateTableModal() {
+            document.getElementById('createTableModal').style.display = 'block';
+        }
+
+        function closeCreateTableModal() {
+            document.getElementById('createTableModal').style.display = 'none';
+        }
+        
+        function openViewDataModal() {
+            document.getElementById('viewDataModal').style.display = 'block';
+        }
+        
+        function closeViewDataModal() {
+            document.getElementById('viewDataModal').style.display = 'none';
+        }
+        
+        // Tab functions
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Activate selected tab button
+            document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add('active');
+            
+            // Update search placeholder
+            updateSearchPlaceholder(tabName);
+        }
+        
+        function updateSearchPlaceholder(tabName) {
+            const searchInput = document.getElementById('searchInput');
+            
+            switch(tabName) {
+                case 'tables':
+                    searchInput.placeholder = "ሰንጠረዦችን ይፈልጉ...";
+                    break;
+                case 'files':
+                    searchInput.placeholder = "ፋይሎችን ይፈልጉ...";
+                    break;
+                case 'directories':
+                    searchInput.placeholder = "አቃፊዎችን ይፈልጉ...";
+                    break;
+                default:
+                    searchInput.placeholder = "ይፈልጉ...";
+            }
+        }
+        
+        // Directory functions
+        function toggleDirectory(directory) {
+            const dirContent = document.getElementById(`dir-${directory}`);
+            
+            if (dirContent.style.display === 'none') {
+                dirContent.style.display = 'block';
+                
+                // Load directory files if not loaded yet
+                if (!db.directoryData[directory]) {
+                    db.loadDirectoryFiles(directory);
+                }
+            } else {
+                dirContent.style.display = 'none';
+            }
+        }
+        
+        // View data functions
+        function viewTable(tableName) {
+            db.viewTableData(tableName);
+        }
+        
+        function viewFileContent(fileName, content) {
+            // Convert the content to a table format
+            document.getElementById('dataModalTitle').textContent = `File: ${fileName}`;
+            
+            const thead = document.getElementById('dataTableHead');
+            const tbody = document.getElementById('dataTableBody');
+            
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+            
+            if (Array.isArray(content)) {
+                // Get all unique keys from the array of objects
+                const keys = new Set();
+                content.forEach(item => {
+                    if (typeof item === 'object' && item !== null) {
+                        Object.keys(item).forEach(key => keys.add(key));
+                    }
+                });
+                
+                // Create header row
+                const headerRow = document.createElement('tr');
+                keys.forEach(key => {
+                    const th = document.createElement('th');
+                    th.textContent = key;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                
+                // Create data rows
+                content.forEach(item => {
+                    const tr = document.createElement('tr');
+                    
+                    keys.forEach(key => {
+                        const td = document.createElement('td');
+                        
+                        if (item[key] === undefined) {
+                            td.textContent = '-';
+                        } else if (typeof item[key] === 'object') {
+                            td.innerHTML = `<pre>${JSON.stringify(item[key], null, 2)}</pre>`;
+                        } else {
+                            td.textContent = item[key];
+                        }
+                        
+                        tr.appendChild(td);
+                    });
+                    
+                    tbody.appendChild(tr);
+                });
+            } else if (typeof content === 'object' && content !== null) {
+                // Create header row
+                const headerRow = document.createElement('tr');
+                const keyTh = document.createElement('th');
+                keyTh.textContent = 'Key';
+                headerRow.appendChild(keyTh);
+                
+                const valueTh = document.createElement('th');
+                valueTh.textContent = 'Value';
+                headerRow.appendChild(valueTh);
+                
+                thead.appendChild(headerRow);
+                
+                // Create data rows
+                Object.entries(content).forEach(([key, value]) => {
+                    const tr = document.createElement('tr');
+                    
+                    const keyTd = document.createElement('td');
+                    keyTd.textContent = key;
+                    tr.appendChild(keyTd);
+                    
+                    const valueTd = document.createElement('td');
+                    
+                    if (typeof value === 'object') {
+                        valueTd.innerHTML = `<pre>${JSON.stringify(value, null, 2)}</pre>`;
+                    } else {
+                        valueTd.textContent = value;
+                    }
+                    
+                    tr.appendChild(valueTd);
+                    tbody.appendChild(tr);
+                });
+            } else {
+                // Display primitive value
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="2">${content}</td>
+                    </tr>
+                `;
+            }
+            
+            openViewDataModal();
+        }
+        
+        function renderDataTable(tableName, data) {
+            document.getElementById('dataModalTitle').textContent = `Table: ${tableName}`;
+            
+            const thead = document.getElementById('dataTableHead');
+            const tbody = document.getElementById('dataTableBody');
+            
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="empty-message">
+                            No data found in this table.
+                        </td>
+                    </tr>
+                `;
+                openViewDataModal();
+                return;
+            }
+            
+            // Get all unique keys from the array of objects
+            const keys = new Set();
+            data.forEach(item => {
+                if (typeof item === 'object' && item !== null) {
+                    Object.keys(item).forEach(key => keys.add(key));
+                }
+            });
+            
+            // Create header row
+            const headerRow = document.createElement('tr');
+            keys.forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            
+            // Create data rows
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                
+                keys.forEach(key => {
+                    const td = document.createElement('td');
+                    
+                    if (item[key] === undefined) {
+                        td.textContent = '-';
+                    } else if (typeof item[key] === 'object') {
+                        td.innerHTML = `<pre>${JSON.stringify(item[key], null, 2)}</pre>`;
+                    } else {
+                        td.textContent = item[key];
+                    }
+                    
+                    tr.appendChild(td);
+                });
+                
+                tbody.appendChild(tr);
+            });
+            
+            openViewDataModal();
+        }
+        
+        // Search/filter functions
+        function filterItems() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const activeTab = document.querySelector('.tab-content.active').id;
+            
+            switch(activeTab) {
+                case 'tables-tab':
+                    filterTables(searchText);
+                    break;
+                case 'files-tab':
+                    filterFiles(searchText);
+                    break;
+                case 'directories-tab':
+                    filterDirectories(searchText);
+                    break;
+            }
+        }
+        
+        function filterTables(searchText) {
+            const rows = document.querySelectorAll('#tablesBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchText) ? '' : 'none';
+            });
+        }
+        
+        function filterFiles(searchText) {
+            const rows = document.querySelectorAll('#filesBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchText) ? '' : 'none';
+            });
+        }
+        
+        function filterDirectories(searchText) {
+            const directories = document.querySelectorAll('.directory-item');
+            
+            directories.forEach(dir => {
+                const text = dir.querySelector('.directory-header').textContent.toLowerCase();
+                dir.style.display = text.includes(searchText) ? '' : 'none';
+            });
+        }
+
+        // Actions
+        function deleteTable(tableName) {
+            db.deleteTable(tableName);
+        }
+        
+        function loadAllFiles() {
+            db.loadAllFiles();
+        }
+
+        // Form submission
+        document.getElementById('createTableForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('tableName').value;
+            const fields = document.getElementById('tableFields').value;
+            db.createTable(name, fields);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            db.init();
+            
+            // Check authentication
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('You must be logged in as an admin to access this page.');
+                window.location.href = '../login.html';
+            }
+        });
+    </script>
+</body>
+</html> 

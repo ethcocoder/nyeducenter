@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የቅጽ ማረጋገጫ ምሳሌ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/home.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+        .form-control.is-valid {
+            border-color: #28a745;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>የቅጽ ማረጋገጫ ምሳሌ</h1>
+        
+        <div class="success-message" id="success-message">
+            ቅጹ በተሳካ ሁኔታ ተልኳል!
+        </div>
+        
+        <!-- Example 1: Simple Form with data-validate attribute -->
+        <form id="simple-form" data-validate>
+            <div class="form-group">
+                <label class="form-label" for="name">ስም</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="ስምዎን ያስገቡ" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="email">ኢሜይል</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="ኢሜይልዎን ያስገቡ" required>
+                <div class="form-hint">ኢሜይልዎን ከሌላ ሰው ጋር አናጋራም።</div>
+            </div>
+            
+            <button type="submit" class="btn">አስገባ</button>
+        </form>
+        
+        <hr style="margin: 40px 0;">
+        
+        <!-- Example 2: Advanced Form with Custom Validation -->
+        <h2>የላቀ ቅጽ ምሳሌ</h2>
+        <form id="advanced-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="firstName">ስም</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" placeholder="ስምዎን ያስገቡ">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="lastName">የአባት ስም</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" placeholder="የአባት ስምዎን ያስገቡ">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="username">የተጠቃሚ ስም</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="የተጠቃሚ ስምዎን ያስገቡ">
+                <div class="form-hint">የተጠቃሚ ስም ከ4-20 ቁምፊዎች መካከል መሆን አለበት።</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="password">የይለፍ ቃል</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="የይለፍ ቃልዎን ያስገቡ">
+                <div class="form-hint">የይለፍ ቃል ቢያንስ 8 ቁምፊዎች መሆን አለበት እና ከፍተኛ ፊደል፣ ትንሽ ፊደል፣ እና ቁጥር መያዝ አለበት።</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="confirmPassword">የይለፍ ቃል ያረጋግጡ</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="የይለፍ ቃልዎን እንደገና ያስገቡ">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="phone">ስልክ ቁጥር</label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="123-456-7890">
+                <div class="form-hint">ቅርጸት: 123-456-7890</div>
+            </div>
+            
+            <button type="submit" class="btn">ይመዝገቡ</button>
+        </form>
+    </div>
+
+    <script src="../js/form-validator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // The simple form will be automatically validated by the FormValidator
+            // because it has the data-validate attribute
+            
+            // Setup the advanced form with custom validation
+            const advancedForm = document.getElementById('advanced-form');
+            const validator = new FormValidator(advancedForm, {
+                validateOnInput: true,
+                validateOnBlur: true,
+                errorClass: 'is-invalid',
+                successClass: 'is-valid'
+            });
+            
+            // Add validation rules
+            validator.addRule('firstName', FormValidator.rules.required, null, 'ስም አስፈላጊ ነው');
+            validator.addRule('lastName', FormValidator.rules.required, null, 'የአባት ስም አስፈላጊ ነው');
+            
+            validator.addRule('username', FormValidator.rules.required, null, 'የተጠቃሚ ስም አስፈላጊ ነው');
+            validator.addRule('username', FormValidator.rules.minLength, 4, 'የተጠቃሚ ስም ቢያንስ 4 ቁምፊዎች መሆን አለበት');
+            validator.addRule('username', FormValidator.rules.maxLength, 20, 'የተጠቃሚ ስም ከ20 ቁምፊዎች መብለጥ የለበትም');
+            validator.addRule('username', FormValidator.rules.pattern, /^[a-zA-Z0-9_]+$/, 'የተጠቃሚ ስም ፊደላት፣ ቁጥሮች እና 언ደርስኮር ብቻ መያዝ አለበት');
+            
+            validator.addRule('password', FormValidator.rules.required, null, 'የይለፍ ቃል አስፈላጊ ነው');
+            validator.addRule('password', FormValidator.rules.minLength, 8, 'የይለፍ ቃል ቢያንስ 8 ቁምፊዎች መሆን አለበት');
+            validator.addRule('password', FormValidator.rules.pattern, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 
+                'የይለፍ ቃል ከፍተኛ ፊደል፣ ትንሽ ፊደል፣ እና ቁጥር መያዝ አለበት');
+            
+            validator.addRule('confirmPassword', FormValidator.rules.required, null, 'እባክዎ የይለፍ ቃልዎን ያረጋግጡ');
+            
+            // Add custom rule for password matching
+            validator.addRule('confirmPassword', function(value) {
+                return value === document.getElementById('password').value;
+            }, null, 'የይለፍ ቃሎቹ አይዛመዱም');
+            
+            validator.addRule('phone', FormValidator.rules.pattern, /^\d{3}-\d{3}-\d{4}$/, 
+                'ስልክ ቁጥር በ123-456-7890 ቅርጸት መሆን አለበት');
+            
+            // Handle form submission
+            advancedForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validator.validateAll()) {
+                    // Form is valid, show success message
+                    const successMessage = document.getElementById('success-message');
+                    successMessage.style.display = 'block';
+                    
+                    // Scroll to top to show the message
+                    window.scrollTo(0, 0);
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(function() {
+                        advancedForm.reset();
+                        validator.reset();
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                }
+            });
+            
+            // Form event handlers for simple form
+            const simpleForm = document.getElementById('simple-form');
+            simpleForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // The validation happens automatically through the FormValidator
+                // This just demonstrates how to access the form data after validation
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                
+                console.log('ቅጽ ተልኳል:', { name, email });
+                
+                // Show success message
+                const successMessage = document.getElementById('success-message');
+                successMessage.style.display = 'block';
+                
+                // Reset form after 3 seconds
+                setTimeout(function() {
+                    simpleForm.reset();
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html> 

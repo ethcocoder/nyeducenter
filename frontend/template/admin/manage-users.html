@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ተጠቃሚዎች ማስተዳደሪያ - NY Edu Center</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navigation-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>ተጠቃሚዎች ማስተዳደሪያ</h1>
+                <button id="add-user-btn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> አዲስ ተጠቃሚ
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-container">
+                <div class="search-container">
+                    <input type="text" id="search-users" class="search-input" placeholder="ተጠቃሚዎችን ይፈልጉ...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="filter-dropdown">
+                    <select id="role-filter">
+                        <option value="">ሁሉም ሚናዎች</option>
+                        <option value="student">ተማሪ</option>
+                        <option value="teacher">መምህር</option>
+                        <option value="admin">አስተዳዳሪ</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-responsive">
+                <table id="users-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ሙሉ ስም</th>
+                            <th>የተጠቃሚ ስም</th>
+                            <th>ኢሜይል</th>
+                            <th>ስልክ</th>
+                            <th>ሚና</th>
+                            <th>ክፍል</th>
+                            <th>ሁኔታ</th>
+                            <th>ድርጊቶች</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- User rows will be inserted here by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- User Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">አዲስ ተጠቃሚ ይጨምሩ</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="user-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">ስም</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">የአባት ስም</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">የተጠቃሚ ስም</label>
+                            <input type="text" id="username" name="username" class="form-control">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">ኢሜይል</label>
+                            <input type="email" id="email" name="email" class="form-control">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">ስልክ ቁጥር</label>
+                            <input type="tel" id="phone" name="phone" class="form-control">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">የይለፍ ቃል</label>
+                            <input type="password" id="password" name="password" class="form-control">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="role">ሚና</label>
+                            <select id="role" name="role" class="form-control">
+                                <option value="">ሚና ይምረጡ</option>
+                                <option value="student">ተማሪ</option>
+                                <option value="teacher">መምህር</option>
+                                <option value="admin">አስተዳዳሪ</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group" id="grade-container">
+                            <label for="grade">ክፍል</label>
+                            <select id="grade" name="grade" class="form-control">
+                                <option value="">ክፍል ይምረጡ</option>
+                                <option value="Grade 9">9ኛ ክፍል</option>
+                                <option value="Grade 10">10ኛ ክፍል</option>
+                                <option value="Grade 11">11ኛ ክፍል</option>
+                                <option value="Grade 12">12ኛ ክፍል</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="isActive" name="isActive" checked>
+                            <label for="isActive">ንቁ ተጠቃሚ</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary close-modal">ይቅር</button>
+                        <button type="submit" class="btn btn-primary">ይጠብቁ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <div class="notification-icon"></div>
+            <div class="notification-message"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../../js/form-validator.js"></script>
+    <script src="../../js/api.js"></script>
+    <script src="manage-users.js"></script>
+</body>
+</html> 

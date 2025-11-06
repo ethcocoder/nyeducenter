@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ማስታወቂያዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #2196F3;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .announcement-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .announcements-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .announcement-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .announcement-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .announcement-content {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .announcement-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .edit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .file-upload {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+        }
+
+        .file-upload i {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ታደሰ ብርሃኑ</div>
+                    <div class="user-role">ዋና አስተዳዳሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="students.html" class="menu-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>ተማሪዎች</span>
+            </a>
+            <a href="teachers.html" class="menu-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>መምህራን</span>
+            </a>
+            <a href="courses.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ኮርሶች</span>
+            </a>
+            <a href="quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="send-announcement.html" class="menu-item active">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="send-forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ፎረም</span>
+            </a>
+            <a href="email.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>ኢሜይል</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>መገለጫ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈልግ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 class="page-title">ማስታወቂያዎች</h1>
+        </div>
+
+        <div class="announcement-form">
+            <h2>አዲስ ማስታወቂያ ጨምር</h2>
+            <form id="announcement-form">
+                <div class="form-group">
+                    <label>ማስታወቂያ ስም</label>
+                    <input type="text" required placeholder="ማስታወቂያ ስም ይፃፉ">
+                </div>
+                <div class="form-group">
+                    <label>የማስታወቂያ ዓይነት</label>
+                    <select required>
+                        <option value="">የማስታወቂያ ዓይነት ይምረጡ</option>
+                        <option value="general">ጠቅላላ</option>
+                        <option value="course">ኮርስ በተመለከተ</option>
+                        <option value="event">ዝግጅት</option>
+                        <option value="emergency">አደጋ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>የተዛማጅ ኮርስ</label>
+                    <select>
+                        <option value="">ኮርስ ይምረጡ</option>
+                        <option value="1">የፕሮግራሚንግ መሰረቶች</option>
+                        <option value="2">የድር እድገት</option>
+                        <option value="3">የዳታ ትንተና</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>የማስታወቂያ ይዘት</label>
+                    <textarea required placeholder="የማስታወቂያ ይዘት ይፃፉ"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>ፋይል አያያዝ</label>
+                    <div class="file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>ፋይል ለመጫን ይጫኑ ወይም ይጎተቱ</p>
+                        <input type="file" multiple style="display: none">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    ማስታወቂያ ላክ
+                </button>
+            </form>
+        </div>
+
+        <div class="announcements-list">
+            <h2>የቅርብ ጊዜ ማስታወቂያዎች</h2>
+            <div class="announcement-item">
+                <h3 class="announcement-title">የኮርስ መጀመሪያ ቀን</h3>
+                <div class="announcement-meta">
+                    <span><i class="fas fa-calendar"></i> መስከረም 15፣ 2023</span>
+                    <span><i class="fas fa-user"></i> በ መምህር አብዱላሂ</span>
+                </div>
+                <div class="announcement-content">
+                    የኮርስ መጀመሪያ ቀን በተመለከተ መረጃ እዚህ ይፃፋል...
+                </div>
+                <div class="announcement-actions">
+                    <button class="action-btn edit-btn">
+                        <i class="fas fa-edit"></i> አስተካክል
+                    </button>
+                    <button class="action-btn delete-btn">
+                        <i class="fas fa-trash"></i> ሰርዝ
+                    </button>
+                </div>
+            </div>
+
+            <div class="announcement-item">
+                <h3 class="announcement-title">የተማሪዎች ማረጋገጫ ቀን</h3>
+                <div class="announcement-meta">
+                    <span><i class="fas fa-calendar"></i> መስከረም 10፣ 2023</span>
+                    <span><i class="fas fa-user"></i> በ መምህር ሰላም</span>
+                </div>
+                <div class="announcement-content">
+                    የተማሪዎች ማረጋገጫ ቀን በተመለከተ መረጃ እዚህ ይፃፋል...
+                </div>
+                <div class="announcement-actions">
+                    <button class="action-btn edit-btn">
+                        <i class="fas fa-edit"></i> አስተካክል
+                    </button>
+                    <button class="action-btn delete-btn">
+                        <i class="fas fa-trash"></i> ሰርዝ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+        
+        // የፋይል መጫን አስተዳደር
+        document.querySelector('.file-upload').addEventListener('click', () => {
+            document.querySelector('input[type="file"]').click();
+        });
+
+        // የማስታወቂያ ፎርም አስተዳደር
+        document.getElementById('announcement-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // የማስታወቂያ መላኪያ ኮድ እዚህ ይቀመጣል
+            alert('ማስታወቂያ በተሳካ ሁኔታ ተልኳል');
+        });
+
+        // የማስታወቂያ አስተካክል ፎርም አስተዳደር
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // የማስታወቂያ አስተካክል ፎርም እዚህ ይቀመጣል
+            });
+        });
+
+        // የማስታወቂያ ሰረዝ ማረጋገጫ
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (confirm('ይህን ማስታወቂያ መሰረዝ ይፈልጋሉ?')) {
+                    // የማስታወቂያ ሰረዝ ኮድ እዚህ ይቀመጣል
+                }
+            });
+        });
+    </script>
+</body>
+</html>

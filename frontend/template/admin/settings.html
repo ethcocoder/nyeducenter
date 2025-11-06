@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ቅንብሮች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --primary-dark: #ff5252;
+            --secondary: #6c5ce7;
+            --success: #00b894;
+            --info: #0984e3;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .sidebar-logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        
+        .sidebar-logo h3 {
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        
+        .user-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .menu {
+            padding: 10px 0;
+        }
+        
+        .menu-label {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        .menu-item {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        
+        .menu-item.active, .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .menu-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+        }
+        
+        .header {
+            background: white;
+            height: var(--header-height);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 30px;
+            padding: 5px 15px;
+            width: 300px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 8px;
+            flex: 1;
+            outline: none;
+        }
+        
+        .search-box button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-actions .icon-button {
+            background: #f9f9f9;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            position: relative;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .header-actions .icon-button:hover {
+            background: #f1f1f1;
+        }
+        
+        .header-actions .icon-button .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--primary);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .page-title {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        
+        .settings-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+        
+        .settings-nav {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .settings-nav ul {
+            list-style: none;
+        }
+        
+        .settings-nav li {
+            margin-bottom: 5px;
+        }
+        
+        .settings-nav a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .settings-nav a:hover {
+            background: #f5f5f5;
+        }
+        
+        .settings-nav a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .settings-nav a i {
+            width: 20px;
+            margin-right:.5rem;
+        }
+        
+        .settings-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .settings-section {
+            margin-bottom: 30px;
+        }
+        
+        .settings-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.1);
+            outline: none;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .save-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .cancel-btn {
+            background: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cancel-btn:hover {
+            background: #e1e1e1;
+        }
+        
+        .color-scheme {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color-option.active {
+            border-color: #333;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .success-message {
+            padding: 10px;
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .settings-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .search-box {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3Z" fill="#ff6b6b"/>
+                    <path d="M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" fill="#ff6b6b"/>
+                </svg>
+                <h3>የትምህርት ማህበረሰብ</h3>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="አስተዳዳሪ">
+                </div>
+                <h4 class="user-name">አስተዳዳሪ</h4>
+                <p class="user-role">ዋና አስተዳዳሪ</p>
+            </div>
+            
+            <nav class="menu">
+                <div class="menu-label">አስተዳደር</div>
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>ዳሽቦርድ</span>
+                </a>
+                <a href="students.html" class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>ተማሪዎች</span>
+                </a>
+                <a href="teachers.html" class="menu-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>መምህራን</span>
+                </a>
+                <a href="courses.html" class="menu-item">
+                    <i class="fas fa-book"></i>
+                    <span>ኮርሶች</span>
+                </a>
+                <a href="quiz.html" class="menu-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>ፈተናዎች</span>
+                </a>
+                
+                <div class="menu-label">ግንኙነት</div>
+                <a href="send-announcement.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>ማስታወቂያዎች</span>
+                </a>
+                <a href="send-forum.html" class="menu-item">
+                    <i class="fas fa-comments"></i>
+                    <span>የውይይት መድረክ</span>
+                </a>
+                <a href="email.html" class="menu-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>ኢሜይል</span>
+                </a>
+                
+                <div class="menu-label">ሥራ</div>
+                <a href="settings.html" class="menu-item active">
+                    <i class="fas fa-cog"></i>
+                    <span>ቅንብሮች</span>
+                </a>
+                <a href="profile.html" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>መገለጫ</span>
+                </a>
+                <a href="../../login.html" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>ዘግተህ ውጣ</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="ይፈልጉ...">
+                    <button>
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="icon-button">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">5</span>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <div class="user-avatar" style="width: 40px; height: 40px; border: none;">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="አስተዳዳሪ">
+                    </div>
+                </div>
+            </header>
+            
+            <div class="container">
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> 
+                    ቅንብሮች በተሳካ ሁኔታ ዘምነዋል።
+                </div>
+                
+                <div class="page-title">
+                    <h1>ቅንብሮች</h1>
+                </div>
+                
+                <div class="settings-container">
+                    <div class="settings-nav">
+                        <ul>
+                            <li><a href="#general" class="active"><i class="fas fa-sliders-h"></i> አጠቃላይ ቅንብሮች</a></li>
+                            <li><a href="#appearance"><i class="fas fa-paint-brush"></i> የውጪ ገጽታ</a></li>
+                            <li><a href="#notifications"><i class="fas fa-bell"></i> ማሳወቂያዎች</a></li>
+                            <li><a href="#security"><i class="fas fa-shield-alt"></i> ደህንነት</a></li>
+                            <li><a href="#payments"><i class="fas fa-credit-card"></i> ክፍያዎች</a></li>
+                            <li><a href="#advanced"><i class="fas fa-cogs"></i> ከፍተኛ ቅንብሮች</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="settings-content">
+                        <div class="settings-section" id="general">
+                            <h2>አጠቃላይ ቅንብሮች</h2>
+                            <div class="form-group">
+                                <label for="site-name">የድረ-ገጽ ስም</label>
+                                <input type="text" id="site-name" value="የትምህርት ማህበረሰብ">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-description">የድረ-ገጽ መግለጫ</label>
+                                <textarea id="site-description" rows="3">የትምህርት ማህበረሰብ ለተማሪዎች እና ለመምህራን የሚያገለግል የመስመር ላይ የትምህርት ስርዓት ነው።</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-email">የሥራ ኢሜይል</label>
+                                <input type="email" id="site-email" value="info@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-language">የሥራ ቋንቋ</label>
+                                <select id="site-language">
+                                    <option value="am" selected>አማርኛ</option>
+                                    <option value="en">English</option>
+                                    <option value="or">Afaan Oromo</option>
+                                    <option value="ti">ትግርኛ</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="timezone">የሰዓት ሰቅ</label>
+                                <select id="timezone">
+                                    <option value="Africa/Addis_Ababa" selected>አዲስ አበባ (EAT)</option>
+                                    <option value="UTC">UTC</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section" id="appearance">
+                            <h2>የውጪ ገጽታ</h2>
+                            <div class="form-group">
+                                <label>የቀለም ርዕሰ ጉዳይ</label>
+                                <div class="color-scheme">
+                                    <div class="color-option active" style="background-color: #ff6b6b;" data-color="red"></div>
+                                    <div class="color-option" style="background-color: #6c5ce7;" data-color="purple"></div>
+                                    <div class="color-option" style="background-color: #0984e3;" data-color="blue"></div>
+                                    <div class="color-option" style="background-color: #00b894;" data-color="green"></div>
+                                    <div class="color-option" style="background-color: #fdcb6e;" data-color="yellow"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="font-size">የፊደል መጠን</label>
+                                <select id="font-size">
+                                    <option value="small">ትንሽ</option>
+                                    <option value="medium" selected>መካከለኛ</option>
+                                    <option value="large">ትልቅ</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>ጨለማ ሁነታ</label>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="dark-mode">
+                                    <label for="dark-mode">የጨለማ ሁነታን አንቃ</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section" id="notifications">
+                            <h2>ማሳወቂያዎች</h2>
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-new-students" checked>
+                                    <label for="notify-new-students">አዲስ ተማሪዎች ሲመዘገቡ አሳውቅ</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-new-courses" checked>
+                                    <label for="notify-new-courses">አዲስ ኮርሶች ሲጨመሩ አሳውቅ</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-forum" checked>
+                                    <label for="notify-forum">በውይይት መድረክ ላይ አዲስ ጥያቄዎች ሲጨመሩ አሳውቅ</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-email" checked>
+                                    <label for="notify-email">የኢሜይል ማሳወቂያዎችን አንቃ</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section" id="security">
+                            <h2>ደህንነት</h2>
+                            <div class="form-group">
+                                <label for="min-password-length">ዝቅተኛ የይለፍ ቃል ርዝመት</label>
+                                <input type="number" id="min-password-length" value="8" min="6" max="20">
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="require-uppercase" checked>
+                                    <label for="require-uppercase">ከፍተኛ ደረጃ ፊደላትን ይፈልጋል</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="require-numbers" checked>
+                                    <label for="require-numbers">ቁጥሮችን ይፈልጋል</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="require-symbols">
+                                    <label for="require-symbols">ልዩ ምልክቶችን ይፈልጋል</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="login-attempts">ከመቆለፉ በፊት የሚፈቀዱ የመግቢያ ሙከራዎች</label>
+                                <input type="number" id="login-attempts" value="5" min="1" max="10">
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="2fa" checked>
+                                    <label for="2fa">የሁለት-ደረጃ ማረጋገጫን አንቃ</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button class="save-btn" id="saveSettings">
+                                <i class="fas fa-save"></i> ቅንብሮችን አስቀምጥ
+                            </button>
+                            <button class="cancel-btn">
+                                <i class="fas fa-times"></i> ሰርዝ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Settings Navigation
+        document.querySelectorAll('.settings-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.settings-nav a').forEach(l => {
+                    l.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Show corresponding section
+                const targetId = this.getAttribute('href').substring(1);
+                document.querySelectorAll('.settings-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                document.getElementById(targetId).style.display = 'block';
+            });
+        });
+        
+        // Handle color theme selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+                
+                // In a real app, you would apply the selected color theme here
+                const selectedColor = this.getAttribute('data-color');
+                console.log(`Selected color theme: ${selectedColor}`);
+            });
+        });
+        
+        // Handle settings save
+        document.getElementById('saveSettings').addEventListener('click', function() {
+            // In a real app, you would save the settings to the server here
+            // For now, we'll just show a success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // Hide the message after 3 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+        
+        // Initialize settings display
+        window.addEventListener('load', function() {
+            // Show only the general settings section initially
+            document.querySelectorAll('.settings-section').forEach(section => {
+                if (section.id !== 'general') {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

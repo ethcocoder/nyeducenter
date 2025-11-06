@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ኢሜይል</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #2196F3;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Email specific styles */
+        .email-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        .email-sidebar {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .compose-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .compose-btn:hover {
+            opacity: 0.9;
+        }
+
+        .email-nav-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #888;
+            margin: 15px 0 10px;
+        }
+
+        .email-nav-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .email-nav-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .email-nav-item.active {
+            background-color: #eef6fd;
+            color: var(--secondary-color);
+        }
+
+        .email-nav-item .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .email-nav-item .badge {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 15px;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+
+        .email-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .email-toolbar {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .email-toolbar .toolbar-item {
+            padding: 8px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .email-toolbar .toolbar-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .email-list {
+            height: calc(100vh - 260px);
+            overflow-y: auto;
+        }
+
+        .email-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .email-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .email-item.unread {
+            background-color: #f0f6ff;
+        }
+
+        .email-checkbox {
+            margin-right: 15px;
+        }
+
+        .email-star {
+            margin-right: 15px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .email-star.starred {
+            color: #ffb900;
+        }
+
+        .email-content {
+            flex-grow: 1;
+        }
+
+        .email-sender {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .email-subject {
+            margin-bottom: 5px;
+        }
+
+        .email-preview {
+            color: #777;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 500px;
+        }
+
+        .email-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 100px;
+        }
+
+        .email-date {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .email-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .email-action {
+            color: #888;
+            cursor: pointer;
+        }
+
+        .email-action:hover {
+            color: var(--primary-color);
+        }
+
+        /* Email Compose Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            width: 70%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .compose-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .compose-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .compose-form input,
+        .compose-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .compose-form input:focus,
+        .compose-form textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+        }
+
+        .compose-form textarea {
+            height: 200px;
+            resize: vertical;
+        }
+
+        .compose-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .compose-btn-small {
+            min-width: 140px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(255, 107, 107, 0.25);
+        }
+
+        .send-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .draft-btn {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+
+        .draft-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+                margin: 10% auto;
+            }
+            
+            .compose-actions {
+                flex-direction: column;
+            }
+            
+            .compose-btn-small {
+                width: 100%;
+            }
+        }
+        
+        /* Make sure the modal is above everything else */
+        .modal {
+            z-index: 99999 !important;
+        }
+        
+        /* Email Compose Button */
+        .compose-btn {
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .compose-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4);
+        }
+
+        @media (max-width: 992px) {
+            .email-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-sidebar {
+                display: none;
+            }
+        }
+
+        /* Attachment Area */
+        .attachment-area {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .attachment-area:hover {
+            border-color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .attachment-area i {
+            font-size: 24px;
+            color: #777;
+        }
+
+        .attachment-area span {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ታደሰ ብርሃኑ</div>
+                    <div class="user-role">ዋና አስተዳዳሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="students.html" class="menu-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>ተማሪዎች</span>
+            </a>
+            <a href="teachers.html" class="menu-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>መምህራን</span>
+            </a>
+            <a href="courses.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ኮርሶች</span>
+            </a>
+            <a href="quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="send-announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="send-forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ፎረም</span>
+            </a>
+            <a href="email.html" class="menu-item active">
+                <i class="fas fa-envelope"></i>
+                <span>ኢሜይል</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>መገለጫ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈልግ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 class="page-title">ኢሜይል</h1>
+        </div>
+
+        <div class="email-layout">
+            <div class="email-sidebar">
+                <button class="compose-btn" id="compose-btn">
+                    <i class="fas fa-pen"></i>
+                    አዲስ ኢሜይል ጻፍ
+                </button>
+
+                <div class="email-nav-title">ኢሜይል አቃፊዎች</div>
+                <div class="email-nav-item active">
+                    <div class="left">
+                        <i class="fas fa-inbox"></i>
+                        <span>ገቢ ሳጥን</span>
+                    </div>
+                    <span class="badge">12</span>
+                </div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-star"></i>
+                        <span>የተዋበ</span>
+                    </div>
+                    <span class="badge">3</span>
+                </div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>የተላከ</span>
+                    </div>
+                </div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-file-alt"></i>
+                        <span>ረቂቅ</span>
+                    </div>
+                    <span class="badge">2</span>
+                </div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>የጠፉ</span>
+                    </div>
+                </div>
+
+                <div class="email-nav-title">የተጠቃሚ ምድቦች</div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>ተማሪዎች</span>
+                    </div>
+                </div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>መምህራን</span>
+                    </div>
+                </div>
+                <div class="email-nav-item">
+                    <div class="left">
+                        <i class="fas fa-users"></i>
+                        <span>አስተዳዳሪዎች</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="email-container">
+                <div class="email-toolbar">
+                    <div class="toolbar-item">
+                        <input type="checkbox" id="select-all">
+                    </div>
+                    <div class="toolbar-item">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="toolbar-item">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="toolbar-item">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="toolbar-item">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                </div>
+
+                <div class="email-list">
+                    <div class="email-item unread">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">አለም ታደሰ</div>
+                            <div class="email-subject">የፈተና ውጤቶች ስለ ተማሪዎች</div>
+                            <div class="email-preview">ውድ አቶ ታደሰ፤ እባክዎ የፈተና ውጤት ለተማሪዎች ይላኩ...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">10:30 AM</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-item unread">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star starred">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">ቢነያም አብርሃም</div>
+                            <div class="email-subject">የትምህርት ቤት ቀን አከባበር</div>
+                            <div class="email-preview">ውድ አስተዳዳሪ፤ በትምህርት ቤት ቀን አከባበር ላይ የሚደረጉ ዝግጅቶች በተመለከተ...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">ትላንት</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">የትምህርት ሚኒስቴር</div>
+                            <div class="email-subject">የትምህርት አዲስ ማሻሻያዎች</div>
+                            <div class="email-preview">ውድ አስተዳዳሪ፤ የትምህርት ሚኒስቴር በሁሉም የትምህርት ተቋማት...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">መስከ 12</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star starred">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">ትዕግስት መኮንን</div>
+                            <div class="email-subject">የውጭ ቋንቋ ትምህርት ክፍል</div>
+                            <div class="email-preview">ውድ አቶ ታደሰ፤ የውጭ ቋንቋ ትምህርት ክፍል ለማስጀመር ስለምናስበው...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">መስከ 10</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">ፍቅሩ ዳዊት</div>
+                            <div class="email-subject">የአዳዲስ ተማሪ መመዝገቢያ</div>
+                            <div class="email-preview">ውድ አስተዳዳሪ፤ የአዲስ ተማሪዎች ምዝገባ በተመለከተ የሚከተሉትን ማስታወቂያዎች ብናወጣ ጥሩ ይመስለኛል...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">መስከ 5</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">ሰላም ገብረማርያም</div>
+                            <div class="email-subject">የትምህርት መሳሪያዎች ግዢ</div>
+                            <div class="email-preview">ውድ አቶ ታደሰ፤ ለትምህርት ክፍላችን የሚያስፈልጉ መሳሪያዎችን በተመለከተ...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">መስከ 3</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <div class="email-checkbox">
+                            <input type="checkbox">
+                        </div>
+                        <div class="email-star starred">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="email-content">
+                            <div class="email-sender">ዮሐንስ በላይ</div>
+                            <div class="email-subject">የኮምፒውተር ቤተ-መጻሕፍት ግንባታ</div>
+                            <div class="email-preview">ውድ አስተዳዳሪ፤ ለትምህርት ቤታችን የኮምፒውተር ቤተ-መጻሕፍት ለመገንባት ያለንን እቅድ በተመለከተ...</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">ነሐሴ 29</div>
+                            <div class="email-actions">
+                                <div class="email-action"><i class="fas fa-reply"></i></div>
+                                <div class="email-action"><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Compose Modal -->
+    <div id="compose-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-header">
+                <h3 class="modal-title">አዲስ ኢሜይል ጻፍ</h3>
+            </div>
+            <form class="compose-form">
+                <div class="form-group">
+                    <label for="email-to">ለ፡</label>
+                    <input type="text" id="email-to" placeholder="ተቀባዮችን ያስገቡ" required>
+                </div>
+                <div class="form-group">
+                    <label for="email-cc">ግልባጭ፡</label>
+                    <input type="text" id="email-cc" placeholder="ግልባጭ ተቀባዮችን ያስገቡ">
+                </div>
+                <div class="form-group">
+                    <label for="email-subject">ርዕስ፡</label>
+                    <input type="text" id="email-subject" placeholder="ርዕስ ያስገቡ" required>
+                </div>
+                <div class="form-group">
+                    <label for="email-body">መልዕክት፡</label>
+                    <textarea id="email-body" placeholder="ኢሜይል ይጻፉ..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>አባሪዎች፡</label>
+                    <div class="attachment-area">
+                        <i class="fas fa-paperclip"></i>
+                        <span>ፋይሎችን ለማያያዝ ይጫኑ ወይም ይጎትቱ</span>
+                        <input type="file" id="email-attachments" multiple style="display: none;">
+                    </div>
+                </div>
+                <div class="compose-actions">
+                    <button type="button" class="compose-btn-small draft-btn">
+                        <i class="fas fa-save"></i> ረቂቅ አስቀምጥ
+                    </button>
+                    <button type="submit" class="compose-btn-small send-btn">
+                        <i class="fas fa-paper-plane"></i> ኢሜይል ላክ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+
+        // Star functionality
+        const stars = document.querySelectorAll('.email-star');
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                e.stopPropagation();
+                star.classList.toggle('starred');
+            });
+        });
+
+        // Email checkbox functionality
+        const selectAll = document.getElementById('select-all');
+        const checkboxes = document.querySelectorAll('.email-checkbox input');
+        
+        selectAll.addEventListener('change', () => {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        });
+
+        // Compose modal functionality
+        const composeBtn = document.getElementById('compose-btn');
+        const composeModal = document.getElementById('compose-modal');
+        const closeBtn = document.querySelector('.close-btn');
+        
+        composeBtn.addEventListener('click', () => {
+            composeModal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            composeModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === composeModal) {
+                composeModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        });
+
+        // Form submission
+        document.querySelector('.compose-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('ኢሜይል በተሳካ ሁኔታ ተልኳል!');
+            composeModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        });
+
+        // Draft save
+        document.querySelector('.draft-btn').addEventListener('click', () => {
+            alert('ረቂቅ በተሳካ ሁኔታ ተቀምጧል!');
+        });
+
+        // Email attachments
+        const attachmentArea = document.querySelector('.attachment-area');
+        const fileInput = document.getElementById('email-attachments');
+        
+        attachmentArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                attachmentArea.innerHTML = `<i class="fas fa-check-circle"></i> ${fileInput.files.length} ፋይሎች ተመርጠዋል`;
+                attachmentArea.style.color = 'var(--success-color)';
+            }
+        });
+
+        // Email item click to view
+        const emailItems = document.querySelectorAll('.email-item');
+        emailItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // View email functionality would go here
+                alert('የኢሜይል ማየት ኮድ እዚህ ይሄዳል');
+            });
+        });
+    </script>
+</body>
+</html> 

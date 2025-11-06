@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ውይይት መድረክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #34a853;
+            --info-color: #4285f4;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #1a73e8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Forum specific styles */
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .create-topic-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .create-topic-btn i {
+            margin-right: 8px;
+        }
+
+        .create-topic-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .forum-filters {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .filter {
+            flex: 1;
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .filter.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .filter:hover:not(.active) {
+            background-color: var(--light-color);
+        }
+
+        .topics-container {
+            margin-bottom: 30px;
+        }
+
+        .topic-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .topic-header {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .topic-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .topic-details {
+            flex: 1;
+        }
+
+        .topic-author {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .topic-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .topic-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .topic-date {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .topic-date i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        .topic-category {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            background-color: #e6f4ea;
+            color: var(--secondary-color);
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .topic-category.science {
+            background-color: #e6f4ea;
+            color: var(--secondary-color);
+        }
+
+        .topic-category.math {
+            background-color: #e3f2fd;
+            color: var(--primary-color);
+        }
+
+        .topic-category.language {
+            background-color: #fff8e1;
+            color: var(--warning-color);
+        }
+
+        .topic-category.social {
+            background-color: #fce4ec;
+            color: #e91e63;
+        }
+
+        .topic-category.general {
+            background-color: #f5f5f5;
+            color: #757575;
+        }
+
+        .topic-content {
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .topic-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topic-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .topic-stat {
+            display: flex;
+            align-items: center;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .topic-stat i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .topic-reply-btn {
+            background-color: var(--light-color);
+            border: 1px solid #ddd;
+            color: var(--text-color);
+            border-radius: 5px;
+            padding: 5px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic-reply-btn i {
+            margin-right: 5px;
+        }
+
+        .topic-reply-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e3f2fd;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 20px;
+        }
+
+        .category-icon.science {
+            background-color: #e6f4ea;
+            color: var(--secondary-color);
+        }
+
+        .category-icon.math {
+            background-color: #e3f2fd;
+            color: var(--primary-color);
+        }
+
+        .category-icon.language {
+            background-color: #fff8e1;
+            color: var(--warning-color);
+        }
+
+        .category-icon.social {
+            background-color: #fce4ec;
+            color: #e91e63;
+        }
+
+        .category-icon.general {
+            background-color: #f5f5f5;
+            color: #757575;
+        }
+
+        .category-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .category-count {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .topic-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .topic-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            font-size: 20px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .cancel-btn {
+            background-color: white;
+            color: #555;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .categories-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .forum-filters {
+                overflow-x: auto;
+                white-space: nowrap;
+                display: flex;
+                flex-wrap: nowrap;
+            }
+
+            .filter {
+                flex: 0 0 auto;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሰላም አበበ</div>
+                    <div class="user-role">የ9ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="../grade9s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="../grade9s/learn-cource.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="../grade9s/work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="../grade9s/take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="forum.html" class="menu-item active">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="../grade9s/chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="የውይይቶችን ለመፈለግ ይጻፉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="forum-header">
+            <h1 class="page-title">ውይይት መድረክ</h1>
+            <button class="create-topic-btn" id="create-topic-btn">
+                <i class="fas fa-plus"></i> አዲስ ርዕስ ይፍጠሩ
+            </button>
+        </div>
+
+        <div class="forum-filters">
+            <div class="filter active">ሁሉም</div>
+            <div class="filter">ታዋቂዎች</div>
+            <div class="filter">የቅርብ ጊዜ</div>
+            <div class="filter">ያልተመለሱ</div>
+            <div class="filter">የእኔ ርዕሶች</div>
+        </div>
+
+        <div class="section-title">ርዕሰ ጉዳዮች በምድብ</div>
+        <div class="categories-container">
+            <div class="category-card">
+                <div class="category-icon math">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="category-name">ሂሳብ</div>
+                <div class="category-count">32 ርዕሶች</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon science">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="category-name">ሳይንስ</div>
+                <div class="category-count">45 ርዕሶች</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon language">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="category-name">ቋንቋዎች</div>
+                <div class="category-count">28 ርዕሶች</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon social">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <div class="category-name">ማህበራዊ</div>
+                <div class="category-count">20 ርዕሶች</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon general">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="category-name">ጠቅላላ</div>
+                <div class="category-count">37 ርዕሶች</div>
+            </div>
+        </div>
+
+        <div class="section-title">የቅርብ ጊዜ ውይይቶች</div>
+        <div class="topics-container">
+            <div class="topic-card">
+                <div class="topic-header">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="topic-avatar">
+                    <div class="topic-details">
+                        <div class="topic-author">መምህር ብርሃኑ</div>
+                        <h3 class="topic-title">የአልጀብራ ሚኖች ምሳሌዎች እና መፍትሄዎቻቸው</h3>
+                        <div class="topic-meta">
+                            <div class="topic-date">
+                                <i class="far fa-clock"></i> 2 ሰዓት በፊት
+                            </div>
+                            <div class="topic-category math">ሂሳብ</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    ውድ ተማሪዎች፣ ለመጨረሻው ፈተና የሚያዘጋጁ የአልጀብራ ሚኖ ምሳሌዎችን እና መፍትሔዎቻቸውን አካፍላችኋለሁ። እያንዳንዱን ምሳሌ በመስራት የተሰጡትን ምላሾች ያረጋግጡ። ጥያቄዎች ካሉዎት ከዚህ በታች ይጠይቁ።
+                </div>
+                <div class="topic-actions">
+                    <div class="topic-stats">
+                        <div class="topic-stat">
+                            <i class="far fa-eye"></i> 245 ዕይታዎች
+                        </div>
+                        <div class="topic-stat">
+                            <i class="far fa-comment"></i> 18 ምላሾች
+                        </div>
+                        <div class="topic-stat">
+                            <i class="far fa-heart"></i> 32 ይወዳሉ
+                        </div>
+                    </div>
+                    <button class="topic-reply-btn">
+                        <i class="far fa-comment"></i> ምላሽ ስጥ
+                    </button>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-header">
+                    <img src="https://randomuser.me/api/portraits/women/31.jpg" alt="User" class="topic-avatar">
+                    <div class="topic-details">
+                        <div class="topic-author">ቤተልሄም ታደሰ</div>
+                        <h3 class="topic-title">የሳይንስ የፕሮጀክት ሀሳቦች - ለ10ኛ ክፍል የመጨረሻው ሴሚስተር</h3>
+                        <div class="topic-meta">
+                            <div class="topic-date">
+                                <i class="far fa-clock"></i> ትላንት
+                            </div>
+                            <div class="topic-category science">ሳይንስ</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    ለሚቀጥለው ወር የሳይንስ ፕሮጀክት የምመርጣቸው ሀሳቦችን እየፈለግኩ ነው። በተለይም ለኬሚስትሪ ወይም ባዮሎጂ። አንድን ነገር ለመስራት በሚያስችል ፕሮጀክት ላይ መስራት እፈልጋለሁ፣ በተለይም የሌላ ሰው ሀሳብ ካለው ይወያለሁ።
+                </div>
+                <div class="topic-actions">
+                    <div class="topic-stats">
+                        <div class="topic-stat">
+                            <i class="far fa-eye"></i> 187 ዕይታዎች
+                        </div>
+                        <div class="topic-stat">
+                            <i class="far fa-comment"></i> 24 ምላሾች
+                        </div>
+                        <div class="topic-stat">
+                            <i class="far fa-heart"></i> 15 ይወዳሉ
+                        </div>
+                    </div>
+                    <button class="topic-reply-btn">
+                        <i class="far fa-comment"></i> ምላሽ ስጥ
+                    </button>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-header">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="topic-avatar">
+                    <div class="topic-details">
+                        <div class="topic-author">መኰንን አለባቸው</div>
+                        <h3 class="topic-title">ለ12ኛ ክፍል ተማሪዎች - የዩኒቨርሲቲ የመመረቂያ ፈተና ዝግጅት</h3>
+                        <div class="topic-meta">
+                            <div class="topic-date">
+                                <i class="far fa-clock"></i> 2 ቀናት በፊት
+                            </div>
+                            <div class="topic-category general">ጠቅላላ</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    ውድ 12ኛ ክፍል ተማሪዎች፣ ለዩኒቨርሲቲ የመግቢያ ፈተና እንዴት እየተዘጋጃችሁ ነው? እኔ ያሉኝን ጥቂት ምክሮች እና የጥናት ዘዴዎችን ለማካፈል እፈልጋለሁ። በተለይም በተፈተናባቸው ተሞክሮዎች ስለምናውቃቸው ነገሮች እንወያያለን።
+                </div>
+                <div class="topic-actions">
+                    <div class="topic-stats">
+                        <div class="topic-stat">
+                            <i class="far fa-eye"></i> 312 ዕይታዎች
+                        </div>
+                        <div class="topic-stat">
+                            <i class="far fa-comment"></i> 42 ምላሾች
+                        </div>
+                        <div class="topic-stat">
+                            <i class="far fa-heart"></i> 67 ይወዳሉ
+                        </div>
+                    </div>
+                    <button class="topic-reply-btn">
+                        <i class="far fa-comment"></i> ምላሽ ስጥ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Topic Modal -->
+    <div class="topic-modal" id="topic-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">አዲስ ርዕስ ይፍጠሩ</h2>
+                <div class="modal-close" id="modal-close">&times;</div>
+            </div>
+            <form class="modal-form">
+                <div class="form-group">
+                    <label class="form-label" for="topic-title">ርዕስ</label>
+                    <input type="text" class="form-control" id="topic-title" placeholder="የርዕስዎን ርዕስ ያስገቡ">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="topic-category">ምድብ</label>
+                    <select class="form-select" id="topic-category">
+                        <option value="">ምድብ ይምረጡ</option>
+                        <option value="math">ሂሳብ</option>
+                        <option value="science">ሳይንስ</option>
+                        <option value="language">ቋንቋዎች</option>
+                        <option value="social">ማህበራዊ</option>
+                        <option value="general">ጠቅላላ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="topic-content">ይዘት</label>
+                    <textarea class="form-control" id="topic-content" placeholder="የርዕስዎን ይዘት ያስገቡ"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel-btn" id="cancel-btn">ይቅር</button>
+                    <button type="submit" class="submit-btn">ርዕስ ይለጥፉ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // Forum filters functionality
+        const filters = document.querySelectorAll('.filter');
+        filters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                filters.forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                // Filter content logic would go here
+            });
+        });
+
+        // Modal functionality
+        const createTopicBtn = document.getElementById('create-topic-btn');
+        const topicModal = document.getElementById('topic-modal');
+        const modalClose = document.getElementById('modal-close');
+        const cancelBtn = document.getElementById('cancel-btn');
+
+        createTopicBtn.addEventListener('click', () => {
+            topicModal.classList.add('active');
+        });
+
+        modalClose.addEventListener('click', () => {
+            topicModal.classList.remove('active');
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            topicModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === topicModal) {
+                topicModal.classList.remove('active');
+            }
+        });
+    </script>
+    <script src="js/grade-detector.js"></script>
+</body>
+</html>

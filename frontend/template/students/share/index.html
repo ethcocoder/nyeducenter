@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የጋራ ሀብቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --danger-color: #ea4335;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .grade-selector {
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .grade-selector h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .grade-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .grade-link {
+            padding: 8px 15px;
+            background-color: #f1f3f4;
+            color: #333;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .grade-link:hover {
+            background-color: #e3e6e8;
+        }
+
+        .grade-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .resource-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .resource-card-header {
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .resource-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .resource-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 20px;
+            color: white;
+        }
+
+        .resource-card-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .resource-card-desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .resource-card-content {
+            padding: 15px;
+        }
+
+        .resource-card-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .resource-meta-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .resource-meta-item i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .resource-card-actions {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+
+        .resource-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .resource-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .grade-links {
+                flex-wrap: wrap;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሰላም አበበ</div>
+                    <div class="user-role">ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="../index.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዋና ገጽ</span>
+            </a>
+            <a href="../grade9s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ9ኛ ክፍል</span>
+            </a>
+            <a href="../grade10s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ10ኛ ክፍል</span>
+            </a>
+            <a href="../grade11s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ11ኛ ክፍል</span>
+            </a>
+            <a href="../grade12s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ12ኛ ክፍል</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የትምህርት ማህበረሰብ - የጋራ ሀብቶች</div>
+        </div>
+
+        <div class="grade-selector">
+            <h2>የመመለሻ ገጾች</h2>
+            <div class="grade-links">
+                <a href="../grade9s/dashboard.html" class="grade-link">የ9ኛ ክፍል</a>
+                <a href="../grade10s/dashboard.html" class="grade-link">የ10ኛ ክፍል</a>
+                <a href="../grade11s/dashboard.html" class="grade-link">የ11ኛ ክፍል</a>
+                <a href="../grade12s/dashboard.html" class="grade-link">የ12ኛ ክፍል</a>
+            </div>
+        </div>
+
+        <h1 class="page-title">የጋራ ማህበረሰብ ሀብቶች</h1>
+        <p>እነዚህ ሀብቶች ለሁሉም ተማሪዎች የሚያገለግሉ የትምህርት ማህበረሰብ ግንኙነቶች ናቸው።</p>
+
+        <h2 class="section-title">የማህበረሰብ ግንኙነቶች</h2>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-card-header">
+                    <img src="https://via.placeholder.com/300x150/4285f4/ffffff?text=Forum" class="resource-card-img" alt="Forum">
+                    <div class="resource-card-overlay">
+                        <h3 class="resource-card-title">ውይይት መድረክ</h3>
+                        <div class="resource-card-desc">ከሌሎች ተማሪዎች ጋር የአካዳሚክ ውይይት ያድርጉ</div>
+                    </div>
+                </div>
+                <div class="resource-card-content">
+                    <div class="resource-card-meta">
+                        <div class="resource-meta-item">
+                            <i class="fas fa-users"></i>
+                            <span>245 ተሳታፊዎች</span>
+                        </div>
+                        <div class="resource-meta-item">
+                            <i class="fas fa-comments"></i>
+                            <span>156 ውይይቶች</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card-actions">
+                    <a href="forum.html" class="resource-btn">ወደ መድረክ ይሂዱ</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-card-header">
+                    <img src="https://via.placeholder.com/300x150/34a853/ffffff?text=Announcements" class="resource-card-img" alt="Announcements">
+                    <div class="resource-card-overlay">
+                        <h3 class="resource-card-title">ማስታወቂያዎች</h3>
+                        <div class="resource-card-desc">ስለት/ቤት እና ክፍል ማስታወቂያዎችን ያግኙ</div>
+                    </div>
+                </div>
+                <div class="resource-card-content">
+                    <div class="resource-card-meta">
+                        <div class="resource-meta-item">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>12 አዲስ ማስታወቂያዎች</span>
+                        </div>
+                        <div class="resource-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>ዛሬ ዘምኗል</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card-actions">
+                    <a href="announcement.html" class="resource-btn">ማስታወቂያዎችን ይመልከቱ</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-card-header">
+                    <img src="https://via.placeholder.com/300x150/fbbc05/ffffff?text=Events" class="resource-card-img" alt="Events">
+                    <div class="resource-card-overlay">
+                        <h3 class="resource-card-title">ዝግጅቶች</h3>
+                        <div class="resource-card-desc">ስለሚመጡ ዝግጅቶች ይወቁ እና ይመዝገቡ</div>
+                    </div>
+                </div>
+                <div class="resource-card-content">
+                    <div class="resource-card-meta">
+                        <div class="resource-meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>8 ቀጣይ ዝግጅቶች</span>
+                        </div>
+                        <div class="resource-meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>በትምህርት ቤት ግቢ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card-actions">
+                    <a href="event.html" class="resource-btn">ዝግጅቶችን ይመልከቱ</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-card-header">
+                    <img src="https://via.placeholder.com/300x150/ea4335/ffffff?text=Group+Chat" class="resource-card-img" alt="Group Chat">
+                    <div class="resource-card-overlay">
+                        <h3 class="resource-card-title">የቡድን ውይይት</h3>
+                        <div class="resource-card-desc">ከአቻዎችዎ እና መምህራን ጋር ውይይት ያድርጉ</div>
+                    </div>
+                </div>
+                <div class="resource-card-content">
+                    <div class="resource-card-meta">
+                        <div class="resource-meta-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>15 ንቁ ቡድኖች</span>
+                        </div>
+                        <div class="resource-meta-item">
+                            <i class="fas fa-comments"></i>
+                            <span>432 አዲስ መልዕክቶች</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card-actions">
+                    <a href="group-chat.html" class="resource-btn">ቡድን ውይይት ያግኙ</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2023 የትምህርት ማህበረሰብ. ሁሉም መብቶች የተጠበቁ ናቸው።
+        </footer>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+    </script>
+    <script src="js/grade-detector.js"></script>
+</body>
+</html> 

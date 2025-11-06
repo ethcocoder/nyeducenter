@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ11ኛ ክፍል መምህር መልዕክቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: 100vh;
+            display: flex;
+        }
+
+        .contacts-sidebar {
+            width: var(--contact-sidebar-width);
+            background-color: white;
+            height: 100%;
+            overflow-y: auto;
+            border-right: 1px solid #eee;
+        }
+
+        .contacts-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contacts-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .contacts-actions {
+            display: flex;
+        }
+
+        .contacts-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 8px;
+        }
+
+        .contacts-action-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .contacts-search {
+            padding: 15px 20px;
+            position: relative;
+        }
+
+        .contacts-search input {
+            width: 100%;
+            padding: 10px 15px;
+            padding-left: 40px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .contacts-search i {
+            position: absolute;
+            left: 35px;
+            top: 25px;
+            color: #777;
+        }
+
+        .contacts-filters {
+            display: flex;
+            padding: 0 15px 15px;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .contacts-filter {
+            padding: 8px 15px;
+            background-color: #f0f7ff;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+        }
+
+        .contacts-filter.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .contact-list {
+            padding: 0 10px;
+        }
+
+        .contact-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .contact-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .contact-item.active {
+            background-color: #e3f2fd;
+        }
+
+        .contact-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .contact-preview {
+            font-size: 13px;
+            color: #777;
+            display: -webkit-box;
+       
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .contact-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .unread-badge {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .student-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        .parent-badge {
+            background-color: var(--accent-color);
+            color: #333;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        .teacher-badge {
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-contact {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-contact-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .chat-contact-details h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .chat-contact-details p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .chat-actions {
+            display: flex;
+        }
+
+        .chat-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 8px;
+        }
+
+        .chat-action-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f0f7ff;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .message.outgoing {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .message.outgoing .message-avatar {
+            margin-right: 0;
+            margin-left: 15px;
+        }
+
+        .message-content {
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            padding: 12px 15px;
+            border-radius: 15px;
+            margin-bottom: 5px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .message.incoming .message-bubble {
+            background-color: white;
+            border-top-left-radius: 0;
+        }
+
+        .message.outgoing .message-bubble {
+            background-color: var(--primary-color);
+            color: white;
+            border-top-right-radius: 0;
+        }
+
+        .message-attachment {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .attachment-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .attachment-details {
+            flex: 1;
+        }
+
+        .attachment-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .attachment-size {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .message.outgoing .message-time {
+            color: #ccc;
+        }
+
+        .message-input-container {
+            padding: 15px 20px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .message-input-actions {
+            display: flex;
+            margin-right: 15px;
+        }
+
+        .input-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 8px;
+        }
+
+        .input-action-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            resize: none;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .send-btn {
+            margin-left: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .section-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .section-divider:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .section-date {
+            background-color: #f0f7ff;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #666;
+            position: relative;
+            display: inline-block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1200px) {
+            .contacts-sidebar {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contacts-sidebar {
+                position: absolute;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                z-index: 10;
+            }
+            
+            .contacts-sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .chat-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Include navigation component -->
+   <!-- Include navigation component -->
+   <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">የትምህርት ማህበረሰብ</div>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">መምህር</div>
+                <div class="user-role">የ<span class="grade-title">11ኛ</span> ክፍል</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ዋና ገጾች</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+            <i class="fas fa-home"></i>
+            <span>ዳሽቦርድ</span>
+        </a>
+        <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+            <i class="fas fa-tasks"></i>
+            <span>የቤት ስራ መፍጠር</span>
+        </a>
+        <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+            <i class="fas fa-paper-plane"></i>
+            <span>የቤት ስራ መላክ</span>
+        </a>
+        <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+            <i class="fas fa-edit"></i>
+            <span>ፈተና መፍጠር</span>
+        </a>
+        <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+            <i class="fas fa-question-circle"></i>
+            <span>ፈተና መላክ</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+     
+    <div class="nav-section-title">ማህበረሰብ</div>
+    <a href="../share/forum.html" class="menu-item" data-page="forum">
+        <i class="fas fa-comments"></i>
+        <span>ውይይት መድረክ</span>
+    </a>
+    <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+        <i class="fas fa-bullhorn"></i>
+        <span>ማስታወቂያዎች</span>
+    </a>
+    <a href="chat.html" class="menu-item" data-page="chat">
+        <i class="fas fa-envelope"></i>
+        <span>መልእክቶች</span>
+    </a>
+
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ተጨማሪ</div>
+        <a href="help.html" class="menu-item" data-page="help">
+            <i class="fas fa-question-circle"></i>
+            <span>እገዛ</span>
+        </a>
+        <a href="setting.html" class="menu-item" data-page="setting">
+            <i class="fas fa-cog"></i>
+            <span>ሴቲንግ</span>
+        </a>
+        <a href="../../index.html" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>ውጣ</span>
+        </a>
+    </div>
+</div>
+
+<!-- Mobile Navigation Toggle -->
+<div class="mobile-menu-toggle">
+    <i class="fas fa-bars"></i>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ብርሃኑ ታደሰ</div>
+                    <div class="user-role">የ10ኛ ክፍል መምህር</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item active">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="setting.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="contacts-sidebar">
+            <div class="contacts-header">
+                <div class="contacts-title">መልዕክቶች</div>
+                <div class="contacts-actions">
+                    <button class="contacts-action-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="contacts-action-btn">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="contacts-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="መልዕክቶችን ይፈልጉ...">
+            </div>
+
+            <ul class="contacts-list">
+                <li class="contact-item active">
+                    <img src="https://randomuser.me/api/portraits/women/27.jpg" alt="Contact" class="contact-avatar">
+                    <div class="contact-info">
+                        <div class="contact-name">ሳምራዊት ታደሰ</div>
+                        <div class="contact-meta">
+                            <div class="contact-message">ጥያቄ በተመለከተ - ስለ ፕሮጀክቱ...</div>
+                            <div class="contact-time">10:23 AM</div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="contact-item">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="contact-avatar">
+                    <div class="contact-info">
+                        <div class="contact-name">ዳዊት ፍቃዱ</div>
+                        <div class="contact-meta">
+                            <div class="contact-message">ወላጅ - የልጅዎን ፈተና ውጤት ገበና...</div>
+                            <div class="contact-time">ትላንት</div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="contact-item">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Contact" class="contact-avatar">
+                    <div class="contact-info">
+                        <div class="contact-name">ሄለን አሰፋ</div>
+                        <div class="contact-meta">
+                            <div class="contact-message">ውይይት - የሳይንስ ፕሮጀክት...</div>
+                            <div class="contact-time">2 ቀን በፊት</div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="contact-item">
+                    <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Contact" class="contact-avatar">
+                    <div class="contact-info">
+                        <div class="contact-name">ኢያሱ መለሰ</div>
+                        <div class="contact-meta">
+                            <div class="contact-message">መዋቢያ ፕሮግራም - ጥሪ</div>
+                            <div class="contact-time">3 ቀን በፊት</div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="contact-item">
+                    <img src="https://randomuser.me/api/portraits/women/77.jpg" alt="Contact" class="contact-avatar">
+                    <div class="contact-info">
+                        <div class="contact-name">ሰናይት በቀለ</div>
+                        <div class="contact-meta">
+                            <div class="contact-message">ማስታወቂያ - የቀን መቁጠሪያ ለውጥ...</div>
+                            <div class="contact-time">4 ቀን በፊት</div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="contact-item">
+                    <img src="https://randomuser.me/api/portraits/men/11.jpg" alt="Contact" class="contact-avatar">
+                    <div class="contact-info">
+                        <div class="contact-name">ብሩክ ታረቀኝ</div>
+                        <div class="contact-meta">
+                            <div class="contact-message">የግሪክ ሥነ-ጽሁፍ ጥናቶች...</div>
+                            <div class="contact-time">1 ሳምንት በፊት</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <button class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <img src="https://randomuser.me/api/portraits/women/27.jpg" alt="Contact" class="chat-avatar">
+                <div class="chat-title">
+                    <div class="chat-name">ሳምራዊት ታደሰ</div>
+                    <div class="chat-status">ከ5 ደቂቃ በፊት ነበሩ</div>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-btn">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <button class="chat-action-btn">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="chat-action-btn">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages">
+                <div class="message received">
+                    <img src="https://randomuser.me/api/portraits/women/27.jpg" alt="Contact" class="message-avatar">
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            ሰላም መምህር፣ የሂሳብ ፈተናዎን በተመለከተ ጥያቄ ነበረኝ። የመጨረሻውን ፕሮጀክት በተመለከተ ምን ማድረግ እንዳለብኝ እርግጠኛ አይደለሁ።
+                        </div>
+                        <div class="message-time">10:15 AM</div>
+                    </div>
+                </div>
+
+                <div class="message sent">
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            ሰላም ሳምራዊት፣ ስለጠየቅሽ አመሰግናለሁ። የመጨረሻው ፕሮጀክት በሁለት ክፍል የቀረበውን ትምህርት ማጠቃለል ነው። የምታቀርቢው ርዕሰ ጉዳይ ተግባራዊ ምሳሌዎችን ማካተት አለበት።
+                        </div>
+                        <div class="message-time">10:20 AM</div>
+                    </div>
+                </div>
+
+                <div class="message received">
+                    <img src="https://randomuser.me/api/portraits/women/27.jpg" alt="Contact" class="message-avatar">
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            አመሰግናለሁ መምህር። የጊዜ ገደቡስ መቼ ነው?
+                        </div>
+                        <div class="message-time">10:21 AM</div>
+                    </div>
+                </div>
+
+                <div class="message sent">
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            የመጨረሻው የማስረከቢያ ቀን የሚቀጥለው ሐሙስ ነው። ግን ያልተረዳሽው ነገር ካለ ላግዝ እችላለሁ።
+                        </div>
+                        <div class="message-time">10:22 AM</div>
+                    </div>
+                </div>
+
+                <div class="message received">
+                    <img src="https://randomuser.me/api/portraits/women/27.jpg" alt="Contact" class="message-avatar">
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            አመሰግናለሁ መምህር! ጥያቄዎች ካሉኝ በድጋሚ እጠይቆታለሁ።
+                        </div>
+                        <div class="message-time">10:23 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-input">
+                <div class="input-actions">
+                    <button class="input-action-btn">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <button class="input-action-btn">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                </div>
+                <input type="text" class="input-field" placeholder="መልዕክት ይጻፉ...">
+                <button class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+     
+            // Contact selection
+            document.querySelectorAll('.contact-item').forEach(contact => {
+                contact.addEventListener('click', function() {
+                    document.querySelectorAll('.contact-item').forEach(c => {
+                        c.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // In a real app, this would load the conversation with the selected contact
+                    const contactName = this.querySelector('.contact-name').textContent;
+                    document.querySelector('.chat-name').textContent = contactName;
+                    
+                    // On mobile, close the sidebar after selecting a contact
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.contacts-sidebar').classList.remove('open');
+                    }
+                });
+            });
+            
+            // Mobile toggle
+            document.querySelector('.mobile-toggle').addEventListener('click', function() {
+                document.querySelector('.contacts-sidebar').classList.add('open');
+            });
+            
+            // Send message
+            document.querySelector('.send-btn').addEventListener('click', sendMessage);
+            document.querySelector('.input-field').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            function sendMessage() {
+                const inputField = document.querySelector('.input-field');
+                const message = inputField.value.trim();
+                
+                if (message !== '') {
+                    // Create a new message element
+                    const now = new Date();
+                    const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+                    
+                    const messageHTML = `
+                        <div class="message sent">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    ${message}
+                                </div>
+                                <div class="message-time">${timeString}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add the message to the chat
+                    const chatMessages = document.querySelector('.chat-messages');
+                    chatMessages.insertAdjacentHTML('beforeend', messageHTML);
+                    
+                    // Clear the input field
+                    inputField.value = '';
+                    
+                    // Scroll to the bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // In a real app, here we would send the message to the server
+                    
+                    // Simulate a reply after 1 second
+                    setTimeout(function() {
+                        const replyHTML = `
+                            <div class="message received">
+                                <img src="https://randomuser.me/api/portraits/women/27.jpg" alt="Contact" class="message-avatar">
+                                <div class="message-content">
+                                    <div class="message-bubble">
+                                        እሺ፣ አመሰግናለሁ!
+                                    </div>
+                                    <div class="message-time">${timeString}</div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        chatMessages.insertAdjacentHTML('beforeend', replyHTML);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 1000);
+                }
+            }
+       
+    </script>
+</body>
+</html>

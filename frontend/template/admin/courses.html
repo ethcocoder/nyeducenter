@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ኮርሶች አስተዳደር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --primary-dark: #ff5252;
+            --secondary: #6c5ce7;
+            --success: #00b894;
+            --info: #0984e3;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .sidebar-logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        
+        .sidebar-logo h3 {
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        
+        .user-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .menu {
+            padding: 10px 0;
+        }
+        
+        .menu-label {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        .menu-item {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        
+        .menu-item.active, .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .menu-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+        }
+        
+        .header {
+            background: white;
+            height: var(--header-height);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 30px;
+            padding: 5px 15px;
+            width: 300px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 8px;
+            flex: 1;
+            outline: none;
+        }
+        
+        .search-box button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-actions .icon-button {
+            background: #f9f9f9;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            position: relative;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .header-actions .icon-button:hover {
+            background: #f1f1f1;
+        }
+        
+        .header-actions .icon-button .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--primary);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .page-title {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stats-card {
+            display: flex;
+            align-items: center;
+        }
+        
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .stats-icon.blue {
+            background: rgba(9, 132, 227, 0.1);
+            color: var(--info);
+        }
+        
+        .stats-icon.green {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+        }
+        
+        .stats-icon.purple {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--secondary);
+        }
+        
+        .stats-icon.orange {
+            background: rgba(253, 203, 110, 0.1);
+            color: var(--warning);
+        }
+        
+        .stats-icon.red {
+            background: rgba(214, 48, 49, 0.1);
+            color: var(--danger);
+        }
+        
+        .stats-info h3 {
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .stats-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Course Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .course-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .course-content {
+            padding: 15px;
+        }
+        
+        .course-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .course-info {
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .course-info div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .course-info i {
+            width: 20px;
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .course-actions button {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .edit-btn {
+            background: var(--info);
+            color: white;
+        }
+        
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .search-box {
+                display: none;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+       
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3Z" fill="#ff6b6b"/>
+                    <path d="M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" fill="#ff6b6b"/>
+                </svg>
+                <h3>የትምህርት ማህበረሰብ</h3>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="አስተዳዳሪ">
+                </div>
+                <h4 class="user-name">አስተዳዳሪ</h4>
+                <p class="user-role">ዋና አስተዳዳሪ</p>
+            </div>
+            
+            <nav class="menu">
+                <div class="menu-label">አስተዳደር</div>
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>ዳሽቦርድ</span>
+                </a>
+                <a href="students.html" class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>ተማሪዎች</span>
+                </a>
+                <a href="teachers.html" class="menu-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>መምህራን</span>
+                </a>
+                <a href="courses.html" class="menu-item">
+                    <i class="fas fa-book"></i>
+                    <span>ኮርሶች</span>
+                </a>
+                <a href="quiz.html" class="menu-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>ፈተናዎች</span>
+                </a>
+                
+                <div class="menu-label">ግንኙነት</div>
+                <a href="send-announcement.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>ማስታወቂያዎች</span>
+                </a>
+                <a href="send-forum.html" class="menu-item">
+                    <i class="fas fa-comments"></i>
+                    <span>የውይይት መድረክ</span>
+                </a>
+                <a href="email.html" class="menu-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>ኢሜይል</span>
+                </a>
+                
+                <div class="menu-label">ሥራ</div>
+                <a href="settings.html" class="menu-item">
+                    <i class="fas fa-cog"></i> ቅንብሮች
+                </a>
+                <a href="C:\nati\NATI\ny edu-center\backend\database\index.html" class="menu-item">
+                    <i class="fas fa-database"></i> የውሂብ ቤት አስተዳደር
+                </a>
+                <a href="profile.html" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>መገለጫ</span>
+                </a>
+                <a href="../../login.html" class="menu-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i> ውጣ
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="ይፈልጉ...">
+                    <button>
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="icon-button">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">5</span>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <div class="user-avatar" style="width: 40px; height: 40px; border: none;">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="አስተዳዳሪ">
+                    </div>
+                </div>
+            </header>
+            
+            <div class="container">
+                <div class="page-title">
+                    <h1>ኮርሶች አስተዳደር</h1>
+                    <button class="action-btn">
+                        <i class="fas fa-plus"></i> ኮርስ ጨምር
+                    </button>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="card stats-card">
+                        <div class="stats-icon purple">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>12</h3>
+                            <p>ጠቅላላ ኮርሶች</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card stats-card">
+                        <div class="stats-icon green">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>8</h3>
+                            <p>እየተማሩ ያሉ ኮርሶች</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card stats-card">
+                        <div class="stats-icon blue">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>150</h3>
+                            <p>ተማሪዎች በኮርስ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card stats-card">
+                        <div class="stats-icon orange">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>25</h3>
+                            <p>መምህራን በኮርስ</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Courses Grid -->
+                <div class="courses-grid">
+                    <!-- Course Cards -->
+                    <div class="course-card">
+                        <img src="https://via.placeholder.com/300x150" alt="ኮርስ ምስል" class="course-image">
+                        <div class="course-content">
+                            <h3 class="course-title">የፕሮግራሚንግ መሰረቶች</h3>
+                            <div class="course-info">
+                                <div>
+                                    <i class="fas fa-user"></i>
+                                    መምህር አብዱላሂ
+                                </div>
+                                <div>
+                                    <i class="fas fa-users"></i>
+                                    32 ተማሪዎች
+                                </div>
+                                <div>
+                                    <i class="fas fa-clock"></i>
+                                    6 ወራት
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="edit-btn">
+                                    <i class="fas fa-edit"></i> አስተካክል
+                                </button>
+                                <button class="delete-btn">
+                                    <i class="fas fa-trash"></i> አጥፋ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <img src="https://via.placeholder.com/300x150" alt="ኮርስ ምስል" class="course-image">
+                        <div class="course-content">
+                            <h3 class="course-title">የዲዛይን መሰረታዊ ሃሳቦች</h3>
+                            <div class="course-info">
+                                <div>
+                                    <i class="fas fa-user"></i>
+                                    መምህር ሳራ
+                                </div>
+                                <div>
+                                    <i class="fas fa-users"></i>
+                                    28 ተማሪዎች
+                                </div>
+                                <div>
+                                    <i class="fas fa-clock"></i>
+                                    4 ወራት
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="edit-btn">
+                                    <i class="fas fa-edit"></i> አስተካክል
+                                </button>
+                                <button class="delete-btn">
+                                    <i class="fas fa-trash"></i> አጥፋ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <img src="https://via.placeholder.com/300x150" alt="ኮርስ ምስል" class="course-image">
+                        <div class="course-content">
+                            <h3 class="course-title">የሂሳብ ክፍል 1</h3>
+                            <div class="course-info">
+                                <div>
+                                    <i class="fas fa-user"></i>
+                                    መምህር በላይ
+                                </div>
+                                <div>
+                                    <i class="fas fa-users"></i>
+                                    45 ተማሪዎች
+                                </div>
+                                <div>
+                                    <i class="fas fa-clock"></i>
+                                    3 ወራት
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="edit-btn">
+                                    <i class="fas fa-edit"></i> አስተካክል
+                                </button>
+                                <button class="delete-btn">
+                                    <i class="fas fa-trash"></i> አጥፋ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <img src="https://via.placeholder.com/300x150" alt="ኮርስ ምስል" class="course-image">
+                        <div class="course-content">
+                            <h3 class="course-title">የእንግሊዘኛ ቋንቋ (መሰረታዊ)</h3>
+                            <div class="course-info">
+                                <div>
+                                    <i class="fas fa-user"></i>
+                                    መምህር ሀይማኖት
+                                </div>
+                                <div>
+                                    <i class="fas fa-users"></i>
+                                    38 ተማሪዎች
+                                </div>
+                                <div>
+                                    <i class="fas fa-clock"></i>
+                                    5 ወራት
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="edit-btn">
+                                    <i class="fas fa-edit"></i> አስተካክል
+                                </button>
+                                <button class="delete-btn">
+                                    <i class="fas fa-trash"></i> አጥፋ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add event listeners for course action buttons
+        document.querySelectorAll('.edit-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const courseTitle = this.closest('.course-card').querySelector('.course-title').textContent;
+                alert(`እየተስተካከለ "${courseTitle}"`);
+                // Here you would redirect to edit page or show modal
+            });
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const courseTitle = this.closest('.course-card').querySelector('.course-title').textContent;
+                if (confirm(`"${courseTitle}" ኮርስን መሰረዝ ይፈልጋሉ?`)) {
+                    // Here you would make an API call to delete the course
+                    alert(`"${courseTitle}" ኮርስ ተሰርዟል`);
+                    this.closest('.course-card').remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

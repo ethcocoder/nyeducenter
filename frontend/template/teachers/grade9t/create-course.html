@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ9ኛ ክፍል መምህር ኮርስ መፍጠር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+
+    <style>
+        /* Styles specific to course creation page */
+        .course-form {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark, #3b77e0);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(var(--primary-rgb), 0.05);
+            transform: translateY(-2px);
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .course-image-container {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-image-container:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+
+        .course-image-container .upload-icon {
+            font-size: 36px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .course-image-container .upload-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .course-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .course-image-container .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .course-image-container:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .course-image-container .image-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .materials-list {
+            margin-top: 20px;
+        }
+
+        .material-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .material-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .material-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .material-icon {
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+
+        .material-title {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .material-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .material-action-btn {
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .material-action-btn:hover {
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary-color);
+        }
+
+        .material-action-btn.delete:hover {
+            background-color: rgba(var(--danger-rgb, 220, 53, 69), 0.1);
+            color: var(--danger-color);
+        }
+
+        .add-material-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            background: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-material-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+
+        .video-container {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .video-placeholder {
+            background-color: var(--background-color);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+
+        .video-placeholder i {
+            font-size: 36px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .video-placeholder-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Dropdown styles */
+        .dropdown-container {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10;
+            min-width: 200px;
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .dropdown-container:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(var(--primary-rgb), 0.05);
+            color: var(--primary-color);
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-footer {
+                flex-direction: column-reverse;
+                gap: 15px;
+            }
+            
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">የትምህርት ማህበረሰብ</div>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">መምህር</div>
+                <div class="user-role">የ<span class="grade-title">9ኛ</span> ክፍል</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ዋና ገጾች</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+            <i class="fas fa-home"></i>
+            <span>ዳሽቦርድ</span>
+        </a>
+        <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+            <i class="fas fa-tasks"></i>
+            <span>የቤት ስራ መፍጠር</span>
+        </a>
+        <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+            <i class="fas fa-paper-plane"></i>
+            <span>የቤት ስራ መላክ</span>
+        </a>
+        <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+            <i class="fas fa-edit"></i>
+            <span>ፈተና መፍጠር</span>
+        </a>
+        <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+            <i class="fas fa-question-circle"></i>
+            <span>ፈተና መላክ</span>
+        </a>
+        <a href="create-course.html" class="menu-item" data-page="create-course">
+            <i class="fas fa-book"></i>
+            <span>ኮርስ መፍጠር</span>
+        </a>
+        <a href="send-course.html" class="menu-item" data-page="send-course">
+            <i class="fas fa-book-reader"></i>
+            <span>ኮርስ መላክ</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+            <i class="fas fa-comments"></i>
+            <span>ውይይት መድረክ</span>
+        </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+            <i class="fas fa-bullhorn"></i>
+            <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ተጨማሪ</div>
+        <a href="help.html" class="menu-item" data-page="help">
+            <i class="fas fa-question-circle"></i>
+            <span>እገዛ</span>
+        </a>
+        <a href="setting.html" class="menu-item" data-page="setting">
+            <i class="fas fa-cog"></i>
+            <span>ሴቲንግ</span>
+        </a>
+        <a href="../../index.html" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>ውጣ</span>
+        </a>
+    </div>
+</div>
+
+<!-- Mobile Navigation Toggle -->
+<div class="mobile-menu-toggle">
+    <i class="fas fa-bars"></i>
+</div> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">ኮርስ መፍጠር</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <form class="course-form" id="course-form">
+                <div class="form-section">
+                    <h2 class="form-section-title">መሰረታዊ መረጃ</h2>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label" for="course-title">የኮርስ ርዕስ</label>
+                                <input type="text" id="course-title" class="form-control" placeholder="የኮርሱን ርዕስ ያስገቡ" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label" for="course-subject">የትምህርት አይነት</label>
+                                <select id="course-subject" class="form-control" required>
+                                    <option value="">የትምህርት አይነት ይምረጡ</option>
+                                    <option value="mathematics">ሂሳብ</option>
+                                    <option value="physics">ፊዚክስ</option>
+                                    <option value="chemistry">ኬሚስትሪ</option>
+                                    <option value="biology">ባዮሎጂ</option>
+                                    <option value="history">ታሪክ</option>
+                                    <option value="geography">ጂኦግራፊ</option>
+                                    <option value="civics">ስነ-ዜጋ</option>
+                                    <option value="english">እንግሊዘኛ</option>
+                                    <option value="amharic">አማርኛ</option>
+                                    <option value="ict">አይሲቲ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="course-description">የኮርስ መግለጫ</label>
+                        <textarea id="course-description" class="form-control" placeholder="ስለ ኮርሱ አጭር መግለጫ ይጻፉ..." rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label" for="course-class">ክፍል</label>
+                                <select id="course-class" class="form-control" required>
+                                    <option value="">ክፍል ይምረጡ</option>
+                                    <option value="9-a">9-A</option>
+                                    <option value="9-b">9-B</option>
+                                    <option value="9-c">9-C</option>
+                                    <option value="9-all">ሁሉም 9ኛ ክፍሎች</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label" for="course-status">ሁኔታ</label>
+                                <select id="course-status" class="form-control" required>
+                                    <option value="draft">ረቂቅ</option>
+                                    <option value="published">ታትሟል</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="form-section-title">የኮርስ ምስል</h2>
+                    <div class="form-group">
+                        <div class="course-image-container" id="course-image-container">
+                            <div class="upload-placeholder" id="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <div class="upload-text">ምስል ለመጫን ጠቅ ያድርጉ ወይም ወደዚህ ይጎትቱ</div>
+                                <div class="form-hint">ከፍተኛ መጠን: 2MB, የሚደገፉ ፎርማቶች: JPG, PNG</div>
+                            </div>
+                            <div class="image-preview" id="image-preview" style="display: none;">
+                                <img id="preview-img" src="" alt="Course Image Preview">
+                                <div class="image-overlay">
+                                    <div class="image-actions">
+                                        <button type="button" class="btn btn-outline" id="change-image-btn">
+                                            <i class="fas fa-exchange-alt"></i> ቀይር
+                                        </button>
+                                        <button type="button" class="btn btn-outline" id="remove-image-btn">
+                                            <i class="fas fa-trash-alt"></i> አስወግድ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="file" id="course-image" accept="image/jpeg, image/png" hidden>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="form-section-title">የኮርስ ይዘቶች</h2>
+                    <div class="materials-list" id="materials-list">
+                        <!-- Materials will be added here dynamically -->
+                    </div>
+                    <button type="button" class="add-material-btn" id="add-material-btn">
+                        <i class="fas fa-plus"></i> አዲስ ትምህርት ያክሉ
+                    </button>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="form-section-title">የኮርስ መግቢያ ቪዲዮ (አማራጭ)</h2>
+                    <div class="form-group">
+                        <div class="video-container">
+                            <div class="video-placeholder" id="video-placeholder">
+                                <i class="fas fa-video"></i>
+                                <div class="video-placeholder-text">ቪዲዮ ለመጫን ጠቅ ያድርጉ ወይም የYouTube URL ያስገቡ</div>
+                            </div>
+                            <div class="video-preview" id="video-preview" style="display: none;">
+                                <!-- Video preview will be shown here -->
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="form-label" for="video-url">የYouTube URL ያስገቡ</label>
+                            <input type="text" id="video-url" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-footer">
+                    <button type="button" class="btn btn-outline" id="save-draft-btn">
+                        <i class="fas fa-save"></i> እንደ ረቂቅ አስቀምጥ
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline" id="preview-btn">
+                            <i class="fas fa-eye"></i> ቅድመ-ዕይታ
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="publish-btn">
+                            <i class="fas fa-paper-plane"></i> አትም እና ላክ
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseForm = document.getElementById('course-form');
+            const courseImageContainer = document.getElementById('course-image-container');
+            const courseImageInput = document.getElementById('course-image');
+            const uploadPlaceholder = document.getElementById('upload-placeholder');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImg = document.getElementById('preview-img');
+            const changeImageBtn = document.getElementById('change-image-btn');
+            const removeImageBtn = document.getElementById('remove-image-btn');
+            const addMaterialBtn = document.getElementById('add-material-btn');
+            const materialsList = document.getElementById('materials-list');
+            const videoPlaceholder = document.getElementById('video-placeholder');
+            const videoPreview = document.getElementById('video-preview');
+            const videoUrlInput = document.getElementById('video-url');
+            const saveDraftBtn = document.getElementById('save-draft-btn');
+            const previewBtn = document.getElementById('preview-btn');
+            const publishBtn = document.getElementById('publish-btn');
+            
+            // Course image upload functionality
+            courseImageContainer.addEventListener('click', function() {
+                if (uploadPlaceholder.style.display !== 'none') {
+                    courseImageInput.click();
+                }
+            });
+            
+            courseImageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        uploadPlaceholder.style.display = 'none';
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            changeImageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                courseImageInput.click();
+            });
+            
+            removeImageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                courseImageInput.value = '';
+                previewImg.src = '';
+                uploadPlaceholder.style.display = 'flex';
+                imagePreview.style.display = 'none';
+            });
+            
+            // Course materials functionality
+            let materialId = 0;
+            
+            addMaterialBtn.addEventListener('click', function() {
+                materialId++;
+                const materialItem = document.createElement('div');
+                materialItem.className = 'material-item';
+                materialItem.dataset.id = materialId;
+                materialItem.innerHTML = `
+                    <div class="material-content">
+                        <i class="fas fa-file-alt material-icon"></i>
+                        <div class="material-title">ትምህርት ${materialId}</div>
+                    </div>
+                    <div class="material-actions">
+                        <button type="button" class="material-action-btn edit" data-id="${materialId}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="material-action-btn delete" data-id="${materialId}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+                materialsList.appendChild(materialItem);
+                
+                // Add event listeners to edit and delete buttons
+                const editBtn = materialItem.querySelector('.edit');
+                const deleteBtn = materialItem.querySelector('.delete');
+                
+                editBtn.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    // Open edit modal or form for this material
+                    alert(`Edit material ${id}`);
+                });
+                
+                deleteBtn.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const materialToRemove = document.querySelector(`.material-item[data-id="${id}"]`);
+                    if (materialToRemove) {
+                        materialsList.removeChild(materialToRemove);
+                    }
+                });
+            });
+            
+            // Video upload functionality
+            videoPlaceholder.addEventListener('click', function() {
+                // Open file dialog or prompt for YouTube URL
+                const useYouTube = confirm('የYouTube URL ለመጠቀም ይፈልጋሉ? ለመጠቀም OK ያስጫኑ, ፋይል ለመጫን Cancel ያስጫኑ።');
+                if (useYouTube) {
+                    videoUrlInput.focus();
+                } else {
+                    alert('ይህ ባህሪ በአሁኑ ጊዜ አልተገነባም።');
+                }
+            });
+            
+            videoUrlInput.addEventListener('change', function() {
+                const url = this.value.trim();
+                if (url) {
+                    // Extract video ID from YouTube URL
+                    let videoId = '';
+                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                    const match = url.match(regExp);
+                    
+                    if (match && match[2].length === 11) {
+                        videoId = match[2];
+                        videoPreview.innerHTML = `
+                            <iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+                        `;
+                        videoPlaceholder.style.display = 'none';
+                        videoPreview.style.display = 'block';
+                    } else {
+                        alert('እባክዎ ትክክለኛ የYouTube URL ያስገቡ።');
+                    }
+                }
+            });
+            
+            // Form submission and buttons
+            saveDraftBtn.addEventListener('click', function() {
+                // Set status to draft and submit form
+                document.getElementById('course-status').value = 'draft';
+                // Save logic here
+                alert('ኮርሱ እንደ ረቂቅ ተቀምጧል።');
+            });
+            
+            previewBtn.addEventListener('click', function() {
+                // Open preview in new tab or modal
+                alert('ቅድመ-ዕይታ አሁን ዝግጁ አይደለም።');
+            });
+            
+            courseForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Validate form
+                if (this.checkValidity()) {
+                    // Submit form logic here
+                    alert('ኮርሱ በተሳካ ሁኔታ ተፈጥሯል እና ተልኳል።');
+                } else {
+                    alert('እባክዎ ሁሉንም አስፈላጊ መስኮች ይሙሉ።');
+                }
+            });
+            
+            // Initialize date display
+            const dateDisplay = document.querySelector('.date-display');
+            if (dateDisplay) {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                dateDisplay.textContent = now.toLocaleDateString('am-ET', options);
+            }
+        });
+    </script>
+</body>
+</html> 

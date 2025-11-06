@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የቡድን ውይይት</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .groups-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        .groups-sidebar {
+            width: 300px;
+            background-color: white;
+            border-right: 1px solid #eee;
+            overflow-y: auto;
+        }
+
+        .groups-search {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .groups-list {
+            padding: 10px 0;
+        }
+
+        .group-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .group-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .group-item.active {
+            background-color: #e6f1ff;
+            border-left-color: var(--primary-color);
+        }
+
+        .group-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .group-info {
+            flex: 1;
+        }
+
+        .group-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .group-last-message {
+            font-size: 13px;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .group-meta {
+            text-align: right;
+            margin-left: 5px;
+        }
+
+        .group-time {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .group-unread {
+            display: inline-block;
+            min-width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+            font-size: 11px;
+            padding: 0 5px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-group-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .chat-group-info h2 {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .chat-group-members {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .chat-actions {
+            display: flex;
+        }
+
+        .chat-action {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f5f7fa;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message-sender-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .message-content {
+            max-width: 70%;
+        }
+
+        .message-sender-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .message-bubble {
+            background-color: white;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message.own {
+            flex-direction: row-reverse;
+        }
+
+        .message.own .message-sender-avatar {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .message.own .message-bubble {
+            background-color: #e3f2fd;
+        }
+
+        .message.own .message-time {
+            text-align: left;
+        }
+
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-actions {
+            display: flex;
+            margin-right: 10px;
+        }
+
+        .input-action {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .message-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-button:hover {
+            background-color: #3367d6;
+        }
+
+        .create-group {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .create-group-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .create-group-btn i {
+            margin-right: 5px;
+        }
+
+        .create-group-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .empty-chat {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #888;
+        }
+
+        .empty-chat-icon {
+            font-size: 50px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .empty-chat-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .empty-chat-subtext {
+            font-size: 14px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .groups-sidebar {
+                width: 100%;
+                position: absolute;
+                height: calc(100vh - 60px);
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                z-index: 10;
+            }
+
+            .groups-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .show-groups {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሰላም አበበ</div>
+                    <div class="user-role">የ9ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="../grade9s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="../grade9s/learn-cource.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="../grade9s/work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="../grade9s/take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="group-chat.html" class="menu-item active">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="../grade9s/chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="../settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="../help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="show-groups">
+                    <i class="fas fa-list"></i>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="groups-container">
+            <div class="groups-sidebar">
+                <div class="create-group">
+                    <button class="create-group-btn">
+                        <i class="fas fa-plus"></i> አዲስ ቡድን ይፍጠሩ
+                    </button>
+                </div>
+                <div class="groups-search">
+                    <input type="text" class="search-input" placeholder="ቡድኖችን ይፈልጉ...">
+                </div>
+                <div class="groups-list">
+                    <div class="group-item active">
+                        <img src="https://via.placeholder.com/40/4285f4/ffffff?text=9" alt="Group" class="group-avatar">
+                        <div class="group-info">
+                            <div class="group-name">የ9ኛ ክፍል ቡድን</div>
+                            <div class="group-last-message">ሰላም ሁሉም! የሂሳብ ፈተና መቼ ነው?</div>
+                        </div>
+                        <div class="group-meta">
+                            <div class="group-time">12:30 PM</div>
+                            <div class="group-unread">3</div>
+                        </div>
+                    </div>
+                    <div class="group-item">
+                        <img src="https://via.placeholder.com/40/34a853/ffffff?text=M" alt="Group" class="group-avatar">
+                        <div class="group-info">
+                            <div class="group-name">የሂሳብ ክበብ</div>
+                            <div class="group-last-message">የቀጣዩ ስብሰባ ጊዜ ተቀይሯል</div>
+                        </div>
+                        <div class="group-meta">
+                            <div class="group-time">ትላንት</div>
+                        </div>
+                    </div>
+                    <div class="group-item">
+                        <img src="https://via.placeholder.com/40/fbbc05/ffffff?text=S" alt="Group" class="group-avatar">
+                        <div class="group-info">
+                            <div class="group-name">የሳይንስ ክበብ</div>
+                            <div class="group-last-message">ዛሬ ፕሮጀክቶቹን በተመለከተ እንነጋገራለን</div>
+                        </div>
+                        <div class="group-meta">
+                            <div class="group-time">ትላንት</div>
+                            <div class="group-unread">1</div>
+                        </div>
+                    </div>
+                    <div class="group-item">
+                        <img src="https://via.placeholder.com/40/ea4335/ffffff?text=L" alt="Group" class="group-avatar">
+                        <div class="group-info">
+                            <div class="group-name">የቋንቋ ክበብ</div>
+                            <div class="group-last-message">የቀጣዩ የንባብ መጽሐፍ ምርጫዎች</div>
+                        </div>
+                        <div class="group-meta">
+                            <div class="group-time">5/23/23</div>
+                        </div>
+                    </div>
+                    <div class="group-item">
+                        <img src="https://via.placeholder.com/40/4285f4/ffffff?text=P" alt="Group" class="group-avatar">
+                        <div class="group-info">
+                            <div class="group-name">የፕሮጀክት ቡድን #3</div>
+                            <div class="group-last-message">ፕሮጀክት ሪፖርቱን ሳይሆን እሰጣለሁ</div>
+                        </div>
+                        <div class="group-meta">
+                            <div class="group-time">5/20/23</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <img src="https://via.placeholder.com/40/4285f4/ffffff?text=9" alt="Group" class="chat-group-avatar">
+                        <div class="chat-group-info">
+                            <h2>የ9ኛ ክፍል ቡድን</h2>
+                            <div class="chat-group-members">32 አባላት</div>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <div class="chat-action">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="chat-action">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="chat-action">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="chat-action">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages">
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="message-sender-avatar">
+                        <div class="message-content">
+                            <div class="message-sender-name">አበበ ታደሰ</div>
+                            <div class="message-bubble">
+                                ሰላም ሁሉም! የሂሳብ ፈተና መቼ ነው? የጊዜ ሰሌዳውን ማየት አልቻልኩም።
+                            </div>
+                            <div class="message-time">12:15 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/women/41.jpg" alt="User" class="message-sender-avatar">
+                        <div class="message-content">
+                            <div class="message-sender-name">ሰላም ከበደ</div>
+                            <div class="message-bubble">
+                                የሂሳብ ፈተናው ዓርብ ከጥዋቱ 10:00 AM ነው
+                            </div>
+                            <div class="message-time">12:18 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="message-sender-avatar">
+                        <div class="message-content">
+                            <div class="message-sender-name">ዳዊት መኮንን</div>
+                            <div class="message-bubble">
+                                አዎ፣ እና እንዳትረሱ ኃላፊው የፈተናው ቦታ ወደ ትልቁ አዳራሽ ተቀይሯል ብለዋል።
+                            </div>
+                            <div class="message-time">12:20 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="message own">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="message-sender-avatar">
+                        <div class="message-content">
+                            <div class="message-sender-name">እኔ</div>
+                            <div class="message-bubble">
+                                አመሰግናለሁ! ዝግጁ መሆን አለብን። የሰሞኑ ምዕራፎች በጣም አስቸጋሪ ናቸው።
+                            </div>
+                            <div class="message-time">12:25 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="message-sender-avatar">
+                        <div class="message-content">
+                            <div class="message-sender-name">አበበ ታደሰ</div>
+                            <div class="message-bubble">
+                                ትክክል ነሽ። ዛሬ ከትምህርት በኋላ ለጥናት የሚሰበሰብ ቡድን አለ? ከተባበርን የተሻለ ይሆናል ብዬ አስባለሁ።
+                            </div>
+                            <div class="message-time">12:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-actions">
+                        <div class="input-action">
+                            <i class="far fa-smile"></i>
+                        </div>
+                        <div class="input-action">
+                            <i class="fas fa-paperclip"></i>
+                        </div>
+                        <div class="input-action">
+                            <i class="fas fa-image"></i>
+                        </div>
+                    </div>
+                    <input type="text" class="message-input" placeholder="መልዕክት ይጻፉ...">
+                    <button class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // Mobile groups toggle
+        document.querySelector('.show-groups').addEventListener('click', function() {
+            document.querySelector('.groups-sidebar').classList.toggle('open');
+        });
+
+        // Group selection
+        const groupItems = document.querySelectorAll('.group-item');
+        groupItems.forEach(item => {
+            item.addEventListener('click', () => {
+                groupItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                // On mobile, close the groups sidebar after selection
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.groups-sidebar').classList.remove('open');
+                }
+            });
+        });
+    </script>
+    <script src="js/grade-detector.js"></script>
+</body>
+</html>

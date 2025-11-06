@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ11ኛ ክፍል መምህር ዳሽቦርድ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">11ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ11ኛ ክፍል መምህር ዳሽቦርድ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="greeting">
+            <h1 class="greeting-title">እንኳን ደህና መጡ, መምህር ታሪኩ!</h1>
+            <p class="greeting-subtitle">የዛሬ ቀን: <span id="current-date"></span> | የተመጣጠነ የመማር ማስተማር ሂደት ይኑርዎት</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stats-card students">
+                <div class="stats-card-header">
+                    <div class="stats-card-icon icon-blue">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stats-card-title">ጠቅላላ ተማሪዎች</div>
+                </div>
+                <div class="stats-card-value">162</div>
+                <div class="stats-card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> 8% ከባለፈው ወር
+                </div>
+            </div>
+
+            <div class="stats-card assignments">
+                <div class="stats-card-header">
+                    <div class="stats-card-icon icon-green">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stats-card-title">የቤት ስራዎች</div>
+                </div>
+                <div class="stats-card-value">18</div>
+                <div class="stats-card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> 5% ከባለፈው ወር
+                </div>
+            </div>
+
+            <div class="stats-card classes">
+                <div class="stats-card-header">
+                    <div class="stats-card-icon icon-orange">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stats-card-title">ክፍሎች</div>
+                </div>
+                <div class="stats-card-value">5</div>
+                <div class="stats-card-trend">
+                    <i class="fas fa-equals"></i> ተመሳሳይ ከባለፈው ወር
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-row">
+            <div class="card">
+                <h2 class="card-title">
+                    የዛሬ የጊዜ ሰሌዳ
+                    <span class="btn-text view-all">ሁሉንም ይመልከቱ</span>
+                </h2>
+                <div class="schedule-grid">
+                    <div class="schedule-time">8:00 AM</div>
+                    <div class="schedule-class math-class">
+                        <div class="schedule-class-title">ሂሳብ (Mathematics)</div>
+                        <div class="schedule-class-details">11A | 45 ደቂቃ</div>
+                    </div>
+
+                    <div class="schedule-time">9:15 AM</div>
+                    <div class="schedule-class" style="background-color: rgba(234, 67, 53, 0.1); border-left: 3px solid var(--danger-color);">
+                        <div class="schedule-class-title">ፊዚክስ (Physics)</div>
+                        <div class="schedule-class-details">11B | 45 ደቂቃ</div>
+                    </div>
+
+                    <div class="schedule-time">10:30 AM</div>
+                    <div class="schedule-class" style="background-color: rgba(52, 168, 83, 0.1); border-left: 3px solid var(--secondary-color);">
+                        <div class="schedule-class-title">ኬሚስትሪ (Chemistry)</div>
+                        <div class="schedule-class-details">11A | 45 ደቂቃ</div>
+                    </div>
+
+                    <div class="schedule-time">1:00 PM</div>
+                    <div class="schedule-class" style="background-color: rgba(251, 188, 5, 0.1); border-left: 3px solid var(--accent-color);">
+                        <div class="schedule-class-title">ባዮሎጂ (Biology)</div>
+                        <div class="schedule-class-details">11C | 45 ደቂቃ</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">
+                    ማሳሰቢያዎች
+                    <span class="btn-text view-all">ሁሉንም ይመልከቱ</span>
+                </h2>
+                <ul class="notification-list">
+                    <li class="notification-item">
+                        <div class="notification-icon" style="background-color: rgba(251, 188, 5, 0.1); color: var(--accent-color);">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">የተማሪዎች ምዘና ሪፖርት ማዘጋጀት</div>
+                            <div class="notification-time">ዛሬ 2:30 PM</div>
+                        </div>
+                    </li>
+                    <li class="notification-item">
+                        <div class="notification-icon" style="background-color: rgba(66, 133, 244, 0.1); color: var(--primary-color);">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">ከወላጆች ጋር የሚደረግ ውይይት</div>
+                            <div class="notification-time">ነገ 9:00 AM</div>
+                        </div>
+                    </li>
+                    <li class="notification-item">
+                        <div class="notification-icon" style="background-color: rgba(52, 168, 83, 0.1); color: var(--secondary-color);">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">የሂሳብ ፈተና ውጤት ማስገባት</div>
+                            <div class="notification-time">ዓርብ 10:00 AM</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">
+                የቅርብ ጊዜ አክቲቪቲዎች
+                <span class="btn-text view-all">ሁሉንም ይመልከቱ</span>
+            </h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ሰዓት</th>
+                            <th>ክፍል</th>
+                            <th>አክቲቪቲ</th>
+                            <th>ዝርዝር</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ዛሬ 8:30 AM</td>
+                            <td>11A</td>
+                            <td>ፈተና ተሰጥቷል</td>
+                            <td>የሂሳብ የክፍለ ጊዜ ፈተና ተሰጥቷል</td>
+                        </tr>
+                        <tr>
+                            <td>ትላንት 1:15 PM</td>
+                            <td>11B</td>
+                            <td>ውጤት ተመዝግቧል</td>
+                            <td>የፊዚክስ የቤት ስራ ውጤት ተመዝግቧል</td>
+                        </tr>
+                        <tr>
+                            <td>ትላንት 10:45 AM</td>
+                            <td>11C</td>
+                            <td>የቤት ስራ ተሰጥቷል</td>
+                            <td>የባዮሎጂ የቤት ስራ ተሰጥቷል</td>
+                        </tr>
+                        <tr>
+                            <td>ትላንት 9:20 AM</td>
+                            <td>11A</td>
+                            <td>ውጤት ተመዝግቧል</td>
+                            <td>የኬሚስትሪ ፈተና ውጤት ተመዝግቧል</td>
+                        </tr>
+                        <tr>
+                            <td>3 ቀን በፊት</td>
+                            <td>11B</td>
+                            <td>የቤት ስራ ተመልሷል</td>
+                            <td>የሂሳብ የቤት ስራ ተመልሷል</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date in greeting
+            const currentDate = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = new Intl.DateTimeFormat('am-ET', options).format(currentDate);
+            
+            // View all buttons
+            document.querySelectorAll('.view-all').forEach(button => {
+                button.addEventListener('click', function() {
+                    const title = this.closest('.card-title').textContent.trim().split('ሁሉንም')[0].trim();
+                    alert(`"${title}" ሁሉንም ይመልከቱ ተጭኗል`);
+                });
+            });
+            
+            // Make table rows clickable
+            document.querySelectorAll('.data-table tbody tr').forEach(row => {
+                row.addEventListener('click', function() {
+                    const activity = this.children[2].textContent;
+                    const details = this.children[3].textContent;
+                    alert(`${activity}: ${details}`);
+                });
+                row.style.cursor = 'pointer';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል ፈተና መፍጠር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Specific styles for quiz creation page */
+        .question-container {
+            background-color: var(--card-background);
+            border-radius: var(--card-border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .question-number {
+            font-weight: 500;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .question-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .question-control-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--card-background-alt);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .question-control-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .question-types {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .question-type-option {
+            padding: 8px 15px;
+            border-radius: var(--button-border-radius);
+            background-color: var(--card-background-alt);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 14px;
+        }
+        
+        .question-type-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .options-container {
+            margin-top: 20px;
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .option-prefix {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-background-alt);
+            border-radius: 50%;
+            font-weight: 500;
+        }
+        
+        .option-input {
+            flex: 1;
+        }
+        
+        .option-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-option-btn {
+            margin-top: 10px;
+            margin-left: 40px;
+        }
+        
+        .add-question-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed var(--border-color);
+            background-color: transparent;
+            border-radius: var(--card-border-radius);
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-bottom: 30px;
+        }
+        
+        .add-question-btn:hover {
+            background-color: rgba(var(--primary-rgb), 0.05);
+            border-color: var(--primary-color);
+        }
+        
+        .quiz-details {
+            margin-bottom: 30px;
+        }
+        
+        .quiz-settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .quiz-settings {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል ፈተና መፍጠር</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">የ12ኛ ክፍል ፈተና መፍጠር</h1>
+        <p class="page-subtitle">የተማሪዎችን ዕውቀት ለመገምገም አዲስ ፈተና ይፍጠሩ፣ ለዩኒቨርሲቲ መግቢያ ፈተናዎች ክለሳዎች ጨምሮ</p>
+
+        <form id="create-quiz-form">
+            <div class="card quiz-details">
+                <h2 class="card-title">የፈተና ዝርዝሮች</h2>
+                <div class="form-group">
+                    <label for="quiz-title">የፈተና ርዕስ</label>
+                    <input type="text" id="quiz-title" class="form-control" placeholder="የፈተናው ርዕስ ያስገቡ" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quiz-description">መግለጫ</label>
+                    <textarea id="quiz-description" class="form-control" rows="3" placeholder="የፈተናው አጭር መግለጫ ያስገቡ"></textarea>
+                </div>
+                
+                <div class="quiz-settings">
+                    <div class="form-group">
+                        <label for="quiz-type">የፈተና ዓይነት</label>
+                        <select id="quiz-type" class="form-control">
+                            <option value="regular">መደበኛ ፈተና</option>
+                            <option value="exam">ማጠቃለያ ፈተና</option>
+                            <option value="university-prep">ለዩኒቨርሲቲ ዝግጅት</option>
+                            <option value="assessment">ግምገማ</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quiz-subject">የትምህርት ዓይነት</label>
+                        <select id="quiz-subject" class="form-control">
+                            <option value="math">ሂሳብ</option>
+                            <option value="physics">ፊዚክስ</option>
+                            <option value="chemistry">ኬሚስትሪ</option>
+                            <option value="biology">ባዮሎጂ</option>
+                            <option value="english">እንግሊዝኛ</option>
+                            <option value="amharic">አማርኛ</option>
+                            <option value="civics">ሲቪክስ</option>
+                            <option value="ict">ICT</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quiz-time">የፈተና ጊዜ (በደቂቃ)</label>
+                        <input type="number" id="quiz-time" class="form-control" value="60" min="5" max="180">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quiz-points">ጠቅላላ ነጥብ</label>
+                        <input type="number" id="quiz-points" class="form-control" value="100" min="5" max="500">
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">ጥያቄዎች</h2>
+            
+            <div id="questions-container">
+                <div class="question-container" data-question-id="1">
+                    <div class="question-header">
+                        <div class="question-number">ጥያቄ 1</div>
+                        <div class="question-controls">
+                            <button type="button" class="question-control-btn copy-question" title="ቅጂ ጥያቄ">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <button type="button" class="question-control-btn delete-question" title="ጥያቄ ሰርዝ">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-types">
+                        <div class="question-type-option active">ብዙ ምርጫ</div>
+                        <div class="question-type-option">ትክክል/ስህተት</div>
+                        <div class="question-type-option">አጭር መልስ</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="question-text-1">ጥያቄ</label>
+                        <textarea id="question-text-1" class="form-control" rows="2" placeholder="ጥያቄውን ያስገቡ" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="question-points-1">ነጥብ</label>
+                        <input type="number" id="question-points-1" class="form-control" value="5" min="1" max="100">
+                    </div>
+                    
+                    <div class="options-container">
+                        <div class="option-item">
+                            <div class="option-prefix">A</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ A" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-1" value="A" checked>
+                            </div>
+                        </div>
+                        
+                        <div class="option-item">
+                            <div class="option-prefix">B</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ B" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-1" value="B">
+                            </div>
+                        </div>
+                        
+                        <div class="option-item">
+                            <div class="option-prefix">C</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ C" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-1" value="C">
+                            </div>
+                        </div>
+                        
+                        <div class="option-item">
+                            <div class="option-prefix">D</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ D" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-1" value="D">
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="add-option-btn btn-text">
+                            <i class="fas fa-plus-circle"></i> አማራጭ ጨምር
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="button" id="add-question-btn" class="add-question-btn">
+                <i class="fas fa-plus-circle"></i> አዲስ ጥያቄ ጨምር
+            </button>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary">
+                    <i class="far fa-save"></i> እንደ ረቂቅ አስቀምጥ
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check-circle"></i> ፈተና ፍጠር
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the quiz page functionality
+            initQuizPage();
+            
+            // Question number counter
+            let questionCounter = 1;
+            
+            // Add new question
+            document.getElementById('add-question-btn').addEventListener('click', function() {
+                questionCounter++;
+                
+                const questionContainer = document.createElement('div');
+                questionContainer.className = 'question-container';
+                questionContainer.dataset.questionId = questionCounter;
+                
+                questionContainer.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">ጥያቄ ${questionCounter}</div>
+                        <div class="question-controls">
+                            <button type="button" class="question-control-btn copy-question" title="ቅጂ ጥያቄ">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <button type="button" class="question-control-btn delete-question" title="ጥያቄ ሰርዝ">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-types">
+                        <div class="question-type-option active">ብዙ ምርጫ</div>
+                        <div class="question-type-option">ትክክል/ስህተት</div>
+                        <div class="question-type-option">አጭር መልስ</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="question-text-${questionCounter}">ጥያቄ</label>
+                        <textarea id="question-text-${questionCounter}" class="form-control" rows="2" placeholder="ጥያቄውን ያስገቡ" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="question-points-${questionCounter}">ነጥብ</label>
+                        <input type="number" id="question-points-${questionCounter}" class="form-control" value="5" min="1" max="100">
+                    </div>
+                    
+                    <div class="options-container">
+                        <div class="option-item">
+                            <div class="option-prefix">A</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ A" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-${questionCounter}" value="A" checked>
+                            </div>
+                        </div>
+                        
+                        <div class="option-item">
+                            <div class="option-prefix">B</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ B" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-${questionCounter}" value="B">
+                            </div>
+                        </div>
+                        
+                        <div class="option-item">
+                            <div class="option-prefix">C</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ C" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-${questionCounter}" value="C">
+                            </div>
+                        </div>
+                        
+                        <div class="option-item">
+                            <div class="option-prefix">D</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ D" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-${questionCounter}" value="D">
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="add-option-btn btn-text">
+                            <i class="fas fa-plus-circle"></i> አማራጭ ጨምር
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('questions-container').appendChild(questionContainer);
+                setupQuestionEvents(questionContainer);
+            });
+            
+            // Setup events for existing questions
+            document.querySelectorAll('.question-container').forEach(setupQuestionEvents);
+            
+            // Question type switching
+            function setupQuestionEvents(questionContainer) {
+                // Question type options
+                questionContainer.querySelectorAll('.question-type-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const typeOptions = this.parentElement.querySelectorAll('.question-type-option');
+                        typeOptions.forEach(opt => opt.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Change options based on question type
+                        const optionsContainer = questionContainer.querySelector('.options-container');
+                        const questionType = this.textContent.trim();
+                        
+                        if (questionType === 'ትክክል/ስህተት') {
+                            setupTrueFalseOptions(optionsContainer, questionContainer.dataset.questionId);
+                        } else if (questionType === 'አጭር መልስ') {
+                            setupShortAnswerOptions(optionsContainer);
+                        } else if (questionType === 'ብዙ ምርጫ') {
+                            setupMultipleChoiceOptions(optionsContainer, questionContainer.dataset.questionId);
+                        }
+                    });
+                });
+                
+                // Add option button
+                const addOptionBtn = questionContainer.querySelector('.add-option-btn');
+                if (addOptionBtn) {
+                    addOptionBtn.addEventListener('click', function() {
+                        const optionsContainer = this.closest('.options-container');
+                        const optionItems = optionsContainer.querySelectorAll('.option-item');
+                        const nextLetter = String.fromCharCode(65 + optionItems.length); // 65 is ASCII for 'A'
+                        const questionId = this.closest('.question-container').dataset.questionId;
+                        
+                        const optionItem = document.createElement('div');
+                        optionItem.className = 'option-item';
+                        optionItem.innerHTML = `
+                            <div class="option-prefix">${nextLetter}</div>
+                            <input type="text" class="form-control option-input" placeholder="አማራጭ ${nextLetter}" required>
+                            <div class="option-controls">
+                                <input type="radio" name="correct-option-${questionId}" value="${nextLetter}">
+                            </div>
+                        `;
+                        
+                        // Insert before add button
+                        this.parentNode.insertBefore(optionItem, this);
+                    });
+                }
+                
+                // Delete question
+                const deleteBtn = questionContainer.querySelector('.delete-question');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function() {
+                        const confirmDelete = confirm('እርግጠኛ ነዎት ይህን ጥያቄ መሰረዝ ይፈልጋሉ?');
+                        if (confirmDelete) {
+                            this.closest('.question-container').remove();
+                            
+                            // Reorder question numbers
+                            document.querySelectorAll('.question-container').forEach((container, index) => {
+                                container.querySelector('.question-number').textContent = `ጥያቄ ${index + 1}`;
+                                container.dataset.questionId = index + 1;
+                                
+                                // Update radio button names
+                                container.querySelectorAll('input[type="radio"]').forEach(radio => {
+                                    radio.name = `correct-option-${index + 1}`;
+                                });
+                            });
+                        }
+                    });
+                }
+                
+                // Copy question
+                const copyBtn = questionContainer.querySelector('.copy-question');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', function() {
+                        const originalContainer = this.closest('.question-container');
+                        questionCounter++;
+                        
+                        const clonedContainer = originalContainer.cloneNode(true);
+                        clonedContainer.dataset.questionId = questionCounter;
+                        clonedContainer.querySelector('.question-number').textContent = `ጥያቄ ${questionCounter}`;
+                        
+                        // Update ids and names
+                        clonedContainer.querySelectorAll('[id]').forEach(el => {
+                            if (el.id.includes('-')) {
+                                const parts = el.id.split('-');
+                                el.id = parts.slice(0, -1).join('-') + '-' + questionCounter;
+                            }
+                        });
+                        
+                        clonedContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+                            radio.name = `correct-option-${questionCounter}`;
+                        });
+                        
+                        document.getElementById('questions-container').appendChild(clonedContainer);
+                        setupQuestionEvents(clonedContainer);
+                    });
+                }
+            }
+            
+            // Setup true/false options
+            function setupTrueFalseOptions(container, questionId) {
+                // Clear container
+                container.innerHTML = '';
+                
+                // Add true option
+                const trueOption = document.createElement('div');
+                trueOption.className = 'option-item';
+                trueOption.innerHTML = `
+                    <div class="option-prefix">A</div>
+                    <input type="text" class="form-control option-input" value="እውነት" readonly>
+                    <div class="option-controls">
+                        <input type="radio" name="correct-option-${questionId}" value="A" checked>
+                    </div>
+                `;
+                container.appendChild(trueOption);
+                
+                // Add false option
+                const falseOption = document.createElement('div');
+                falseOption.className = 'option-item';
+                falseOption.innerHTML = `
+                    <div class="option-prefix">B</div>
+                    <input type="text" class="form-control option-input" value="ሐሰት" readonly>
+                    <div class="option-controls">
+                        <input type="radio" name="correct-option-${questionId}" value="B">
+                    </div>
+                `;
+                container.appendChild(falseOption);
+            }
+            
+            // Setup short answer options
+            function setupShortAnswerOptions(container) {
+                // Clear container
+                container.innerHTML = '';
+                
+                // Add short answer field
+                const shortAnswerField = document.createElement('div');
+                shortAnswerField.className = 'form-group';
+                shortAnswerField.innerHTML = `
+                    <label>የሚጠበቀው መልስ</label>
+                    <textarea class="form-control" rows="2" placeholder="የሚጠበቀውን መልስ ይፃፉ"></textarea>
+                `;
+                container.appendChild(shortAnswerField);
+            }
+            
+            // Setup multiple choice options
+            function setupMultipleChoiceOptions(container, questionId) {
+                // Clear container
+                container.innerHTML = '';
+                
+                // Add options A through D
+                ['A', 'B', 'C', 'D'].forEach((letter, index) => {
+                    const option = document.createElement('div');
+                    option.className = 'option-item';
+                    option.innerHTML = `
+                        <div class="option-prefix">${letter}</div>
+                        <input type="text" class="form-control option-input" placeholder="አማራጭ ${letter}" required>
+                        <div class="option-controls">
+                            <input type="radio" name="correct-option-${questionId}" value="${letter}" ${index === 0 ? 'checked' : ''}>
+                        </div>
+                    `;
+                    container.appendChild(option);
+                });
+                
+                // Add the "add option" button
+                const addOptionBtn = document.createElement('button');
+                addOptionBtn.type = 'button';
+                addOptionBtn.className = 'add-option-btn btn-text';
+                addOptionBtn.innerHTML = '<i class="fas fa-plus-circle"></i> አማራጭ ጨምር';
+                
+                addOptionBtn.addEventListener('click', function() {
+                    const optionsContainer = this.closest('.options-container');
+                    const optionItems = optionsContainer.querySelectorAll('.option-item');
+                    const nextLetter = String.fromCharCode(65 + optionItems.length); // 65 is ASCII for 'A'
+                    
+                    const optionItem = document.createElement('div');
+                    optionItem.className = 'option-item';
+                    optionItem.innerHTML = `
+                        <div class="option-prefix">${nextLetter}</div>
+                        <input type="text" class="form-control option-input" placeholder="አማራጭ ${nextLetter}" required>
+                        <div class="option-controls">
+                            <input type="radio" name="correct-option-${questionId}" value="${nextLetter}">
+                        </div>
+                    `;
+                    
+                    // Insert before add button
+                    this.parentNode.insertBefore(optionItem, this);
+                });
+                
+                container.appendChild(addOptionBtn);
+            }
+            
+            // Form submission
+            document.getElementById('create-quiz-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if(!validateForm(this)) {
+                    return;
+                }
+                
+                // Gather quiz data
+                const quizData = {
+                    title: document.getElementById('quiz-title').value.trim(),
+                    description: document.getElementById('quiz-description').value.trim(),
+                    type: document.getElementById('quiz-type').value,
+                    subject: document.getElementById('quiz-subject').value,
+                    time: document.getElementById('quiz-time').value,
+                    points: document.getElementById('quiz-points').value,
+                    questions: []
+                };
+                
+                // Gather questions data
+                document.querySelectorAll('.question-container').forEach(container => {
+                    const questionId = container.dataset.questionId;
+                    const questionType = container.querySelector('.question-type-option.active').textContent.trim();
+                    
+                    const question = {
+                        text: document.getElementById(`question-text-${questionId}`).value.trim(),
+                        points: document.getElementById(`question-points-${questionId}`).value,
+                        type: questionType,
+                        options: [],
+                        correctAnswer: ''
+                    };
+                    
+                    // Get options and correct answer based on question type
+                    if (questionType === 'ብዙ ምርጫ' || questionType === 'ትክክል/ስህተት') {
+                        container.querySelectorAll('.option-item').forEach(optionItem => {
+                            const prefix = optionItem.querySelector('.option-prefix').textContent;
+                            const text = optionItem.querySelector('.option-input').value;
+                            const isCorrect = optionItem.querySelector('input[type="radio"]').checked;
+                            
+                            question.options.push({
+                                prefix: prefix,
+                                text: text
+                            });
+                            
+                            if (isCorrect) {
+                                question.correctAnswer = prefix;
+                            }
+                        });
+                    } else if (questionType === 'አጭር መልስ') {
+                        question.correctAnswer = container.querySelector('textarea').value.trim();
+                    }
+                    
+                    quizData.questions.push(question);
+                });
+                
+                // Validate questions
+                if (quizData.questions.length === 0) {
+                    alert('እባክዎ ቢያንስ አንድ ጥያቄ ያክሉ');
+                    return;
+                }
+                
+                // Submit quiz data
+                console.log('Quiz data:', quizData);
+                alert(`"${quizData.title}" የሚለው ፈተና በተሳካ ሁኔታ ተፈጥሯል።`);
+                
+                // Redirect to quiz list
+                window.location.href = 'send-quiz.html';
+            });
+        });
+    </script>
+       <script src="js/form-validator.js"></script>
+       <script src="js/utils.js"></script>
+       <script src="js/navigation.js"></script>
+</body>
+</html> 

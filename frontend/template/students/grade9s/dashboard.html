@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ9ኛ ክፍል ተማሪ ዳሽቦርድ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4; /* Blue - promoting focus and learning */
+            --secondary-color: #34a853; /* Green - growth and development */
+            --accent-color: #fbbc05; /* Yellow - energy and optimism */
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #34a853;
+            --info-color: #4285f4;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #1a73e8; /* Deeper blue for sidebar */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .course-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .course-image {
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .course-card:hover .course-image img {
+            transform: scale(1.05);
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .course-instructor {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .course-instructor i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .course-progress {
+            margin-bottom: 15px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-value {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .course-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .course-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .learn-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .quiz-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .course-btn i {
+            margin-right: 5px;
+        }
+
+        .course-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            gap: 5px;
+        }
+
+        .course-tag {
+            background-color: #f0f0f0;
+            color: #666;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .schedule-section, .announcements-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .view-all {
+            color: var(--primary-color);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .schedule-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-time {
+            flex-basis: 100px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .schedule-info {
+            flex-grow: 1;
+        }
+
+        .schedule-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .schedule-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .announcement-item {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .announcement-title {
+            font-weight: 500;
+        }
+
+        .announcement-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .announcement-text {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .courses-grid, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሰላም አበበ</div>
+                    <div class="user-role">የ9ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-cource.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="../settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="../help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈልግ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 class="page-title">እንኳን ደህና ፣ ሰላም!</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: var(--primary-color);">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">ጠቅላላ ትምህርቶች</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: var(--secondary-color);">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="stat-value">4</div>
+                <div class="stat-label">የቤት ስራዎች</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: var(--accent-color);">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-value">86%</div>
+                <div class="stat-label">አማካይ ውጤት</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: var(--danger-color);">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">የተጠናቀቁ ሰዓታት</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div>
+                <h2 class="section-title">
+                    <i class="fas fa-book"></i>
+                    የኔ ትምህርቶች
+                    <a href="learn-cource.html" class="view-all">ሁሉንም አሳይ</a>
+                </h2>
+
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80" alt="Mathematics">
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">ሂሳብ</h3>
+                            <div class="course-instructor">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                አስተማሪ: መምህር ብርሃኑ
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-text">
+                                    <span>ሂደት</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 75%; background-color: var(--primary-color);"></div>
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <a href="learn-cource.html" class="course-btn learn-btn">
+                                    <i class="fas fa-play"></i> ተማር
+                                </a>
+                                <a href="take-quiz.html" class="course-btn quiz-btn">
+                                    <i class="fas fa-question-circle"></i> ፈተና
+                                </a>
+                            </div>
+                            <div class="course-tags">
+                                <span class="course-tag">አልጄብራ</span>
+                                <span class="course-tag">ጂኦሜትሪ</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Physics">
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">ፊዚክስ</h3>
+                            <div class="course-instructor">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                አስተማሪ: መምህር ኤፍሬም
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-text">
+                                    <span>ሂደት</span>
+                                    <span>60%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 60%; background-color: var(--info-color);"></div>
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <a href="learn-cource.html" class="course-btn learn-btn">
+                                    <i class="fas fa-play"></i> ተማር
+                                </a>
+                                <a href="take-quiz.html" class="course-btn quiz-btn">
+                                    <i class="fas fa-question-circle"></i> ፈተና
+                                </a>
+                            </div>
+                            <div class="course-tags">
+                                <span class="course-tag">ሞሽን</span>
+                                <span class="course-tag">ኢነርጂ</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1504507926084-34cf0b939964?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="English">
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">እንግሊዘኛ</h3>
+                            <div class="course-instructor">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                አስተማሪ: መምህር ሰናይት
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-text">
+                                    <span>ሂደት</span>
+                                    <span>90%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 90%; background-color: var(--success-color);"></div>
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <a href="learn-cource.html" class="course-btn learn-btn">
+                                    <i class="fas fa-play"></i> ተማር
+                                </a>
+                                <a href="take-quiz.html" class="course-btn quiz-btn">
+                                    <i class="fas fa-question-circle"></i> ፈተና
+                                </a>
+                            </div>
+                            <div class="course-tags">
+                                <span class="course-tag">ግራመር</span>
+                                <span class="course-tag">ሊትሬቸር</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-calendar"></i>
+                        የዛሬ የጊዜ ሰሌዳ
+                        <a href="#" class="view-all">ሁሉንም አሳይ</a>
+                    </h2>
+                    <div class="schedule-item">
+                        <div class="schedule-time">8:30 - 10:00</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">ሂሳብ</div>
+                            <div class="schedule-subtitle">ክፍል 205 | መምህር ብርሃኑ</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">10:15 - 11:45</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">ፊዚክስ</div>
+                            <div class="schedule-subtitle">ላቦራቶሪ 101 | መምህር ኤፍሬም</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">12:30 - 14:00</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">አማርኛ</div>
+                            <div class="schedule-subtitle">ክፍል 210 | መምህር መሰረት</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">14:15 - 15:45</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">ኢንፎርሜሽን ቴክኖሎጂ</div>
+                            <div class="schedule-subtitle">ኮምፒውተር ላብ | መምህር ዳዊት</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="announcements-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-bullhorn"></i>
+                        ማስታወቂያዎች
+                        <a href="../share/announcement.html" class="view-all">ሁሉንም አሳይ</a>
+                    </h2>
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <div class="announcement-title">የተማሪዎች የተፈቀዱ ቀናት</div>
+                            <div class="announcement-date">ትላንት</div>
+                        </div>
+                        <div class="announcement-text">
+                            ውድ ተማሪዎች፣ ከመስከረም 25-27 የትምህርት ቤት ዝግ መሆኑን እናሳውቃለን። በነዚህ ቀናት የበዓል ዝግጅቶች ስለሚኖሩ ሁሉም ተማሪዎች የማይገኙ መሆናቸውን እናሳውቃለን።
+                        </div>
+                    </div>
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <div class="announcement-title">የጥናት ቡድን ምዝገባ</div>
+                            <div class="announcement-date">ከ2 ቀን በፊት</div>
+                        </div>
+                        <div class="announcement-text">
+                            የሳይንስ ትምህርቶች የጥናት ቡድን ምዝገባ ተጀምሯል። ተሳታፊ ለመሆን ፍላጎት ያላቸው ተማሪዎች በትምህርት ክፍል ለመምህር ብርሃኑ ማመልከት ይችላሉ።
+                        </div>
+                    </div>
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <div class="announcement-title">የመንፈቅ ዓመት ፈተና ጊዜ ሰሌዳ</div>
+                            <div class="announcement-date">ከ5 ቀን በፊት</div>
+                        </div>
+                        <div class="announcement-text">
+                            የመንፈቅ ዓመት ፈተናዎች ከጥቅምት 15-20 ይካሄዳሉ። ሁሉም ተማሪዎች የፈተና ጊዜ ሰሌዳውን ከክፍል አስተባባሪዎች ማግኘት ይችላሉ።
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-tasks"></i>
+                        የቅርብ የቤት ስራዎች
+                        <a href="work-assignment.html" class="view-all">ሁሉንም አሳይ</a>
+                    </h2>
+                    <div class="schedule-item">
+                        <div class="schedule-time">መስከረም 23</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">የሂሳብ መልመጃዎች - ምዕራፍ 4</div>
+                            <div class="schedule-subtitle">የቤት ስራ | መምህር ብርሃኑ</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">መስከረም 24</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">የጽሁፍ ልምምድ</div>
+                            <div class="schedule-subtitle">የቤት ስራ | መምህር ሰናይት</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">መስከረም 25</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">የኬሚስትሪ ላቦራቶሪ ሪፖርት</div>
+                            <div class="schedule-subtitle">የቤት ስራ | መምህር አበበ</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">መስከረም 27</div>
+                        <div class="schedule-info">
+                            <div class="schedule-title">የታሪክ ምርምር</div>
+                            <div class="schedule-subtitle">የቤት ስራ | መምህር ሰሎሞን</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ዝግጅቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+      <!-- Include navigation component -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+         
+            <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">ዝግጅቶች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="d-flex justify-between align-center mb-4">
+                <div>
+                    <h1 class="page-title">ዝግጅቶች እና ክስተቶች</h1>
+                    <p class="text-secondary">ቀጣይ እና የታቀዱ ዝግጅቶች</p>
+                </div>
+        <div>
+                    <button class="btn btn-primary" id="new-event-btn">
+                        <i class="fas fa-plus"></i> አዲስ ዝግጅት
+                    </button>
+            </div>
+        </div>
+
+            <!-- Filters and Calendar View -->
+            <div class="card p-3 mb-4">
+                <div class="d-flex justify-between align-center">
+                    <div class="d-flex align-center">
+                        <div class="form-group mb-0 mr-3">
+                            <select id="event-filter" class="form-control">
+                                <option value="">ሁሉም ዝግጅቶች</option>
+                                <option value="academic">አካዳሚክ</option>
+                                <option value="meeting">ስብሰባ</option>
+                                <option value="seminar">ሴሚናር</option>
+                                <option value="training">ስልጠና</option>
+                                <option value="celebration">በዓል</option>
+                            </select>
+                </div>
+                        <div class="form-group mb-0 mr-3">
+                            <select id="month-filter" class="form-control">
+                                <option value="">ሁሉም ወራት</option>
+                                <option value="1">መስከረም</option>
+                                <option value="2">ጥቅምት</option>
+                                <option value="3">ሕዳር</option>
+                                <option value="4">ታሕሳስ</option>
+                                <option value="5">ጥር</option>
+                                <option value="6">የካቲት</option>
+                                <option value="7">መጋቢት</option>
+                                <option value="8">ሚያዝያ</option>
+                                <option value="9">ግንቦት</option>
+                                <option value="10">ሰኔ</option>
+                                <option value="11">ሐምሌ</option>
+                                <option value="12">ነሐሴ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="view-toggles">
+                            <button class="btn-icon active" id="list-view-btn" title="ዝርዝር እይታ">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button class="btn-icon" id="calendar-view-btn" title="ቀን መቁጠሪያ እይታ">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Event List -->
+            <div id="list-view" class="animate-fade-in">
+                <div class="event-list">
+                    <!-- Upcoming Event -->
+                    <div class="card mb-3 event-card upcoming-event">
+                        <div class="event-date">
+                            <div class="date-display">
+                                <div class="day">12</div>
+                                <div class="month">ግንቦት</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="d-flex justify-between mb-2">
+                                <h3 class="event-title">የመጨረሻ ሰሚስተር ፈተና ዝግጅት ስብሰባ</h3>
+                                <span class="event-badge academic">አካዳሚክ</span>
+                            </div>
+                            <div class="event-time mb-3">
+                                <i class="far fa-clock"></i> 9:00 AM - 11:00 AM
+                                <i class="far fa-map-marker-alt ml-3"></i> ዋና የስብሰባ አዳራሽ
+                            </div>
+                            <p class="event-description">ሁሉም የትምህርት ክፍል ኃላፊዎች እና መምህራን በፈተና ዝግጅት ላይ ለመወያየት ይገናኛሉ። የፈተና ወረቀቶችን፣ የግምገማ ዘዴዎችን እና የጊዜ ሰሌዳዎችን እናረጋግጣለን።</p>
+                            <div class="d-flex justify-between align-center mt-3">
+                                <div class="event-organizer d-flex align-center">
+                                    <div class="avatar-sm mr-2">
+                                        <img src="https://ui-avatars.com/api/?name=Haile+Selassie&background=4f46e5&color=fff" alt="Organizer">
+                                    </div>
+                                    <span class="fs-sm">ኃይለ ሥላሴ ደምሴ - ርዕሰ መምህር</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn btn-outline-primary btn-sm">ለመሳተፍ</button>
+                                    <button class="btn-icon ml-2" title="ማስታወሻ">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                    <!-- Regular Event -->
+                    <div class="card mb-3 event-card">
+                        <div class="event-date">
+                            <div class="date-display">
+                                <div class="day">15</div>
+                                <div class="month">ግንቦት</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="d-flex justify-between mb-2">
+                                <h3 class="event-title">የመምህራን ሙያ ማሻሻያ ስልጠና</h3>
+                                <span class="event-badge training">ስልጠና</span>
+                            </div>
+                            <div class="event-time mb-3">
+                                <i class="far fa-clock"></i> 2:00 PM - 5:00 PM
+                                <i class="far fa-map-marker-alt ml-3"></i> ኮምፒውተር ላብራቶሪ
+                            </div>
+                            <p class="event-description">አዲስ የትምህርት ቴክኖሎጂዎችን እና ዲጂታል መሳሪያዎችን ለመጠቀም የሚያስችል ስልጠና። ሁሉም መምህራን እንዲሳተፉ ይበረታታሉ።</p>
+                            <div class="d-flex justify-between align-center mt-3">
+                                <div class="event-organizer d-flex align-center">
+                                    <div class="avatar-sm mr-2">
+                                        <img src="https://ui-avatars.com/api/?name=Tigist+Bekele&background=4f46e5&color=fff" alt="Organizer">
+                                    </div>
+                                    <span class="fs-sm">ትዕግስት በቀለ - የመምህራን ልማት ኃላፊ</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn btn-outline-primary btn-sm">ለመሳተፍ</button>
+                                    <button class="btn-icon ml-2" title="ማስታወሻ">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                    <!-- Regular Event -->
+                    <div class="card mb-3 event-card">
+                        <div class="event-date">
+                            <div class="date-display">
+                                <div class="day">20</div>
+                                <div class="month">ግንቦት</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="d-flex justify-between mb-2">
+                                <h3 class="event-title">የሙያ ምርጫ ስብሰባ ለ12ኛ ክፍል ተማሪዎች</h3>
+                                <span class="event-badge seminar">ሴሚናር</span>
+                            </div>
+                            <div class="event-time mb-3">
+                                <i class="far fa-clock"></i> 10:00 AM - 12:30 PM
+                                <i class="far fa-map-marker-alt ml-3"></i> ትልቅ አዳራሽ
+                            </div>
+                            <p class="event-description">የተለያዩ ዩኒቨርሲቲዎች እና ኮሌጆች ተወካዮች ለ12ኛ ክፍል ተማሪዎች ስለ ሙያ ምርጫ ይናገራሉ። ከሀገር ውስጥ እና ከውጭ ሀገር ዩኒቨርሲቲዎች 15 ተወካዮች ይሳተፋሉ።</p>
+                            <div class="d-flex justify-between align-center mt-3">
+                                <div class="event-organizer d-flex align-center">
+                                    <div class="avatar-sm mr-2">
+                                        <img src="https://ui-avatars.com/api/?name=Dawit+Abebe&background=4f46e5&color=fff" alt="Organizer">
+                                    </div>
+                                    <span class="fs-sm">ዳዊት አበበ - የምክር አገልግሎት ኃላፊ</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn btn-outline-primary btn-sm">ለመሳተፍ</button>
+                                    <button class="btn-icon ml-2" title="ማስታወሻ">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regular Event -->
+                    <div class="card mb-3 event-card">
+                        <div class="event-date">
+                            <div class="date-display">
+                                <div class="day">25</div>
+                                <div class="month">ግንቦት</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="d-flex justify-between mb-2">
+                                <h3 class="event-title">ወላጆች እና መምህራን ስብሰባ</h3>
+                                <span class="event-badge meeting">ስብሰባ</span>
+                            </div>
+                            <div class="event-time mb-3">
+                                <i class="far fa-clock"></i> 4:00 PM - 6:00 PM
+                                <i class="far fa-map-marker-alt ml-3"></i> ክፍል ደረጃ ስብሰባ አዳራሾች
+                            </div>
+                            <p class="event-description">የሁሉም ክፍሎች የወላጆች እና መምህራን ስብሰባ። የተማሪዎች እድገት፣ የትምህርት ቤት እድገት እና የቀጣይ ዓመት እቅዶች ይገመገማሉ።</p>
+                            <div class="d-flex justify-between align-center mt-3">
+                                <div class="event-organizer d-flex align-center">
+                                    <div class="avatar-sm mr-2">
+                                        <img src="https://ui-avatars.com/api/?name=Meron+Haile&background=4f46e5&color=fff" alt="Organizer">
+                                    </div>
+                                    <span class="fs-sm">መሮን ኃይሌ - የወላጆች ኮሚቴ ሰብሳቢ</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn btn-outline-primary btn-sm">ለመሳተፍ</button>
+                                    <button class="btn-icon ml-2" title="ማስታወሻ">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Regular Event -->
+                    <div class="card mb-3 event-card">
+                        <div class="event-date">
+                            <div class="date-display">
+                                <div class="day">30</div>
+                                <div class="month">ግንቦት</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="d-flex justify-between mb-2">
+                                <h3 class="event-title">ተማሪዎች የመመረቂያ ዝግጅት</h3>
+                                <span class="event-badge celebration">በዓል</span>
+                            </div>
+                            <div class="event-time mb-3">
+                                <i class="far fa-clock"></i> 3:00 PM - 6:00 PM
+                                <i class="far fa-map-marker-alt ml-3"></i> የትምህርት ቤት መሰባሰቢያ አዳራሽ
+                            </div>
+                            <p class="event-description">የ12ኛ ክፍል ተማሪዎች የመመረቂያ ዝግጅት። የሠርተፊኬት ሥነ-ሥርዓት፣ የምስክር ወረቀት ስጦታዎች እና የተማሪዎች ውሎ ትዕይንት።</p>
+                            <div class="d-flex justify-between align-center mt-3">
+                                <div class="event-organizer d-flex align-center">
+                                    <div class="avatar-sm mr-2">
+                                        <img src="https://ui-avatars.com/api/?name=Haile+Selassie&background=4f46e5&color=fff" alt="Organizer">
+                                    </div>
+                                    <span class="fs-sm">ኃይለ ሥላሴ ደምሴ - ርዕሰ መምህር</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn btn-outline-primary btn-sm">ለመሳተፍ</button>
+                                    <button class="btn-icon ml-2" title="ማስታወሻ">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <nav class="pagination">
+                        <a href="#" class="pagination-item disabled">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        <a href="#" class="pagination-item active">1</a>
+                        <a href="#" class="pagination-item">2</a>
+                        <a href="#" class="pagination-item">3</a>
+                        <a href="#" class="pagination-item">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Calendar View (Initially Hidden) -->
+            <div id="calendar-view" class="card p-4" style="display: none;">
+                <div class="calendar-header d-flex justify-between align-center mb-4">
+                    <button class="btn-icon" id="prev-month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h3 class="calendar-current-month">ግንቦት 2023</h3>
+                    <button class="btn-icon" id="next-month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="calendar-days-header">
+                    <div class="weekday">ሰኞ</div>
+                    <div class="weekday">ማክሰኞ</div>
+                    <div class="weekday">ረቡዕ</div>
+                    <div class="weekday">ሐሙስ</div>
+                    <div class="weekday">አርብ</div>
+                    <div class="weekday">ቅዳሜ</div>
+                    <div class="weekday">እሁድ</div>
+        </div>
+
+                <div class="calendar-grid">
+                    <!-- Previous Month Days -->
+                    <div class="calendar-day other-month">28</div>
+                    <div class="calendar-day other-month">29</div>
+                    <div class="calendar-day other-month">30</div>
+                    
+                    <!-- Current Month Days -->
+                    <div class="calendar-day">1</div>
+                    <div class="calendar-day">2</div>
+                    <div class="calendar-day">3</div>
+                    <div class="calendar-day">4</div>
+                    <div class="calendar-day">5</div>
+                    <div class="calendar-day">6</div>
+                    <div class="calendar-day">7</div>
+                    <div class="calendar-day">8</div>
+                    <div class="calendar-day">9</div>
+                    <div class="calendar-day">10</div>
+                    <div class="calendar-day">11</div>
+                    <div class="calendar-day has-event">
+                        12
+                        <div class="day-event academic">የፈተና ዝግጅት</div>
+                    </div>
+                    <div class="calendar-day">13</div>
+                    <div class="calendar-day">14</div>
+                    <div class="calendar-day has-event">
+                        15
+                        <div class="day-event training">ስልጠና</div>
+                    </div>
+                    <div class="calendar-day">16</div>
+                    <div class="calendar-day">17</div>
+                    <div class="calendar-day">18</div>
+                    <div class="calendar-day">19</div>
+                    <div class="calendar-day has-event">
+                        20
+                        <div class="day-event seminar">ሴሚናር</div>
+                    </div>
+                    <div class="calendar-day">21</div>
+                    <div class="calendar-day">22</div>
+                    <div class="calendar-day">23</div>
+                    <div class="calendar-day">24</div>
+                    <div class="calendar-day has-event">
+                        25
+                        <div class="day-event meeting">ስብሰባ</div>
+                </div>
+                    <div class="calendar-day">26</div>
+                    <div class="calendar-day">27</div>
+                    <div class="calendar-day">28</div>
+                    <div class="calendar-day">29</div>
+                    <div class="calendar-day has-event">
+                        30
+                        <div class="day-event celebration">መመረቂያ</div>
+                </div>
+                    
+                    <!-- Next Month Days -->
+                    <div class="calendar-day other-month">1</div>
+                    <div class="calendar-day other-month">2</div>
+                    <div class="calendar-day other-month">3</div>
+                    <div class="calendar-day other-month">4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div class="modal" id="create-event-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">አዲስ ዝግጅት ይፍጠሩ</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="event-form">
+                    <div class="form-group">
+                        <label for="event-title">ርዕስ</label>
+                        <input type="text" id="event-title" class="form-control" placeholder="የዝግጅቱን ርዕስ ያስገቡ" required>
+            </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="event-date">ቀን</label>
+                            <input type="date" id="event-date" class="form-control" required>
+                </div>
+
+                        <div class="form-group flex-1">
+                            <label for="event-category">ምድብ</label>
+                            <select id="event-category" class="form-control" required>
+                                <option value="academic">አካዳሚክ</option>
+                                <option value="meeting">ስብሰባ</option>
+                                <option value="seminar">ሴሚናር</option>
+                                <option value="training">ስልጠና</option>
+                                <option value="celebration">በዓል</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="event-start-time">መጀመሪያ ሰዓት</label>
+                            <input type="time" id="event-start-time" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group flex-1">
+                            <label for="event-end-time">መጨረሻ ሰዓት</label>
+                            <input type="time" id="event-end-time" class="form-control" required>
+                    </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-location">ቦታ</label>
+                        <input type="text" id="event-location" class="form-control" placeholder="የሚካሄድበት ቦታ" required>
+                </div>
+
+                    <div class="form-group">
+                        <label for="event-description">ዝርዝር</label>
+                        <textarea id="event-description" class="form-control" rows="3" placeholder="ስለ ዝግጅቱ ዝርዝር መግለጫ"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-participants">ተሳታፊዎች</label>
+                        <select id="event-participants" class="form-control" required>
+                            <option value="all">ሁሉም መምህራን</option>
+                            <option value="grade9">የ9ኛ ክፍል መምህራን</option>
+                            <option value="grade10">የ10ኛ ክፍል መምህራን</option>
+                            <option value="grade11">የ11ኛ ክፍል መምህራን</option>
+                            <option value="grade12">የ12ኛ ክፍል መምህራን</option>
+                            <option value="management">የአስተዳደር ቡድን</option>
+                            <option value="custom">በጥንቃቄ የተመረጡ</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-reminder">ማስታወሻ</label>
+                        <select id="event-reminder" class="form-control">
+                            <option value="none">ምንም</option>
+                            <option value="15min">15 ደቂቃ አስቀድሞ</option>
+                            <option value="1hour" selected>1 ሰዓት አስቀድሞ</option>
+                            <option value="1day">1 ቀን አስቀድሞ</option>
+                            <option value="1week">1 ሳምንት አስቀድሞ</option>
+                        </select>
+                    </div>
+                </form>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-cancel">ይቅር</button>
+                <button type="button" class="btn btn-primary" id="submit-event">ዝግጅቱን ያስቀምጡ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize UI
+            initializeUI();
+            
+            // View toggle functionality
+            const listViewBtn = document.getElementById('list-view-btn');
+            const calendarViewBtn = document.getElementById('calendar-view-btn');
+            const listView = document.getElementById('list-view');
+            const calendarView = document.getElementById('calendar-view');
+            
+            listViewBtn.addEventListener('click', function() {
+                listView.style.display = 'block';
+                calendarView.style.display = 'none';
+                listViewBtn.classList.add('active');
+                calendarViewBtn.classList.remove('active');
+            });
+            
+            calendarViewBtn.addEventListener('click', function() {
+                listView.style.display = 'none';
+                calendarView.style.display = 'block';
+                calendarViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('create-event-modal');
+            const openModalBtn = document.getElementById('new-event-btn');
+            const closeModalBtn = document.querySelector('.modal-close');
+            const cancelModalBtn = document.querySelector('.modal-cancel');
+            
+            openModalBtn.addEventListener('click', function() {
+                modal.classList.add('show');
+            });
+            
+            function closeModal() {
+                modal.classList.remove('show');
+            }
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelModalBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Handle event submission
+            document.getElementById('submit-event').addEventListener('click', function() {
+                const form = document.getElementById('event-form');
+                
+                // Validate form
+                if (!validateForm(form)) {
+                    return;
+                }
+                
+                // Get form data
+                const title = document.getElementById('event-title').value;
+                const date = document.getElementById('event-date').value;
+                const category = document.getElementById('event-category').value;
+                
+                // In a real app, this would send data to the server
+                alert(`ዝግጅት "${title}" በተሳካ ሁኔታ ተመዝግቧል`);
+                
+                // Close modal and reset form
+                closeModal();
+                form.reset();
+            });
+            
+            // Calendar navigation
+            const prevMonthBtn = document.getElementById('prev-month');
+            const nextMonthBtn = document.getElementById('next-month');
+            const currentMonthDisplay = document.querySelector('.calendar-current-month');
+            
+            const ethiopianMonths = [
+                'መስከረም', 'ጥቅምት', 'ሕዳር', 'ታሕሳስ',
+                'ጥር', 'የካቲት', 'መጋቢት', 'ሚያዝያ',
+                'ግንቦት', 'ሰኔ', 'ሐምሌ', 'ነሐሴ'
+            ];
+            
+            let currentMonthIndex = 8; // Ginbot (May)
+            let currentYear = 2023;
+            
+            function updateCalendarHeader() {
+                currentMonthDisplay.textContent = `${ethiopianMonths[currentMonthIndex]} ${currentYear}`;
+            }
+            
+            prevMonthBtn.addEventListener('click', function() {
+                currentMonthIndex--;
+                if (currentMonthIndex < 0) {
+                    currentMonthIndex = 11;
+                    currentYear--;
+                }
+                updateCalendarHeader();
+                // In a real app, this would update the calendar grid
+            });
+            
+            nextMonthBtn.addEventListener('click', function() {
+                currentMonthIndex++;
+                if (currentMonthIndex > 11) {
+                    currentMonthIndex = 0;
+                    currentYear++;
+                }
+                updateCalendarHeader();
+                // In a real app, this would update the calendar grid
+            });
+            
+            // Make events clickable
+            const eventCards = document.querySelectorAll('.event-card');
+            eventCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('.event-title').textContent;
+                    alert(`ዝግጅት "${title}" ዝርዝር በመመልከት ላይ... (ንድፍ)`);
+                });
+            });
+
+            // Make calendar days with events clickable
+            const calendarDaysWithEvents = document.querySelectorAll('.calendar-day.has-event');
+            calendarDaysWithEvents.forEach(day => {
+                day.addEventListener('click', function() {
+                    const eventName = this.querySelector('.day-event').textContent;
+                    const date = this.textContent.trim().split('\n')[0];
+                    alert(`ለግንቦት ${date} የታቀደ "${eventName}" ዝግጅት በመመልከት ላይ... (ንድፍ)`);
+                });
+            });
+            
+            // Filter functionality
+            const filterInputs = document.querySelectorAll('select[id$="-filter"]');
+            filterInputs.forEach(filter => {
+                filter.addEventListener('change', function() {
+                    applyFilters();
+                });
+            });
+
+            // Apply filters function
+            function applyFilters() {
+                const eventFilter = document.getElementById('event-filter').value;
+                const monthFilter = document.getElementById('month-filter').value;
+                
+                // In a real app, this would filter the events
+                if (eventFilter || monthFilter) {
+                    alert('ዝግጅቶችን በመፈለግ ላይ... ይህ በወቅቱ ንድፍ ነው።');
+                }
+            }
+            
+            // Add bookmark functionality
+            const bookmarkButtons = document.querySelectorAll('.btn-icon[title="ማስታወሻ"]');
+            bookmarkButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event card click
+                    
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('far')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        alert('ዝግጅቱ በማስታወሻ ተመዝግቧል');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        alert('ዝግጅቱ ከማስታወሻ ተወግዷል');
+                    }
+                });
+            });
+
+            // Attendance button functionality
+            const attendButtons = document.querySelectorAll('.btn-outline-primary');
+            attendButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event card click
+                    
+                    const eventCard = this.closest('.event-card');
+                    const eventTitle = eventCard.querySelector('.event-title').textContent;
+                    
+                    if (this.textContent === 'ለመሳተፍ') {
+                        this.textContent = 'አልሳተፍም';
+                        this.classList.add('btn-outline-danger');
+                        this.classList.remove('btn-outline-primary');
+                        alert(`"${eventTitle}" ዝግጅት ላይ ለመሳተፍ ተመዝግበዋል`);
+                    } else {
+                        this.textContent = 'ለመሳተፍ';
+                        this.classList.add('btn-outline-primary');
+                        this.classList.remove('btn-outline-danger');
+                        alert(`ከ"${eventTitle}" ዝግጅት ላይ ምዝገባዎን ሰርዘዋል`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል ትምህርቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            margin-left: 10px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .special-courses {
+            margin-bottom: 40px;
+        }
+
+        .special-course-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .special-course-title i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .course-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .course-banner {
+            height: 120px;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+        }
+
+        .math-banner {
+            background: linear-gradient(45deg, #4285f4, #34a853);
+        }
+
+        .physics-banner {
+            background: linear-gradient(45deg, #ea4335, #fbbc05);
+        }
+
+        .chemistry-banner {
+            background: linear-gradient(45deg, #34a853, #4285f4);
+        }
+
+        .biology-banner {
+            background: linear-gradient(45deg, #fbbc05, #ea4335);
+        }
+
+        .english-banner {
+            background: linear-gradient(45deg, #4285f4, #fbbc05);
+        }
+
+        .history-banner {
+            background: linear-gradient(45deg, #ea4335, #4285f4);
+        }
+
+        .exam-prep-banner {
+            background: linear-gradient(45deg, #ea4335, #34a853);
+        }
+
+        .univ-banner {
+            background: linear-gradient(45deg, #fbbc05, #4285f4);
+        }
+
+        .career-banner {
+            background: linear-gradient(45deg, #34a853, #ea4335);
+        }
+
+        .course-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .course-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .course-meta i {
+            margin-right: 5px;
+        }
+
+        .course-description {
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .course-progress {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #f0f0f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .course-actions {
+            margin-top: auto;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #3367d6;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: #f0f7ff;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .tag-new {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .tag-popular {
+            background-color: #fff8e1;
+            color: #f57c00;
+        }
+
+        .tag-important {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .search-bar {
+                width: 150px;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ብርሃኑ ደምሴ</div>
+                    <div class="user-role">የ12ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-course.html" class="menu-item active">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ትምህርቶችን ይፈልጉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="special-courses">
+            <div class="special-course-title">
+                <i class="fas fa-graduation-cap"></i> የብሄራዊ ፈተና እና የዩኒቨርሲቲ ዝግጅት ኮርሶች
+            </div>
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-banner exam-prep-banner">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-title">የብሄራዊ ፈተና ዝግጅት</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-book"></i> 20 ትምህርቶች</span>
+                            <span><i class="fas fa-clock"></i> 40 ሰዓታት</span>
+                        </div>
+                        <div class="tag tag-important">ወሳኝ</div>
+                        <div class="course-description">
+                            ይህ ኮርስ ለብሄራዊ ፈተናዎች የመጨረሻ ዝግጅትን ያካትታል፤ ከዚህ በፊት የተማራችሁትን ትምህርቶች አጠቃላይ ክለሳ፣ የናሙና ጥያቄዎች እና የጊዜ አጠቃቀም ስልቶች ይዟል።
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%;"></div>
+                            </div>
+                            <div class="progress-text">80% ተጠናቋል</div>
+                        </div>
+                        <div class="course-actions">
+                            <a href="#" class="btn">ትምህርት ጀምር</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-banner univ-banner">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-title">የዩኒቨርሲቲ ምርጫ መመሪያ</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-book"></i> 10 ትምህርቶች</span>
+                            <span><i class="fas fa-clock"></i> 15 ሰዓታት</span>
+                        </div>
+                        <div class="tag tag-new">አዲስ</div>
+                        <div class="course-description">
+                            የዩኒቨርሲቲዎች አጭር መግለጫ፣ የትምህርት መስኮች ዝርዝር፣ የምርጫ ሂደት፣ እና ለወደፊት ስኬትዎ ጠቃሚ የሆኑ ምክሮችን ይማሩ።
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                            <div class="progress-text">65% ተጠናቋል</div>
+                        </div>
+                        <div class="course-actions">
+                            <a href="#" class="btn">ትምህርት ጀምር</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-banner career-banner">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-title">የሙያ ምክር እና የስራ ዝግጅት</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-book"></i> 8 ትምህርቶች</span>
+                            <span><i class="fas fa-clock"></i> 12 ሰዓታት</span>
+                        </div>
+                        <div class="tag tag-popular">ታዋቂ</div>
+                        <div class="course-description">
+                            በተለያዩ የሙያ መስኮች ያሉ እድሎችን፣ የሕይወት ዕቅድ አወጣጥ፣ የራስ ገለጻ መጻፍን እና ለአጭር ቃለመጠይቆች መዘጋጀትን ይማሩ።
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%;"></div>
+                            </div>
+                            <div class="progress-text">45% ተጠናቋል</div>
+                        </div>
+                        <div class="course-actions">
+                            <a href="#" class="btn">ትምህርት ጀምር</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="special-course-title">
+            <i class="fas fa-book"></i> የ12ኛ ክፍል ትምህርቶች
+        </div>
+        <div class="course-grid">
+            <div class="course-card">
+                <div class="course-banner math-banner">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-title">ሂሳብ</div>
+                    <div class="course-meta">
+                        <span><i class="fas fa-book"></i> 15 ትምህርቶች</span>
+                        <span><i class="fas fa-clock"></i> 30 ሰዓታት</span>
+                    </div>
+                    <div class="course-description">
+                        የአልጀብራ፣ የትሪጎኖሜትሪ፣ የስታቲስቲክስ እና የካልኩለስ አጠቃላይ ክለሳ። ይህ ኮርስ በብሄራዊ ፈተናዎች ውስጥ በሰፊው የሚስተዋሉ የሂሳብ ጥያቄዎችን ያቀርባል።
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%;"></div>
+                        </div>
+                        <div class="progress-text">90% ተጠናቋል</div>
+                    </div>
+                    <div class="course-actions">
+                        <a href="#" class="btn">ትምህርት ጀምር</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner physics-banner">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-title">ፊዚክስ</div>
+                    <div class="course-meta">
+                        <span><i class="fas fa-book"></i> 12 ትምህርቶች</span>
+                        <span><i class="fas fa-clock"></i> 25 ሰዓታት</span>
+                    </div>
+                    <div class="course-description">
+                        ሜካኒክስ፣ የሙቀት እና ቴርሞዳይናሚክስ፣ ኤሌክትሪክ እና ማግኔቲዝም፣ የብርሃን ባህሪያት እና ሞdern ፊዚክስ አጠቃላይ ክለሳ ይዟል። ለብሄራዊ ፈተናዎች ያዘጋጃል።
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <div class="progress-text">85% ተጠናቋል</div>
+                    </div>
+                    <div class="course-actions">
+                        <a href="#" class="btn">ትምህርት ጀምር</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner chemistry-banner">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-title">ኬሚስትሪ</div>
+                    <div class="course-meta">
+                        <span><i class="fas fa-book"></i> 12 ትምህርቶች</span>
+                        <span><i class="fas fa-clock"></i> 24 ሰዓታት</span>
+                    </div>
+                    <div class="course-description">
+                        የኦርጋኒክ እና ኢ-ኦርጋኒክ ኬሚስትሪ፣ የዓለም ኬሚስትሪ፣ እና የኬሚካል ትራንስፎርሜሽን አጠቃላይ ክለሳ። ለብሄራዊ ፈተናዎች ከፍተኛ ክብደት ያላቸው ይዘቶችን ያቀርባል።
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                        <div class="progress-text">75% ተጠናቋል</div>
+                    </div>
+                    <div class="course-actions">
+                        <a href="#" class="btn">ትምህርት ጀምር</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner biology-banner">
+                    <i class="fas fa-dna"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-title">ባዮሎጂ</div>
+                    <div class="course-meta">
+                        <span><i class="fas fa-book"></i> 10 ትምህርቶች</span>
+                        <span><i class="fas fa-clock"></i> 20 ሰዓታት</span>
+                    </div>
+                    <div class="course-description">
+                        የሕዋስ ባዮሎጂ፣ ዘረመል፣ ሥነ-ማዕቀፍ፣ ሥነ-ሰውነት እና ስነ-ምህዳር ላይ አጠቃላይ ክለሳ። በብሄራዊ ፈተናዎች ላይ የሚወጡ ወሳኝ ርዕሰ ጉዳዮችን ያካትታል።
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                        <div class="progress-text">80% ተጠናቋል</div>
+                    </div>
+                    <div class="course-actions">
+                        <a href="#" class="btn">ትምህርት ጀምር</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner english-banner">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-title">እንግሊዘኛ</div>
+                    <div class="course-meta">
+                        <span><i class="fas fa-book"></i> 12 ትምህርቶች</span>
+                        <span><i class="fas fa-clock"></i> 18 ሰዓታት</span>
+                    </div>
+                    <div class="course-description">
+                        የንግግር እና ጽሁፍ ክህሎትን እንዲሁም ቃላትን ለማሻሻል የተዘጋጀ ኮርስ። ለአካዳሚክ ጽሁፎች፣ ለትምህርት እና ለዩኒቨርሲቲ ትምህርቶች እንዲያዘጋጅዎ ተደርጎ የተዘጋጀ ነው።
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <div class="progress-text">85% ተጠናቋል</div>
+                    </div>
+                    <div class="course-actions">
+                        <a href="#" class="btn">ትምህርት ጀምር</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner history-banner">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-title">ታሪክ</div>
+                    <div class="course-meta">
+                        <span><i class="fas fa-book"></i> 8 ትምህርቶች</span>
+                        <span><i class="fas fa-clock"></i> 16 ሰዓታት</span>
+                    </div>
+                    <div class="course-description">
+                        የኢትዮጵያ እና የዓለም ታሪክ አጠቃላይ ክለሳ። የኢትዮጵያ ቅርስ፣ አገዛዝ ስርዓቶች፣ መሪዎች እና ዘመናዊ ታሪክ ላይ ትኩረት ያደረገ ነው።
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%;"></div>
+                        </div>
+                        <div class="progress-text">70% ተጠናቋል</div>
+                    </div>
+                    <div class="course-actions">
+                        <a href="#" class="btn">ትምህርት ጀምር</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

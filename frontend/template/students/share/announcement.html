@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | ማስታወቂያዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #34a853;
+            --info-color: #4285f4;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #1a73e8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Announcement specific styles */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .announcement-filters {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .filter {
+            flex: 1;
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .filter.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .filter:hover:not(.active) {
+            background-color: var(--light-color);
+        }
+
+        .announcements-container {
+            margin-bottom: 30px;
+        }
+
+        .announcement-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .announcement-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .announcement-header.urgent {
+            background-color: #fff8e1;
+        }
+
+        .announcement-header.event {
+            background-color: #e3f2fd;
+        }
+
+        .announcement-header.exam {
+            background-color: #fce4ec;
+        }
+
+        .announcement-header.general {
+            background-color: #f5f5f5;
+        }
+
+        .announcement-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-urgent {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-event {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .badge-exam {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-general {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .announcement-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            padding-right: 80px;
+        }
+
+        .announcement-meta {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .announcement-from {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .announcement-from i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .announcement-date {
+            display: flex;
+            align-items: center;
+        }
+
+        .announcement-date i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .announcement-content {
+            padding: 20px;
+        }
+
+        .announcement-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .announcement-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: var(--light-color);
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-btn i {
+            margin-right: 5px;
+        }
+
+        .action-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .primary-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .announcement-attachments {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .attachments-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .attachments-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .attachment {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .attachment:hover {
+            background-color: #e0e0e0;
+        }
+
+        .attachment i {
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .announcement-stats {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+        }
+
+        .stat i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .unread-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .no-announcements {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .no-announcements-icon {
+            font-size: 50px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .no-announcements-text {
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .no-announcements-subtext {
+            font-size: 14px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .announcement-filters {
+                overflow-x: auto;
+                white-space: nowrap;
+                display: flex;
+                flex-wrap: nowrap;
+            }
+
+            .filter {
+                flex: 0 0 auto;
+                padding: 15px;
+            }
+
+            .announcement-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .attachment {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሰላም አበበ</div>
+                    <div class="user-role">ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="../index.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዋና ገጽ</span>
+            </a>
+            <a href="../grade9s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="../grade10s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ10ኛ ክፍል</span>
+            </a>
+            <a href="../grade11s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ11ኛ ክፍል</span>
+            </a>
+            <a href="../grade12s/dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>የ12ኛ ክፍል</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="announcement.html" class="menu-item active">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="../grade9s/chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ማስታወቂያዎችን ለመፈለግ ይጻፉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">ማስታወቂያዎች</h1>
+        </div>
+
+        <div class="announcement-filters">
+            <div class="filter active">ሁሉም</div>
+            <div class="filter">አስቸኳይ</div>
+            <div class="filter">ዝግጅቶች</div>
+            <div class="filter">ፈተናዎች</div>
+            <div class="filter">ያልተነበቡ</div>
+        </div>
+
+        <div class="announcements-container">
+            <div class="announcement-card">
+                <div class="announcement-header urgent">
+                    <div class="announcement-badge badge-urgent">አስቸኳይ</div>
+                    <h3 class="announcement-title">የክረምት ትምህርት ቤት መጀመር - የምዝገባ የመጨረሻ ቀን ማስታወሻ</h3>
+                    <div class="announcement-meta">
+                        <div class="announcement-from">
+                            <i class="fas fa-user"></i> ዋና አስተዳዳሪ
+                        </div>
+                        <div class="announcement-date">
+                            <i class="far fa-clock"></i> ዛሬ, 9:30 AM
+                        </div>
+                    </div>
+                </div>
+                <div class="announcement-content">
+                    <div class="unread-indicator"></div>
+                    <div class="announcement-text">
+                        <p>ውድ ተማሪዎች እና ወላጆች,</p>
+                        <p>የክረምት ትምህርት ቤት ምዝገባ በሰኔ 25, 2016 ዓ.ም እንደሚዘጋ እናስታውሳለን። ተሳታፊ ለመሆን ፍላጎት ያላቸው ተማሪዎች እስከ ዕለቱ ድረስ ማመልከት አለባቸው። ምዝገባው በኦንላይን እንዲሁም በት/ቤቱ ቢሮ ውስጥ የሚካሄድ ይሆናል።</p>
+                        <p>የክረምት ትምህርት ቤቱ ከሐምሌ 1 እሰከ ነሐሴ 27, 2016 ዓ.ም ድረስ ይካሄዳል፣ ስልክ ሊደወልባቸው የሚችሉ ጥያቄዎች ካሉዎት እባክዎን የትምህርት ቤቱን ቢሮ በ +251-11-1234567 ያነጋግሩ።</p>
+                    </div>
+                    <div class="announcement-attachments">
+                        <div class="attachments-title">ተያያዥ ፋይሎች (2)</div>
+                        <div class="attachments-list">
+                            <div class="attachment">
+                                <i class="fas fa-file-pdf"></i> የክረምት_ትምህርት_ፕሮግራም.pdf
+                            </div>
+                            <div class="attachment">
+                                <i class="fas fa-file-word"></i> የምዝገባ_ቅጽ.docx
+                            </div>
+                        </div>
+                    </div>
+                    <div class="announcement-actions">
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <i class="far fa-bookmark"></i> አስቀምጥ
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i> አጋራ
+                            </button>
+                        </div>
+                        <div class="announcement-stats">
+                            <div class="stat">
+                                <i class="far fa-eye"></i> 245 ተመልክቷል
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card">
+                <div class="announcement-header exam">
+                    <div class="announcement-badge badge-exam">ፈተና</div>
+                    <h3 class="announcement-title">የሁለተኛ ሴሚስተር ፈተናዎች የጊዜ ሰሌዳ እና የማጠናከሪያ ክፍለ ጊዜዎች</h3>
+                    <div class="announcement-meta">
+                        <div class="announcement-from">
+                            <i class="fas fa-user"></i> የክፍል ኃላፊ
+                        </div>
+                        <div class="announcement-date">
+                            <i class="far fa-clock"></i> ትላንት, 2:15 PM
+                        </div>
+                    </div>
+                </div>
+                <div class="announcement-content">
+                    <div class="unread-indicator"></div>
+                    <div class="announcement-text">
+                        <p>ውድ ተማሪዎች,</p>
+                        <p>የሁለተኛው ሴሚስተር ፈተናዎች ከመጋቢት 15 እስከ መጋቢት 22, 2016 ዓ.ም ድረስ እንደሚካሄዱ በዚህ እናሳውቃለን። የፈተናውን ጊዜ ሰሌዳ በተያያዙት ፋይሎች ውስጥ ያገኛሉ።</p>
+                        <p>በተጨማሪም፣ የተለያዩ ትምህርቶች ማጠናከሪያ ክፍለ ጊዜዎች ከመጋቢት 5 እስከ መጋቢት 14 ተዘጋጅተዋል። እነዚህ ማጠናከሪያ ክፍለ ጊዜዎች ለሁሉም ተማሪዎች ክፍት እና በነጻ ናቸው። አስቀድመው መመዝገብ አያስፈልግም።</p>
+                        <p>ለፈተናዎቹ በሚገባ ዝግጁ እንዲሆኑ እናበረታታለን።</p>
+                    </div>
+                    <div class="announcement-attachments">
+                        <div class="attachments-title">ተያያዥ ፋይሎች (2)</div>
+                        <div class="attachments-list">
+                            <div class="attachment">
+                                <i class="fas fa-file-pdf"></i> የፈተና_ጊዜ_ሰሌዳ.pdf
+                            </div>
+                            <div class="attachment">
+                                <i class="fas fa-file-excel"></i> የማጠናከሪያ_ክፍለ_ጊዜዎች.xlsx
+                            </div>
+                        </div>
+                    </div>
+                    <div class="announcement-actions">
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <i class="far fa-bookmark"></i> አስቀምጥ
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i> አጋራ
+                            </button>
+                        </div>
+                        <div class="announcement-stats">
+                            <div class="stat">
+                                <i class="far fa-eye"></i> 382 ተመልክቷል
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card">
+                <div class="announcement-header event">
+                    <div class="announcement-badge badge-event">ዝግጅት</div>
+                    <h3 class="announcement-title">የሳይንስ እና ቴክኖሎጂ ፌስቲቫል - ተሳትፎ ማስታወቂያ</h3>
+                    <div class="announcement-meta">
+                        <div class="announcement-from">
+                            <i class="fas fa-user"></i> የሳይንስ ክበብ አስተባባሪ
+                        </div>
+                        <div class="announcement-date">
+                            <i class="far fa-clock"></i> 2 ቀናት በፊት
+                        </div>
+                    </div>
+                </div>
+                <div class="announcement-content">
+                    <div class="announcement-text">
+                        <p>ውድ ተማሪዎች,</p>
+                        <p>የአመታዊው የሳይንስ እና ቴክኖሎጂ ፌስቲቫል ከየካቲት 20 እስከ የካቲት 22, 2016 ዓ.ም ድረስ በትምህርት ቤታችን ውስጥ ይካሄዳል። ይህ ፌስቲቫል የተለያዩ ፕሮጀክቶችን፣ ውድድሮችን እና ትርዒቶችን ያካትታል።</p>
+                        <p>ለተሳትፎ ፍላጎት ያላቸው ተማሪዎች በፕሮጀክቶቻቸው አማካኝነት ለመሳተፍ እስከ የካቲት 10, 2016 ድረስ ማመልከት ይችላሉ። ፕሮጀክቱ ሳይንስ፣ ቴክኖሎጂ፣ ኢንጂነሪንግ ወይም ሂሳብ ትምህርቶች ላይ ያተኮረ መሆን አለበት።</p>
+                        <p>የበለጠ መረጃ እና የምዝገባ ቅጽ በተያያዘው ፋይል ውስጥ ያገኛሉ።</p>
+                    </div>
+                    <div class="announcement-attachments">
+                        <div class="attachments-title">ተያያዥ ፋይሎች (1)</div>
+                        <div class="attachments-list">
+                            <div class="attachment">
+                                <i class="fas fa-file-pdf"></i> የሳይንስ_ፌስቲቫል_መመሪያ.pdf
+                            </div>
+                        </div>
+                    </div>
+                    <div class="announcement-actions">
+                        <div class="action-buttons">
+                            <button class="action-btn primary-btn">
+                                <i class="fas fa-user-plus"></i> ይመዝገቡ
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-bookmark"></i> አስቀምጥ
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i> አጋራ
+                            </button>
+                        </div>
+                        <div class="announcement-stats">
+                            <div class="stat">
+                                <i class="far fa-eye"></i> 210 ተመልክቷል
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-user-plus"></i> 45 ተመዝግበዋል
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card">
+                <div class="announcement-header general">
+                    <div class="announcement-badge badge-general">ጠቅላላ</div>
+                    <h3 class="announcement-title">የትምህርት ቤት መጽሐፍት መመለሻ ማስታወሻ</h3>
+                    <div class="announcement-meta">
+                        <div class="announcement-from">
+                            <i class="fas fa-user"></i> የቤተ መጽሐፍት ኃላፊ
+                        </div>
+                        <div class="announcement-date">
+                            <i class="far fa-clock"></i> 5 ቀናት በፊት
+                        </div>
+                    </div>
+                </div>
+                <div class="announcement-content">
+                    <div class="announcement-text">
+                        <p>ውድ ተማሪዎች,</p>
+                        <p>በዚህ አመት ከተከራዩዋቸው የትምህርት ቤት መጽሐፍቶች ሁሉንም እስከ መጋቢት 30, 2016 ዓ.ም ድረስ ወደ ትምህርት ቤት ቤተ መጽሐፍት መመለስ እንዳለባቸው እናሳስባለን።</p>
+                        <p>ለመመለስ የሚዘገዩ መጽሐፍቶች ቅጣት እንደሚኖራቸው እናሳውቃለን። እባክዎ ሁሉንም መጽሐፍቶችዎን በጥሩ ሁኔታ ለመመለስ ያረጋግጡ።</p>
+                        <p>በቤተ መጽሐፍት ክፍት ሰዓቶች፦ ከሰኞ እስከ አርብ ከጥዋቱ 8 AM እስከ ከሰዓት 4 PM ድረስ መጽሐፍቶችን መመለስ ይችላሉ።</p>
+                    </div>
+                    <div class="announcement-actions">
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <i class="far fa-bookmark"></i> አስቀምጥ
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i> አጋራ
+                            </button>
+                        </div>
+                        <div class="announcement-stats">
+                            <div class="stat">
+                                <i class="far fa-eye"></i> 198 ተመልክቷል
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter').forEach(filter => {
+            filter.addEventListener('click', function() {
+                document.querySelector('.filter.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Mark as read functionality
+        const unreadIndicators = document.querySelectorAll('.unread-indicator');
+        unreadIndicators.forEach(indicator => {
+            indicator.closest('.announcement-content').addEventListener('click', () => {
+                indicator.style.display = 'none';
+                // API call to mark as read would go here
+            });
+        });
+    </script>
+    <script src="js/grade-detector.js"></script>
+</body>
+</html>

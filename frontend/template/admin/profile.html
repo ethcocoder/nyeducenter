@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የተጠቃሚ መገለጫ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #2196F3;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid var(--primary-color);
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .profile-role {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-actions {
+            width: 100%;
+        }
+
+        .profile-action-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .save-btn:hover {
+            opacity: 0.9;
+        }
+
+        .activity-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .activity-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        @media (max-width: 992px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ታደሰ ብርሃኑ</div>
+                    <div class="user-role">ዋና አስተዳዳሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="students.html" class="menu-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>ተማሪዎች</span>
+            </a>
+            <a href="teachers.html" class="menu-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>መምህራን</span>
+            </a>
+            <a href="courses.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ኮርሶች</span>
+            </a>
+            <a href="quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="send-announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="send-forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ፎረም</span>
+            </a>
+            <a href="email.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>ኢሜይል</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="profile.html" class="menu-item active">
+                <i class="fas fa-user"></i>
+                <span>መገለጫ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈልግ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 class="page-title">የተጠቃሚ መገለጫ</h1>
+        </div>
+
+        <div class="profile-container">
+            <div>
+                <div class="profile-card">
+                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="ተጠቃሚ ፎቶ" class="profile-avatar">
+                    <h2 class="profile-name">ታደሰ ብርሃኑ</h2>
+                    <p class="profile-role">ዋና አስተዳዳሪ</p>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">126</div>
+                            <div class="stat-label">ማስታወቂያዎች</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">48</div>
+                            <div class="stat-label">ውይይቶች</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">215</div>
+                            <div class="stat-label">ተማሪዎች</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">መምህራን</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="profile-action-btn">
+                            <i class="fas fa-camera"></i> ፎቶ ቀይር
+                        </button>
+                        <button class="profile-action-btn logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> ዘግተህ ውጣ
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="form-container">
+                    <h2 class="form-title">የግል መረጃ</h2>
+                    <form id="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">ሙሉ ስም</label>
+                                <input type="text" id="first-name" value="ታደሰ">
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">የአባት ስም</label>
+                                <input type="text" id="last-name" value="ብርሃኑ">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">ኢሜይል</label>
+                                <input type="email" id="email" value="tadese@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">ስልክ ቁጥር</label>
+                                <input type="tel" id="phone" value="+251912345678">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="role">ሚና</label>
+                                <select id="role">
+                                    <option value="admin" selected>ዋና አስተዳዳሪ</option>
+                                    <option value="teacher">መምህር</option>
+                                    <option value="staff">ሰራተኛ</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="department">ክፍል</label>
+                                <select id="department">
+                                    <option value="admin" selected>አስተዳደር</option>
+                                    <option value="academic">ትምህርት</option>
+                                    <option value="finance">ፋይናንስ</option>
+                                    <option value="it">መረጃ ቴክኖሎጂ</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bio">ስለ እኔ</label>
+                            <textarea id="bio">በትምህርት ማህበረሰብ ውስጥ የዋና አስተዳዳሪነት ሚና እየተወጣሁ ያለሁ ሲሆን ከ5 ዓመታት በላይ የአስተዳደር ልምድ አለኝ።</textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="password">አዲስ የይለፍ ቃል</label>
+                                <input type="password" id="password" placeholder="አዲስ የይለፍ ቃል ይጻፉ">
+                            </div>
+                            <div class="form-group">
+                                <label for="password-confirm">የይለፍ ቃል ማረጋገጫ</label>
+                                <input type="password" id="password-confirm" placeholder="አዲስ የይለፍ ቃል እንደገና ይጻፉ">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="save-btn">
+                            <i class="fas fa-save"></i> መረጃ አስቀምጥ
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="activity-container">
+                    <h2 class="activity-title">የቅርብ ጊዜ እንቅስቃሴዎች</h2>
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: var(--primary-color);">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-text">አዲስ ማስታወቂያ ፈጥረዋል - "የትምህርት ዓመት መጀመሪያ ማስታወቂያ"</div>
+                                <div class="activity-time">2 ሰዓት በፊት</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: var(--secondary-color);">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-text">አዲስ መምህር አክለዋል - "ድረስ ማሞ"</div>
+                                <div class="activity-time">ትላንት በ 2:30 PM</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: #FF9800;">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-text">በውይይት ላይ አስተያየት ሰጥተዋል - "የፈተና ዝግጅት ምክሮች እና ስልቶች"</div>
+                                <div class="activity-time">ትላንት በ 10:15 AM</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: #9C27B0;">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-text">የሲስተም ቅንብሮችን ቀይረዋል</div>
+                                <div class="activity-time">ከ2 ቀናት በፊት</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: #607D8B;">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-text">ወደ ሲስተሙ ገብተዋል</div>
+                                <div class="activity-time">ከ2 ቀናት በፊት</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+        
+        // Profile form handling
+        document.getElementById('profile-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('የመገለጫ መረጃ በተሳካ ሁኔታ ተቀይሯል');
+        });
+
+        // Profile image change
+        document.querySelector('.profile-action-btn').addEventListener('click', () => {
+            // Image upload functionality would go here
+            alert('የፎቶ መቀየሪያ ማስጀመሪያ ኮድ እዚህ ይቀመጣል');
+        });
+
+        // Logout button
+        document.querySelector('.logout-btn').addEventListener('click', () => {
+            if (confirm('በእርግጥ መውጣት ይፈልጋሉ?')) {
+                // Logout functionality would go here
+                window.location.href = '../../login.html';
+            }
+        });
+    </script>
+</body>
+</html> 

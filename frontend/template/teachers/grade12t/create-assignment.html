@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል መምህር የቤት ስራ መፍጠር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Additional styles for creating assignments */
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .form-col {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .file-upload {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background-color: var(--card-background-alt);
+            border: 2px dashed var(--border-color);
+            border-radius: var(--card-border-radius);
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .file-upload-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+        
+        .file-upload-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .file-upload-subtext {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .file-upload input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: var(--card-background-alt);
+            border-radius: var(--card-border-radius);
+            margin-bottom: 10px;
+        }
+        
+        .file-icon {
+            font-size: 20px;
+            margin-right: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .file-icon.pdf {
+            color: #f44336;
+        }
+        
+        .file-icon.doc {
+            color: #2196f3;
+        }
+        
+        .file-icon.img {
+            color: #4caf50;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+            color: var(--text-primary);
+        }
+        
+        .file-size {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .file-remove {
+            padding: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color var(--transition-fast);
+        }
+        
+        .file-remove:hover {
+            color: var(--danger-color);
+        }
+        
+        .date-time-inputs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .date-time-inputs .form-group {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        /* Override for textarea */
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል የቤት ስራ መፍጠር</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">4</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">የቤት ስራ መፍጠር</h1>
+        <p class="page-subtitle">የተማሪዎችን የዩኒቨርሲቲ ዝግጁነት ለማጎልበት አዲስ የቤት ስራ ይፍጠሩ</p>
+
+        <div class="card">
+            <form id="create-assignment-form">
+                <div class="form-group">
+                    <label for="assignment-title">የቤት ስራ ርዕስ</label>
+                    <input type="text" id="assignment-title" class="form-control" placeholder="የዩኒቨርሲቲ መግቢያ ፈተና ዝግጅት - ክፍል 1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="assignment-description">ዝርዝር መግለጫ</label>
+                    <textarea id="assignment-description" class="form-control" placeholder="የቤት ስራው ዝርዝር መግለጫ..." required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="class-section">ክፍል</label>
+                            <select id="class-section" class="form-control" required>
+                                <option value="">ክፍል ይምረጡ</option>
+                                <option value="all">ሁሉም ክፍሎች</option>
+                                <option value="12A">12 ሀ</option>
+                                <option value="12B">12 ለ</option>
+                                <option value="12C">12 ሐ</option>
+                                <option value="12D">12 መ</option>
+                                <option value="12E">12 ሠ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="subject">የትምህርት ዓይነት</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">የትምህርት ዓይነት ይምረጡ</option>
+                                <option value="math">ሂሳብ</option>
+                                <option value="physics">ፊዚክስ</option>
+                                <option value="chemistry">ኬሚስትሪ</option>
+                                <option value="biology">ባዮሎጂ</option>
+                                <option value="english">እንግሊዝኛ</option>
+                                <option value="amharic">አማርኛ</option>
+                                <option value="civics">ሲቪክስ</option>
+                                <option value="geography">ጂኦግራፊ</option>
+                                <option value="history">ታሪክ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>የማብቂያ ቀን እና ሰዓት</label>
+                            <div class="date-time-inputs">
+                                <div class="form-group">
+                                    <input type="date" id="due-date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="time" id="due-time" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="points">ነጥብ</label>
+                            <input type="number" id="points" min="1" max="100" class="form-control" placeholder="ከ100 ነጥብ" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ፋይሎችን ይጨምሩ (አማራጭ)</label>
+                    <div class="file-upload">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="file-upload-text">ፋይሎችን ለመጨመር እዚህ ጣት ይንኩ ወይም ይጎትቱ</div>
+                        <div class="file-upload-subtext">PDF, Word, Excel, PowerPoint, Images (ከ10MB በታች)</div>
+                        <input type="file" id="file-upload-input" multiple>
+                    </div>
+                </div>
+
+                <div id="file-list">
+                    <!-- Files will be added here dynamically -->
+                </div>
+
+                <div class="form-group">
+                    <label for="assignment-instructions">ለተማሪዎች ተጨማሪ መመሪያዎች</label>
+                    <textarea id="assignment-instructions" class="form-control" placeholder="ተማሪዎች ስራዎን ሲያስገቡ ሊከተሏቸው የሚገቡ መመሪያዎች..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" id="save-draft" class="btn btn-secondary">
+                        <i class="fas fa-save"></i>
+                        <span>እትም ያስቀምጡ</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>ቤት ስራ ይላኩ</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // File upload handling
+            const fileUploadInput = document.getElementById('file-upload-input');
+            const fileList = document.getElementById('file-list');
+            
+            fileUploadInput.addEventListener('change', function() {
+                // Clear existing file list when new files are selected
+                fileList.innerHTML = '';
+                
+                // Handle selected files
+                if (this.files && this.files.length > 0) {
+                    Array.from(this.files).forEach(file => {
+                        addFileToList(file);
+                    });
+                }
+            });
+            
+            function addFileToList(file) {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                // Determine file icon based on type
+                let iconClass = 'fas fa-file';
+                let iconType = '';
+                
+                if (file.type.includes('pdf')) {
+                    iconClass = 'fas fa-file-pdf';
+                    iconType = 'pdf';
+                } else if (file.type.includes('word') || file.type.includes('doc')) {
+                    iconClass = 'fas fa-file-word';
+                    iconType = 'doc';
+                } else if (file.type.includes('image')) {
+                    iconClass = 'fas fa-file-image';
+                    iconType = 'img';
+                } else if (file.type.includes('excel') || file.type.includes('sheet')) {
+                    iconClass = 'fas fa-file-excel';
+                    iconType = 'excel';
+                } else if (file.type.includes('powerpoint') || file.type.includes('presentation')) {
+                    iconClass = 'fas fa-file-powerpoint';
+                    iconType = 'ppt';
+                }
+                
+                // Format file size
+                const fileSize = formatFileSize(file.size);
+                
+                fileItem.innerHTML = `
+                    <div class="file-icon ${iconType}">
+                        <i class="${iconClass}"></i>
+                    </div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${fileSize}</div>
+                    </div>
+                    <button type="button" class="file-remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                fileList.appendChild(fileItem);
+                
+                // Add remove button functionality
+                const removeButton = fileItem.querySelector('.file-remove');
+                removeButton.addEventListener('click', function() {
+                    fileItem.remove();
+                });
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Form submission
+            const form = document.getElementById('create-assignment-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (form.checkValidity()) {
+                    // Gather form data
+                    const formData = {
+                        title: document.getElementById('assignment-title').value,
+                        description: document.getElementById('assignment-description').value,
+                        class: document.getElementById('class-section').value,
+                        subject: document.getElementById('subject').value,
+                        dueDate: document.getElementById('due-date').value,
+                        dueTime: document.getElementById('due-time').value,
+                        points: document.getElementById('points').value,
+                        instructions: document.getElementById('assignment-instructions').value
+                    };
+                    
+                    // In a real application, you would send this data to the server
+                    console.log('Assignment data:', formData);
+                    
+                    // Show a success message
+                    alert('የቤት ስራ በተሳካ ሁኔታ ተልኳል! ከዚህ በኋላ ወደ የቤት ስራ መላኪያ ገጽ ይወሰዳሉ።');
+                    
+                    // Redirect to assignments list
+                    // window.location.href = 'send-assignment.html';
+                } else {
+                    // Trigger the browser's validation UI
+                    const firstInvalidField = form.querySelector(':invalid');
+                    if (firstInvalidField) {
+                        firstInvalidField.focus();
+                    }
+                }
+            });
+            
+            // Save draft button
+            const saveDraftButton = document.getElementById('save-draft');
+            
+            saveDraftButton.addEventListener('click', function() {
+                // Gather form data regardless of validation
+                const formData = {
+                    title: document.getElementById('assignment-title').value || 'Untitled Assignment',
+                    description: document.getElementById('assignment-description').value,
+                    class: document.getElementById('class-section').value,
+                    subject: document.getElementById('subject').value,
+                    dueDate: document.getElementById('due-date').value,
+                    dueTime: document.getElementById('due-time').value,
+                    points: document.getElementById('points').value,
+                    instructions: document.getElementById('assignment-instructions').value
+                };
+                
+                // In a real application, you would save this draft to the server
+                console.log('Draft assignment data:', formData);
+                
+                // Show a success message
+                alert('የቤት ስራ ረቂቅ በተሳካ ሁኔታ ተቀምጧል!');
+            });
+            
+            // Set default due date to 7 days from now
+            const dueDateInput = document.getElementById('due-date');
+            const dueTimeInput = document.getElementById('due-time');
+            
+            // Set default date (7 days from now)
+            const defaultDueDate = new Date();
+            defaultDueDate.setDate(defaultDueDate.getDate() + 7);
+            
+            // Format date as YYYY-MM-DD for input
+            const year = defaultDueDate.getFullYear();
+            const month = String(defaultDueDate.getMonth() + 1).padStart(2, '0');
+            const day = String(defaultDueDate.getDate()).padStart(2, '0');
+            dueDateInput.value = `${year}-${month}-${day}`;
+            
+            // Set default time to 23:59
+            dueTimeInput.value = '23:59';
+        });
+    </script>
+       <script src="js/form-validator.js"></script>
+       <script src="js/utils.js"></script>
+       <script src="js/navigation.js"></script>
+</body>
+</html> 

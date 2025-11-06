@@ -1,0 +1,68 @@
+[
+  {
+    "id": "1744369413589",
+    "username": "natikiyu7438",
+    "password": "$2b$10$PHyOFU.DfcC1GuvfwP4pAOnxvB/bLCQhUlLYYMrakcg7cfHUEiKKC",
+    "fullName": "nati ermi",
+    "email": "natikiyu7@gmail.com",
+    "role": "student",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:03:33.589Z",
+    "updatedAt": "2025-04-11T11:03:33.589Z"
+  },
+  {
+    "id": "1744369577886",
+    "username": "natikiyu7374",
+    "password": "$2b$10$O6QAlCHYLRvWGbVBjDsuru1EXPIxjQqNTX6MIs7cy/Avx9cvmlVwi",
+    "fullName": "nati ermi",
+    "email": "natikiyu7@gmail.com",
+    "role": "student",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:06:17.886Z",
+    "updatedAt": "2025-04-11T11:06:17.886Z"
+  },
+  {
+    "id": "1744370049599",
+    "username": "natikiyu9733",
+    "password": "$2b$10$hlUgvcsQecjHlNtg7xQX/eSG9reRHxQeVocH83Qvckdp3HXJLRCSC",
+    "fullName": "nati man",
+    "email": "natikiyu9@gmail.com",
+    "role": "student",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:14:09.599Z",
+    "updatedAt": "2025-04-11T11:14:09.599Z"
+  },
+  {
+    "id": "1744370285371",
+    "username": "natikiyu9573",
+    "password": "$2b$10$0REtpehzHGbFCQyDI2YeFOR2sjg./BA2UraWHuys7T5iK8CeemKyO",
+    "fullName": "nati man",
+    "email": "natikiyu9@gmail.com",
+    "role": "student",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:18:05.371Z",
+    "updatedAt": "2025-04-11T11:18:05.371Z"
+  },
+  {
+    "id": "1744371400271",
+    "username": "natikiyu3206",
+    "password": "$2b$10$ccOesxo8KDg5/ismkCrWo.56HAZKVoBYg0Lg6ScuhQBdgiULpu.BC",
+    "fullName": "nati ermi",
+    "email": "natikiyu3@gmail.com",
+    "role": "student",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:36:40.271Z",
+    "updatedAt": "2025-04-11T11:36:40.271Z"
+  },
+  {
+    "id": "1744371550606",
+    "username": "natikiyu509",
+    "password": "$2b$10$H7Jdu57C4oitcKTbp5AoweUhEIosXPVOL.DlaLkoMp4zUXcSViH2u",
+    "fullName": "nati ermi",
+    "email": "natikiyu@gmail.com",
+    "role": "student",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:39:10.606Z",
+    "updatedAt": "2025-04-11T11:39:10.606Z"
+  }
+]

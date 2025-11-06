@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ10ኛ ክፍል መልዕክቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --chat-sidebar-width: 300px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .chat-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-sidebar {
+            width: var(--chat-sidebar-width);
+            background-color: white;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-search {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input i {
+            color: #666;
+            margin-right: 10px;
+        }
+
+        .search-input input {
+            border: none;
+            background-color: transparent;
+            flex: 1;
+            outline: none;
+        }
+
+        .chat-filter {
+            display: flex;
+            padding: 0 15px 15px;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            color: #666;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .chat-contacts {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-contact {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-contact:hover {
+            background-color: #f9f9f9;
+        }
+
+        .chat-contact.active {
+            background-color: #e8f0fe;
+        }
+
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-time {
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .contact-message {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .contact-badge {
+            width: 18px;
+            height: 18px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f7fa;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .chat-header-name {
+            font-weight: 500;
+        }
+
+        .chat-header-status {
+            font-size: 12px;
+            color: #34a853;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-header-action {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .message-received {
+            justify-content: flex-start;
+        }
+
+        .message-sent {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .message-sent .message-avatar {
+            display: none;
+        }
+
+        .message-content {
+            max-width: 60%;
+        }
+
+        .message-bubble {
+            padding: 12px 15px;
+            border-radius: 15px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        .message-received .message-bubble {
+            background-color: white;
+            border-top-left-radius: 5px;
+        }
+
+        .message-sent .message-bubble {
+            background-color: var(--primary-color);
+            color: white;
+            border-top-right-radius: 5px;
+        }
+
+        .message-meta {
+            display: flex;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .message-sent .message-meta {
+            justify-content: flex-end;
+            color: #999;
+        }
+
+        .message-time {
+            margin-right: 10px;
+        }
+
+        .message-status i {
+            font-size: 12px;
+        }
+
+        .chat-input {
+            padding: 15px 20px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-action {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input-action:hover {
+            background-color: #f5f5f5;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 10px 15px;
+            margin: 0 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-button:hover {
+            background-color: #3367d6;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .chat-sidebar {
+                transform: translateX(-100%);
+                position: absolute;
+                height: calc(100% - 66px);
+                z-index: 90;
+                transition: transform 0.3s;
+            }
+            
+            .chat-sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሳሙኤል ታደሰ</div>
+                    <div class="user-role">የ10ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-course.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item active">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="header-title">መልዕክቶች</div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-sidebar">
+                <div class="chat-search">
+                    <div class="search-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="ሰዎችን ወይም መልዕክቶችን ይፈልጉ...">
+                    </div>
+                </div>
+                <div class="chat-filter">
+                    <div class="filter-btn active">ሁሉም</div>
+                    <div class="filter-btn">ያልተነበቡ</div>
+                    <div class="filter-btn">አስተማሪዎች</div>
+                </div>
+                <div class="chat-contacts">
+                    <div class="chat-contact active">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>አቶ ሰለሞን አበበ</span>
+                                <span class="contact-time">10:15 AM</span>
+                            </div>
+                            <div class="contact-message">ውድ ሳሙኤል፣ የሒሳብ የቤት ስራህን ተመልክቼዋለሁ።</div>
+                        </div>
+                    </div>
+                    <div class="chat-contact">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ወ/ሮ ብርቱካን አለሙ</span>
+                                <span class="contact-time">ትላንት</span>
+                            </div>
+                            <div class="contact-message">ሰላም! ስለ የአማርኛ ፕሮጀክቱ ተጨማሪ መረጃ መላክ እችላለሁ።</div>
+                        </div>
+                        <span class="contact-badge">2</span>
+                    </div>
+                    <div class="chat-contact">
+                        <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ዶ/ር ታድዬ መንግስቱ</span>
+                                <span class="contact-time">ትላንት</span>
+                            </div>
+                            <div class="contact-message">የኬሚስትሪ ሪፖርትህ እጅግ በጣም ጥሩ ነው።</div>
+                        </div>
+                    </div>
+                    <div class="chat-contact">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>አቶ ዘውዱ በቀለ</span>
+                                <span class="contact-time">ሰኞ</span>
+                            </div>
+                            <div class="contact-message">ሳሙኤል፣ የአካባቢ ለውጥ ፕሮጀክትህን እንድታራዝም ፈቅጄልሃል።</div>
+                        </div>
+                    </div>
+                    <div class="chat-contact">
+                        <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ወ/ሪት ፍሬሰላም ደረሰ</span>
+                                <span class="contact-time">03/12/23</span>
+                            </div>
+                            <div class="contact-message">ሰላም ሳሙኤል፣ ከቡድን አባላት ጋር ለቀጣይ ፕሮጀክት መገናኘት ትችላለህ?</div>
+                        </div>
+                        <span class="contact-badge">1</span>
+                    </div>
+                    <div class="chat-contact">
+                        <img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>አቶ ኃይሉ ተፈራ</span>
+                                <span class="contact-time">02/12/23</span>
+                            </div>
+                            <div class="contact-message">የፊዚክስ ፕራክቲካል የምርምር ውጤቶችህን ልትልክልኝ ትችላለህ?</div>
+                        </div>
+                    </div>
+                    <div class="chat-contact">
+                        <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ወ/ሮ ሰብለ ታዬ</span>
+                                <span class="contact-time">30/11/23</span>
+                            </div>
+                            <div class="contact-message">የትምህርት ቤቱን የአካባቢ ክበብ የሚቀጥለው ስብሰባ ይጠብቀናል።</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="chat-header-avatar">
+                        <div>
+                            <div class="chat-header-name">አቶ ሰለሞን አበበ</div>
+                            <div class="chat-header-status">መስመር ላይ</div>
+                        </div>
+                    </div>
+                    <div class="chat-header-actions">
+                        <div class="chat-header-action">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="chat-header-action">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="chat-header-action">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages">
+                    <div class="message message-received">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ውድ ሳሙኤል፣ የሒሳብ የቤት ስራህን ሰርቼዋለሁ። አንድ ስህተት አለብህ፣ በ6ኛው ጥያቄ ላይ እባክህ ምልክቶችን እንደገና ተመልከት።
+                            </div>
+                            <div class="message-meta">
+                                <div class="message-time">10:05 AM</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message message-sent">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                አቶ ሰለሞን፣ ለማስታወቂያው አመሰግናለሁ። ስህተቱን አየሁት። እንደገና እመለከታለሁ።
+                            </div>
+                            <div class="message-meta">
+                                <div class="message-time">10:08 AM</div>
+                                <div class="message-status">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message message-received">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ጥሩ። የሚቀጥለው ፈተና የቤት ስራ በዚህ ሳምንት ይሰጣል። ለዚህም እንድትዘጋጅ እመክራለሁ፣ ከአልጀብራ ምዕራፍ 6 ላይ ነው።
+                            </div>
+                            <div class="message-meta">
+                                <div class="message-time">10:12 AM</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message message-received">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                በተጨማሪም የ10ኛ ክፍል ተማሪዎች በሚቀጥለው ሳምንት ማቲማቲክስ ክለብ ላይ ይካፈላሉ፣ መሳተፍ ከፈለግክ ትችላለህ።
+                            </div>
+                            <div class="message-meta">
+                                <div class="message-time">10:15 AM</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message message-sent">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                አዎ! በማቲማቲክስ ክለብ ላይ መሳተፍ እወዳለሁ። ለሚቀጥለው የቤት ስራም እዘጋጃለሁ። አመሰግናለሁ።
+                            </div>
+                            <div class="message-meta">
+                                <div class="message-time">10:20 AM</div>
+                                <div class="message-status">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-action">
+                        <i class="fas fa-paperclip"></i>
+                    </div>
+                    <input type="text" placeholder="መልዕክትዎን ይጻፉ..." class="message-input">
+                    <div class="input-action">
+                        <i class="far fa-smile"></i>
+                    </div>
+                    <div class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+        
+        // Chat contacts functionality
+        const chatContacts = document.querySelectorAll('.chat-contact');
+        chatContacts.forEach(contact => {
+            contact.addEventListener('click', () => {
+                chatContacts.forEach(c => c.classList.remove('active'));
+                contact.classList.add('active');
+                // In a real application, this would load the selected conversation
+            });
+        });
+        
+        // Mobile chat sidebar toggle
+        document.querySelector('.header-title').addEventListener('click', function() {
+            document.querySelector('.chat-sidebar').classList.toggle('open');
+        });
+        
+        // Filter buttons functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // In a real application, this would filter the contacts based on the selected filter
+            });
+        });
+    </script>
+</body>
+</html>

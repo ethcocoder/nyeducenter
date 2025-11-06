@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ11ኛ ክፍል መምህር ቅንብሮች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+   
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .settings-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .tab-item {
+            padding: 12px 20px;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tab-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-item:hover:not(.active) {
+            background-color: var(--hover-color);
+        }
+
+        .settings-section {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 15px center;
+            background-size: 15px;
+            padding-right: 40px;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .switch-label {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .switch-description {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            margin-right: 25px;
+        }
+
+        .profile-info h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .avatar-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .avatar-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .avatar-option:hover, .avatar-option.selected {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .header {
+                margin-left: 50px;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">11ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ11ኛ ክፍል መምህር ቅንብሮች</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">የአካውንት ቅንብሮች</h1>
+        <p class="page-subtitle">የመለያ ዝርዝሮችን ይምልከቱ እና ያርትዑ፤ የማሳወቂያ ምርጫዎችን ይቀይሩ</p>
+
+        <div class="settings-tabs">
+            <div class="tab-item active">የመገለጫ ቅንብሮች</div>
+            <div class="tab-item">የመለያ ዝርዝር</div>
+            <div class="tab-item">የማሳወቂያ ቅንብሮች</div>
+            <div class="tab-item">የመተግበሪያ ቅንብሮች</div>
+            <div class="tab-item">የይለፍ ቃል ቅየራ</div>
+            <div class="tab-item">የ11ኛ ክፍል ቅንብሮች</div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">የመገለጫ ቅንብሮች</h2>
+            
+            <div class="profile-header">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Avatar" class="profile-avatar">
+                <div class="profile-info">
+                    <h3>አቶ አበበ ተሾመ</h3>
+                    <p>የ11ኛ ክፍል ፊዚክስ መምህር</p>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-camera"></i> ፎቶ ቀይር
+                    </button>
+                </div>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label for="full-name">ሙሉ ስም</label>
+                    <input type="text" id="full-name" class="form-control" value="አበበ ተሾመ">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">ኢሜይል</label>
+                    <input type="email" id="email" class="form-control" value="abebe.teshome@school.edu.et">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">ስልክ ቁጥር</label>
+                    <input type="tel" id="phone" class="form-control" value="+251912345678">
+                </div>
+                
+                <div class="form-group">
+                    <label for="bio">ስለራስዎ</label>
+                    <textarea id="bio" class="form-control" rows="4">በ11ኛ ክፍል ተማሪዎች ላይ ከ5 ዓመት በላይ የማስተማር ልምድ አለኝ። በፊዚክስ እና ቴክኖሎጂ ትምህርቶች ላይ ተጨማሪ ትምህርት ልቅስም ወስጃለሁ።</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="department">የትምህርት ክፍል</label>
+                    <select id="department" class="form-control">
+                        <option value="physics">ፊዚክስ</option>
+                        <option value="math">ሂሳብ</option>
+                        <option value="chemistry">ኬሚስትሪ</option>
+                        <option value="biology">ባዮሎጂ</option>
+                        <option value="english">እንግሊዝኛ</option>
+                        <option value="amharic">አማርኛ</option>
+                        <option value="geography">ጂኦግራፊ</option>
+                        <option value="history">ታሪክ</option>
+                        <option value="civics">ሲቪክስ</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>ፎቶ ይምረጡ</label>
+                    <div class="avatar-group">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar Option" class="avatar-option selected">
+                        <img src="https://randomuser.me/api/portraits/men/36.jpg" alt="Avatar Option" class="avatar-option">
+                        <img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Avatar Option" class="avatar-option">
+                        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Avatar Option" class="avatar-option">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Avatar Option" class="avatar-option">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Avatar Option" class="avatar-option">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> ለውጦችን አስቀምጥ
+                </button>
+            </form>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">የማሳወቂያ ቅንብሮች</h2>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    ኢሜይል ማሳወቂያዎች
+                    <span class="switch-description">አዲስ ተማሪዎች ሲመዘገቡ ማሳወቂያ ይላክልኝ</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    የቀጠሮ ማሳወቂያዎች
+                    <span class="switch-description">ከተማሪዎች ወይም አስተዳዳሪዎች የሚመጡ የቀጠሮ ማሳወቂያዎች</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    የፈተና ማሳወቂያዎች
+                    <span class="switch-description">የፈተና ውጤቶች ሲገባ ተማሪዎች ማሳወቂያ ያነሳሉ</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    ድምጻዊ ማሳወቂያዎች
+                    <span class="switch-description">ለሁሉም ማሳወቂያዎች ድምጽ ይሰማ</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    የሞባይል አፕሊኬሽን ማሳወቂያዎች
+                    <span class="switch-description">ሁሉም ማሳወቂያዎች ወደሞባይል ይላኩ</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> ለውጦችን አስቀምጥ
+            </button>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">የ11ኛ ክፍል መምህር ቅንብሮች</h2>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    የፈተና ውጤት በሚያገኙበት ጊዜ ተማሪዎች እንዲያዩ ይፍቀዱ
+                    <span class="switch-description">ተማሪዎች የፈተና ውጤታቸውን ወዲያውኑ እንዲያዩ ይደረጋል</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    ተማሪዎች የክፍል ውስጥ ጥያቄዎችን እንዲጠይቁ ይፍቀዱ
+                    <span class="switch-description">ተማሪዎች በክፍል ውስጥ ድረ-ገጽ ላይ ጥያቄዎችን እንዲጠይቁ ይፈቀድላቸዋል</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="switch-container">
+                <div class="switch-label">
+                    ተማሪዎች ከመምህር ጋር በግል መልዕክት እንዲልኩ ይፍቀዱ
+                    <span class="switch-description">ተማሪዎች አስቸኳይ ጉዳዮች ሲኖራቸው በግል መልዕክት እንዲልኩ ይፈቀድላቸዋል</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label for="default-grade-scale">ነባሪ የውጤት መሰጫ ስኬል</label>
+                <select id="default-grade-scale" class="form-control">
+                    <option value="100">100 አጠቃላይ ነጥብ (ነባሪ)</option>
+                    <option value="10">10 አጠቃላይ ነጥብ</option>
+                    <option value="5">5 አጠቃላይ ነጥብ</option>
+                    <option value="letter">የፊደል ውጤት (A, B, C, D, F)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="default-quiz-time">ነባሪ የፈተና ጊዜ (በደቂቃ)</label>
+                <input type="number" id="default-quiz-time" class="form-control" value="30">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> ለውጦችን አስቀምጥ
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+   
+            
+            // Toggle tabs
+            const tabs = document.querySelectorAll('.tab-item');
+            const settingsSections = document.querySelectorAll('.settings-section');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all settings sections
+                    settingsSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show the corresponding section
+                    const targetSection = document.getElementById(this.getAttribute('data-target'));
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Initialize with first tab active
+            if (tabs.length > 0 && !document.querySelector('.tab-item.active')) {
+                tabs[0].click();
+            }
+            
+            // Handle form submission
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('ቅንብሮች በተሳካ ሁኔታ ተመዝግበዋል።');
+                });
+            });
+      
+    </script>
+</body>
+</html> 

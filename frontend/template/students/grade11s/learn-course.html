@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ11ኛ ክፍል ትምህርቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            margin-left: 10px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .course-banner {
+            height: 140px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .course-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .course-progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .course-progress {
+            height: 100%;
+            background-color: var(--secondary-color);
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .course-meta-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .course-meta-item i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .course-description {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+
+        .course-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .math-banner {
+            background: linear-gradient(135deg, #4285f4, #3367d6);
+        }
+
+        .physics-banner {
+            background: linear-gradient(135deg, #ea4335, #d62516);
+        }
+
+        .chemistry-banner {
+            background: linear-gradient(135deg, #34a853, #2d8c48);
+        }
+
+        .biology-banner {
+            background: linear-gradient(135deg, #fbbc05, #e2a700);
+        }
+
+        .english-banner {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+        }
+
+        .geography-banner {
+            background: linear-gradient(135deg, #ff6d00, #e05d00);
+        }
+
+        .history-banner {
+            background: linear-gradient(135deg, #795548, #5d4037);
+        }
+
+        .civics-banner {
+            background: linear-gradient(135deg, #00bcd4, #00a1b8);
+        }
+
+        .computer-banner {
+            background: linear-gradient(135deg, #3f51b5, #303f9f);
+        }
+
+        .economics-banner {
+            background: linear-gradient(135deg, #009688, #00796b);
+        }
+
+        .course-banner-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .course-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+        }
+
+        .recommended {
+            background-color: var(--secondary-color);
+        }
+
+        .new-content {
+            background-color: var(--accent-color);
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .search-bar {
+                width: 150px;
+            }
+
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሳሙኤል ታደሰ</div>
+                    <div class="user-role">የ11ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-cource.html" class="menu-item active">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="../settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="../help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ትምህርቶችን ይፈልጉ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="page-title">የ11ኛ ክፍል ትምህርቶች</h1>
+
+        <div class="courses-container">
+            <div class="course-card">
+                <div class="course-banner math-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-square-root-alt"></i>
+                    </div>
+                    <div class="course-status recommended">የሚመከር</div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 68%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ሒሳብ ክለስተር - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>22 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>64 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የሒሳብ ክለስተር ትምህርት የካልኩለስ መሰረቶችን፣ የኢንተግሬሽንና ዲፈረንሼሽን፣ የንፅፅራዊ ስታቲስቲክስ ስሌቶችንና ኮምፕሌክስ ቁጥሮችን ያካትታል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">68% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner physics-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="course-status new-content">አዲስ ይዘት</div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 45%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ፊዚክስ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>18 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>52 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የፊዚክስ ትምህርት ኤሌክትሮማግኔቲዝምን፣ የአቶሚክ ፊዚክስን፣ የማኅበረሰባዊ ሞዴሎችንና ድምፀ ሞገድ መርሆዎችን በዝርዝር ያስተምራል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">45% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner chemistry-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 72%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ኬሚስትሪ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>20 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>56 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የኬሚስትሪ ትምህርት ኦርጋኒክና ኢንኦርጋኒክ ኬሚስትሪን፣ ቴርሞዳይናሚክስን፣ ካይኔቲክስን እና ያልተናጥል ሲስተሞችን ይመለከታል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">72% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner biology-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ስነ-ህይወት - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>16 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>48 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የስነ-ህይወት ትምህርት ሞለኪዩላር ባዮሎጂን፣ ጄኔቲክስን፣ ፊዚዮሎጂን እና ስነ-ምግባራዊ ባዮቴክኖሎጂን ያካትታል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">65% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner english-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 80%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ኢንግሊዝኛ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>24 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>68 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የኢንግሊዝኛ ትምህርት አድቫንስድ የኢንግሊዝኛ ቋንቋ ተግባራትን፣ ክፍል አምስት የሰ/ሰ ስርዓትን እና አካዳሚክ ጽሁፎችን ያካትታል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">80% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner computer-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="course-status recommended">የሚመከር</div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 55%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ኮምፒዩተር ሳይንስ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>16 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>50 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የኮምፒዩተር ሳይንስ ትምህርት የመሰረታዊ ፕሮግራሚንግ ስልቶችን፣ ዌብ ዲዛይንን እና ዳታቤዝ መስራትን ያጠቃልላል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">55% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner geography-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-globe-africa"></i>
+                    </div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 40%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ጂኦግራፊ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>14 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>42 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የጂኦግራፊ ትምህርት የአካባቢ ለውጦችን፣ የህዝብ ብዛት ለውጦችን እና የኤኮኖሚ ጂኦግራፊን በአፍሪካና በአለም ደረጃ ያስተምራል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">40% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner history-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ታሪክ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>12 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>38 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የታሪክ ትምህርት ዘመናዊ የአለም ታሪክን፣ ኢንዱስትሪያል አብዮቶችንና የዓለም ጦርነቶችን እንዲሁም የዘመናዊቷን ኢትዮጵያ ግንባታ ታሪክ ያስተምራል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">60% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner economics-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="course-status new-content">አዲስ ይዘት</div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 35%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ኢኮኖሚክስ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>15 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>44 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የኢኮኖሚክስ ትምህርት የማክሮና ማይክሮ ኢኮኖሚ መሰረታዊ መርሆዎችን፣ የዓለም ኢኮኖሚ ስርዓቶችን እና የገበያ መርሆዎችን ያስተምራል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">35% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner civics-banner">
+                    <div class="course-banner-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="course-progress-bar">
+                        <div class="course-progress" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">ሲቪክስ - የ11ኛ ክፍል</h3>
+                    <div class="course-meta">
+                        <div class="course-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>10 ምዕራፎች</span>
+                        </div>
+                        <div class="course-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>32 ሰዓታት</span>
+                        </div>
+                    </div>
+                    <p class="course-description">
+                        የ11ኛ ክፍል የሲቪክስ ትምህርት የዴሞክራሲ መርሆዎችን፣ ሰብአዊ መብቶችን፣ የኢትዮጵያ ህገ-መንግስታዊ ስርዓትንና ዜግነትን ያስተምራል።
+                    </p>
+                    <div class="course-actions">
+                        <button class="btn btn-primary">ወደ ትምህርቱ ይሂዱ</button>
+                        <div class="progress-text">75% ተጠናቅቋል</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

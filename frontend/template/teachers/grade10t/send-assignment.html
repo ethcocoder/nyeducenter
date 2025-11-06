@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ10ኛ ክፍል የቤት ስራ መላክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+<body>
+<!-- Navigation Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">የትምህርት ማህበረሰብ</div>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">መምህር</div>
+                <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ዋና ገጾች</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+            <i class="fas fa-home"></i>
+            <span>ዳሽቦርድ</span>
+        </a>
+        <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+            <i class="fas fa-tasks"></i>
+            <span>የቤት ስራ መፍጠር</span>
+        </a>
+        <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+            <i class="fas fa-paper-plane"></i>
+            <span>የቤት ስራ መላክ</span>
+        </a>
+        <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+            <i class="fas fa-edit"></i>
+            <span>ፈተና መፍጠር</span>
+        </a>
+        <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+            <i class="fas fa-question-circle"></i>
+            <span>ፈተና መላክ</span>
+        </a>
+        <a href="create-course.html" class="menu-item" data-page="create-course">
+            <i class="fas fa-book"></i>
+            <span>ኮርስ መፍጠር</span>
+        </a>
+        <a href="send-course.html" class="menu-item" data-page="send-course">
+            <i class="fas fa-book-reader"></i>
+            <span>ኮርስ መላክ</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ማህበረሰብ</div>
+        <a href="../share/forum.html" class="menu-item" data-page="forum">
+            <i class="fas fa-comments"></i>
+            <span>ውይይት መድረክ</span>
+        </a>
+        <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+            <i class="fas fa-bullhorn"></i>
+            <span>ማስታወቂያዎች</span>
+        </a>
+        <a href="chat.html" class="menu-item" data-page="chat">
+            <i class="fas fa-envelope"></i>
+            <span>መልእክቶች</span>
+        </a>
+    </div>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">ተጨማሪ</div>
+        <a href="help.html" class="menu-item" data-page="help">
+            <i class="fas fa-question-circle"></i>
+            <span>እገዛ</span>
+        </a>
+        <a href="setting.html" class="menu-item" data-page="setting">
+            <i class="fas fa-cog"></i>
+            <span>ሴቲንግ</span>
+        </a>
+        <a href="../../index.html" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>ውጣ</span>
+        </a>
+    </div>
+</div>
+
+<!-- Mobile Navigation Toggle -->
+<div class="mobile-menu-toggle">
+    <i class="fas fa-bars"></i>
+</div> 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navigation component into placeholder
+    const navigationPlaceholder = document.getElementById('navigation-placeholder');
+    if (navigationPlaceholder) {
+        // Already loaded by the current script
+        navigationPlaceholder.appendChild(document.querySelector('.sidebar').cloneNode(true));
+        
+        // Create mobile toggle for the cloned sidebar too
+        const mobileToggleClone = document.querySelector('.mobile-menu-toggle').cloneNode(true);
+        document.body.appendChild(mobileToggleClone);
+    }
+    
+    // Determine the current grade level from URL
+    let gradeLevel = '';
+    const pathSegments = window.location.pathname.split('/');
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].includes('grade')) {
+            gradeLevel = pathSegments[i];
+            break;
+        }
+    }
+    
+    // Extract grade number (9t, 10t, 11t, 12t)
+    let gradeFolder = '';
+    if (gradeLevel) {
+        gradeFolder = gradeLevel;
+    } else {
+        // Default to grade9t if not found
+        gradeFolder = 'grade9t';
+    }
+    
+    // Fix paths for all menu items based on current grade
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Don't modify paths that already have the correct structure
+        if (href && !href.includes('../share/') && !href.includes('../../login.html')) {
+            // For grade-specific pages, ensure they point to the current grade folder
+            item.setAttribute('href', href);
+        } else if (href && href.includes('../share/')) {
+            // Correctly format shared resource links
+            const pageName = href.split('/').pop();
+            item.setAttribute('href', '../share/' + pageName);
+        }
+    });
+    
+    // Add active class to current menu item
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.endsWith(filename)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Mobile menu toggle functionality
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
+    if (mobileMenuToggles.length > 0) {
+        mobileMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar').forEach(sidebar => {
+                    sidebar.classList.toggle('open');
+                });
+            });
+        });
+    }
+    
+    // Add hover animation to menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.add('animate-bounce');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    icon.classList.remove('animate-bounce');
+                }, 1000);
+            }
+        });
+    });
+});
+
+// Add CSS for the icon animation
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-5px);}
+    60% {transform: translateY(-3px);}
+}
+.animate-bounce {
+    animation: bounce 1s ease;
+}
+</style>
+`);
+</script> 
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ10ኛ ክፍል የቤት ስራ መላክ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">4</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="mb-4">
+                <div class="d-flex justify-between align-center mb-4">
+                    <div>
+                        <h1 class="page-title">የቤት ስራዎች</h1>
+                        <p class="text-secondary">የተዘጋጁ የቤት ስራዎችን ይመልከቱ እና ለተማሪዎች ይላኩ</p>
+                    </div>
+                    <div>
+                <a href="create-assignment.html" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> አዲስ የቤት ስራ ይፍጠሩ
+                </a>
+            </div>
+        </div>
+
+                <!-- Filters and search -->
+                <div class="card p-3 mb-4">
+                    <div class="d-flex justify-between align-center">
+                        <div class="d-flex align-center">
+                            <div class="form-group mb-0 mr-3">
+                                <select id="subject-filter" class="form-control">
+                                    <option value="">ሁሉም ትምህርቶች</option>
+                                    <option value="mathematics">ሂሳብ</option>
+                                    <option value="science">ሳይንስ</option>
+                                    <option value="amharic">አማርኛ</option>
+                    <option value="english">እንግሊዘኛ</option>
+                                    <option value="geography">ጂኦግራፊ</option>
+                    <option value="history">ታሪክ</option>
+                                    <option value="civics">ስነ-ዜጋ</option>
+                                    <option value="biology">ባዮሎጂ</option>
+                                    <option value="chemistry">ኬሚስትሪ</option>
+                                    <option value="physics">ፊዚክስ</option>
+                </select>
+                            </div>
+                            <div class="form-group mb-0 mr-3">
+                                <select id="status-filter" class="form-control">
+                                    <option value="">ሁሉም ሁኔታዎች</option>
+                                    <option value="active">ገቢ የለም</option>
+                                    <option value="submitted">በከፊል ገቢ</option>
+                                    <option value="graded">ሙሉ በሙሉ ገቢ</option>
+                                    <option value="late">የዘገየ</option>
+                </select>
+                            </div>
+                            <div class="form-group mb-0">
+                                <select id="class-filter" class="form-control">
+                                    <option value="">ሁሉም ክፍሎች</option>
+                                    <option value="10A">10ኛ "ሀ"</option>
+                                    <option value="10B">10ኛ "ለ"</option>
+                                    <option value="10C">10ኛ "ሐ"</option>
+                                    <option value="10D">10ኛ "መ"</option>
+                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                <div class="search-container">
+                                <i class="fas fa-search text-secondary"></i>
+                                <input type="text" class="form-control" placeholder="የቤት ስራ ይፈልጉ...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assignments table -->
+                <div class="card p-0 mb-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">የስራ ርዕስ</th>
+                                    <th class="p-3">ትምህርት</th>
+                                    <th class="p-3">ክፍል</th>
+                                    <th class="p-3">የመጨረሻ ቀን</th>
+                                    <th class="p-3">ሁኔታ</th>
+                                    <th class="p-3">የተሳታፊ ብዛት</th>
+                                    <th class="p-3">ድርጊቶች</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="animate-fade-in" style="animation-delay: 0.1s;">
+                                    <td class="p-3">
+                                        <div class="fw-bold">የንፅፅር ድርሰት - ከፊዚክስ አንፃር</div>
+                                        <div class="text-secondary fs-sm">የቤት ስራ 1 | 15 ነጥብ</div>
+                                    </td>
+                                    <td class="p-3">ፊዚክስ</td>
+                                    <td class="p-3">10ኛ "ሀ"</td>
+                                    <td class="p-3">መስከረም 25, 2016</td>
+                                    <td class="p-3">
+                                        <span class="badge bg-success text-white">ሙሉ በሙሉ ገቢ</span>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex align-center">
+                                            <div class="progress-bar mr-2">
+                                                <div class="progress-bar-fill" style="width: 100%;"></div>
+                                            </div>
+                                            <span>45/45</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex">
+                                            <button class="btn-icon mr-2" title="የውጤት ሪፖርት">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </button>
+                                            <button class="btn-icon mr-2" title="ያርትዑ">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-icon" title="ይሰርዙ">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="animate-fade-in" style="animation-delay: 0.2s;">
+                                    <td class="p-3">
+                                        <div class="fw-bold">የኬሚካል ትስስር በሰውነት ውስጥ ያሉ አካላት</div>
+                                        <div class="text-secondary fs-sm">የቤት ስራ 2 | 20 ነጥብ</div>
+                                    </td>
+                                    <td class="p-3">ኬሚስትሪ</td>
+                                    <td class="p-3">10ኛ "ለ"</td>
+                                    <td class="p-3">ጥቅምት 5, 2016</td>
+                                    <td class="p-3">
+                                        <span class="badge bg-warning text-white">በከፊል ገቢ</span>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex align-center">
+                                            <div class="progress-bar mr-2">
+                                                <div class="progress-bar-fill" style="width: 68%;"></div>
+                                            </div>
+                                            <span>32/47</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex">
+                                            <button class="btn-icon mr-2" title="የውጤት ሪፖርት">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </button>
+                                            <button class="btn-icon mr-2" title="ያርትዑ">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-icon" title="ይሰርዙ">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="animate-fade-in" style="animation-delay: 0.3s;">
+                                    <td class="p-3">
+                                        <div class="fw-bold">የኢትዮጵያ ታሪካዊ ቦታዎች ጥናት</div>
+                                        <div class="text-secondary fs-sm">የቤት ስራ 3 | 25 ነጥብ</div>
+                                    </td>
+                                    <td class="p-3">ታሪክ</td>
+                                    <td class="p-3">10ኛ "ሀ"</td>
+                                    <td class="p-3">ጥቅምት 15, 2016</td>
+                                    <td class="p-3">
+                                        <span class="badge bg-info text-white">ገቢ የለም</span>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex align-center">
+                                            <div class="progress-bar mr-2">
+                                                <div class="progress-bar-fill" style="width: 0%;"></div>
+                                            </div>
+                                            <span>0/45</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex">
+                                            <button class="btn-icon mr-2" title="ይመልከቱ">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-icon mr-2" title="ያርትዑ">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-icon" title="ይሰርዙ">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="animate-fade-in" style="animation-delay: 0.4s;">
+                                    <td class="p-3">
+                                        <div class="fw-bold">የሞለኪውሎች ግንኙነት ላይ ያለው ውስብስብነት</div>
+                                        <div class="text-secondary fs-sm">የቤት ስራ 4 | 15 ነጥብ</div>
+                                    </td>
+                                    <td class="p-3">ኬሚስትሪ</td>
+                                    <td class="p-3">10ኛ "ሐ"</td>
+                                    <td class="p-3">መስከረም 30, 2016</td>
+                                    <td class="p-3">
+                                        <span class="badge bg-danger text-white">የዘገየ</span>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex align-center">
+                                            <div class="progress-bar mr-2">
+                                                <div class="progress-bar-fill" style="width: 85%;"></div>
+                                            </div>
+                                            <span>38/45</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex">
+                                            <button class="btn-icon mr-2" title="የውጤት ሪፖርት">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </button>
+                                            <button class="btn-icon mr-2" title="ያርትዑ">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-icon" title="ይሰርዙ">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="animate-fade-in" style="animation-delay: 0.5s;">
+                                    <td class="p-3">
+                                        <div class="fw-bold">Global Warming Research Project</div>
+                                        <div class="text-secondary fs-sm">የቤት ስራ 5 | 20 ነጥብ</div>
+                                    </td>
+                                    <td class="p-3">እንግሊዘኛ</td>
+                                    <td class="p-3">10ኛ "መ"</td>
+                                    <td class="p-3">ጥቅምት 10, 2016</td>
+                                    <td class="p-3">
+                                        <span class="badge bg-warning text-white">በከፊል ገቢ</span>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex align-center">
+                                            <div class="progress-bar mr-2">
+                                                <div class="progress-bar-fill" style="width: 60%;"></div>
+                                            </div>
+                                            <span>27/45</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="d-flex">
+                                            <button class="btn-icon mr-2" title="የውጤት ሪፖርት">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </button>
+                                            <button class="btn-icon mr-2" title="ያርትዑ">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-icon" title="ይሰርዙ">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Grade Report Modal -->
+                <div class="modal" id="grade-modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">የውጤት ሪፖርት - የንፅፅር ድርሰት - ከፊዚክስ አንፃር</h3>
+                                <button type="button" class="close-modal">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="grade-stats mb-4">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="stat-card bg-primary-light text-center p-3">
+                                                <div class="stat-value">12.3/15</div>
+                                                <div class="stat-label">አማካይ ውጤት</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="stat-card bg-success-light text-center p-3">
+                                                <div class="stat-value">15/15</div>
+                                                <div class="stat-label">ከፍተኛ ውጤት</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="stat-card bg-warning-light text-center p-3">
+                                                <div class="stat-value">8/15</div>
+                                                <div class="stat-label">ዝቅተኛ ውጤት</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h4 class="mb-2">የውጤት ስርጭት</h4>
+                                    <div class="grade-distribution">
+                                        <div class="grade-bar">
+                                            <div class="grade-range">13-15</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-bar-fill bg-success" style="width: 55%;"></div>
+                                            </div>
+                                            <div class="grade-count">25 ተማሪዎች</div>
+                                        </div>
+                                        <div class="grade-bar">
+                                            <div class="grade-range">10-12</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-bar-fill bg-primary" style="width: 30%;"></div>
+                                            </div>
+                                            <div class="grade-count">13 ተማሪዎች</div>
+                                        </div>
+                                        <div class="grade-bar">
+                                            <div class="grade-range">7-9</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-bar-fill bg-warning" style="width: 15%;"></div>
+                                            </div>
+                                            <div class="grade-count">7 ተማሪዎች</div>
+                                        </div>
+                                        <div class="grade-bar">
+                                            <div class="grade-range">0-6</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-bar-fill bg-danger" style="width: 0%;"></div>
+                                            </div>
+                                            <div class="grade-count">0 ተማሪዎች</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group mb-3">
+                                    <label for="grade-filter">ማጣሪያ:</label>
+                                    <select id="grade-filter" class="form-control">
+                                        <option value="all" selected>ሁሉም ተማሪዎች</option>
+                                        <option value="high">ከፍተኛ ውጤት (13-15)</option>
+                                        <option value="medium">መካከለኛ ውጤት (10-12)</option>
+                                        <option value="low">ዝቅተኛ ውጤት (0-9)</option>
+                                    </select>
+            </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                    <thead>
+                        <tr>
+                                                <th>ተማሪ</th>
+                                                <th>ውጤት</th>
+                                                <th>የገቢ ቀን</th>
+                                                <th>ድርጊቶች</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                                                <td>ብሩክ ታሪኩ</td>
+                                                <td>15/15</td>
+                            <td>መስከረም 20, 2016</td>
+                                                <td>
+                                                    <button class="btn-icon btn-sm" title="ይመልከቱ">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                            </td>
+                        </tr>
+                        <tr>
+                                                <td>ሄለን መስፍን</td>
+                                                <td>14/15</td>
+                                                <td>መስከረም 21, 2016</td>
+                                                <td>
+                                                    <button class="btn-icon btn-sm" title="ይመልከቱ">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                            </td>
+                        </tr>
+                        <tr>
+                                                <td>ተመስገን ደሳለኝ</td>
+                                                <td>12/15</td>
+                            <td>መስከረም 22, 2016</td>
+                                                <td>
+                                                    <button class="btn-icon btn-sm" title="ይመልከቱ">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                            </td>
+                        </tr>
+                        <tr>
+                                                <td>ሰላም አንዱአለም</td>
+                                                <td>10/15</td>
+                                                <td>መስከረም 23, 2016</td>
+                                                <td>
+                                                    <button class="btn-icon btn-sm" title="ይመልከቱ">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                            </td>
+                        </tr>
+                        <tr>
+                                                <td>አስናቀ ብርሃን</td>
+                                                <td>8/15</td>
+                                                <td>መስከረም 24, 2016</td>
+                                                <td>
+                                                    <button class="btn-icon btn-sm" title="ይመልከቱ">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fas fa-file-export"></i> ሪፖርት አውጣ
+                                    </button>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="fas fa-envelope"></i> ለወላጆች ላክ
+                                    </button>
+            </div>
+        </div>
+    </div>
+            </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-between align-center">
+                    <div>
+                        <span class="text-secondary">ከ1-5 በ15 ውስጥ</span>
+                    </div>
+                    <div class="pagination">
+                        <button class="btn-icon pagination-btn disabled">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn-icon pagination-btn active">1</button>
+                        <button class="btn-icon pagination-btn">2</button>
+                        <button class="btn-icon pagination-btn">3</button>
+                        <button class="btn-icon pagination-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script referencing -->
+    <script src="../../js/utils.js"></script>
+    <script>
+       
+            // Table row hover effect
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.classList.add('bg-hover');
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.classList.remove('bg-hover');
+                });
+                row.addEventListener('click', function(e) {
+                    if (!e.target.closest('button')) {
+                        // If the click wasn't on a button, treat it as a row click
+                        const assignmentTitle = this.querySelector('.fw-bold').textContent;
+                        alert(`የቤት ስራ "${assignmentTitle}" ተመርጧል`);
+                    }
+                });
+            });
+            
+            // Filter functionality
+            const subjectFilter = document.getElementById('subject-filter');
+            const statusFilter = document.getElementById('status-filter');
+            const classFilter = document.getElementById('class-filter');
+            const searchInput = document.querySelector('.search-container input');
+            
+            function filterTable() {
+                const subjectValue = subjectFilter.value.toLowerCase();
+                const statusValue = statusFilter.value.toLowerCase();
+                const classValue = classFilter.value.toLowerCase();
+                const searchValue = searchInput.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const subject = row.cells[1].textContent.toLowerCase();
+                    const status = row.querySelector('.badge').textContent.toLowerCase();
+                    const classText = row.cells[2].textContent.toLowerCase();
+                    const title = row.querySelector('.fw-bold').textContent.toLowerCase();
+                    
+                    const subjectMatch = !subjectValue || subject.includes(subjectValue);
+                    const statusMatch = !statusValue || status.includes(statusValue);
+                    const classMatch = !classValue || classText.includes(classValue);
+                    const searchMatch = !searchValue || title.includes(searchValue);
+                    
+                    if (subjectMatch && statusMatch && classMatch && searchMatch) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+            
+            subjectFilter.addEventListener('change', filterTable);
+            statusFilter.addEventListener('change', filterTable);
+            classFilter.addEventListener('change', filterTable);
+            searchInput.addEventListener('input', filterTable);
+            
+            // Button actions
+            document.querySelectorAll('.btn-icon').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const action = this.getAttribute('title');
+                    if (action) {
+                        if (action === 'ይሰርዙ') {
+                            if (confirm('እርግጠኛ ነዎት ይህን የቤት ስራ መሰረዝ ይፈልጋሉ?')) {
+                                alert('የቤት ስራው ተሰርዟል');
+                                this.closest('tr').remove();
+                            }
+                        } else if (action === 'የውጤት ሪፖርት') {
+                            toggleModal(true);
+                        } else {
+                            alert(`"${action}" ድርጊት ተመርጧል`);
+                        }
+                    }
+                });
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('grade-modal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            function toggleModal(show) {
+                if (show) {
+                    modal.classList.add('show');
+                    document.body.classList.add('modal-open');
+                } else {
+                    modal.classList.remove('show');
+                    document.body.classList.remove('modal-open');
+                }
+            }
+            
+            closeModal.addEventListener('click', function() {
+                toggleModal(false);
+            });
+            
+            // Close modal when clicking outside the modal content
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    toggleModal(false);
+                }
+            });
+            
+            // Grade filter functionality
+            const gradeFilter = document.getElementById('grade-filter');
+            gradeFilter.addEventListener('change', function() {
+                alert(`ማጣሪያ ወደ "${this.options[this.selectedIndex].text}" ተቀይሯል`);
+            });
+            
+            // Pagination
+            document.querySelectorAll('.pagination-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!this.classList.contains('disabled')) {
+                        document.querySelectorAll('.pagination-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        alert(`ገጽ ${this.textContent.trim()} ተመርጧል`);
+                }
+            });
+        });
+       
+    </script>
+    
+    <style>
+        /* Additional styles specific to the assignment page */
+        .grade-distribution {
+            margin-top: 15px;
+        }
+        
+        .grade-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .grade-range {
+            width: 50px;
+            font-size: 14px;
+        }
+        
+        .grade-bar .progress-bar {
+            flex-grow: 1;
+            margin: 0 15px;
+        }
+        
+        .grade-count {
+            width: 90px;
+            font-size: 14px;
+            text-align: right;
+        }
+        
+        .grade-stats .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .grade-stats .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal.show {
+            display: block;
+        }
+        
+        .modal-dialog {
+            max-width: 700px;
+            margin: 30px auto;
+        }
+        
+        .modal-content {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .bg-primary-light {
+            background-color: rgba(var(--primary-rgb), 0.1);
+        }
+        
+        .bg-success-light {
+            background-color: rgba(var(--success-rgb), 0.1);
+        }
+        
+        .bg-warning-light {
+            background-color: rgba(var(--warning-rgb), 0.1);
+        }
+        
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+</body>
+</html>

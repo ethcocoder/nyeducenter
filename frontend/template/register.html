@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ኑር የትምህርት ማዕከል | አካውንት ይፍጠሩ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/home.css">
+    <style>
+        :root {
+            --register-bg: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            background: var(--register-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .register-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        
+        .register-info {
+            flex: 1;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .register-info h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .register-info p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .benefits-list {
+            margin-top: 30px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+        }
+        
+        .register-form-container {
+            flex: 1;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 550px;
+        }
+        
+        .register-form-container h2 {
+            color: var(--dark-color);
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+        
+        .form-control.no-icon {
+            padding-left: 12px;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            appearance: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .form-check input {
+            margin-top: 4px;
+            margin-right: 10px;
+        }
+        
+        .form-check label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-check a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #666;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .divider span {
+            padding: 0 10px;
+            font-size: 14px;
+        }
+        
+        .social-register {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .social-btn i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .social-btn.google i {
+            color: #ea4335;
+        }
+        
+        .social-btn.facebook i {
+            color: #3b5998;
+        }
+        
+        .social-btn:hover {
+            background-color: var(--hover-color);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        
+        .strength-meter {
+            height: 4px;
+            background-color: var(--border-light);
+            border-radius: 2px;
+            margin-top: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .strength-meter div {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s;
+        }
+        
+        .weak { width: 25%; background-color: #f44336; }
+        .medium { width: 50%; background-color: #ff9800; }
+        .strong { width: 75%; background-color: #4caf50; }
+        .very-strong { width: 100%; background-color: #2e7d32; }
+        
+        @media (max-width: 992px) {
+            .register-container {
+                flex-direction: column;
+                max-width: 600px;
+                padding: 20px;
+            }
+            
+            .register-info {
+                padding: 30px 20px;
+                text-align: center;
+            }
+            
+            .benefit-item {
+                justify-content: center;
+            }
+            
+            .register-form-container {
+                max-width: 100%;
+                border-radius: 20px;
+                padding: 30px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-info">
+            <h1>የትምህርት ማህበረሰብ</h1>
+            <p>በመሣሪያዎቻችን መዝገብ በመመዝገብ ወደ የትምህርት መድረካችን ይቀላቀሉ። የትምህርት ማህበረሰብ ሂደቱን ቀላል ያደርገዋል።</p>
+            
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3>ስኬታማ የትምህርት ቦታ</h3>
+                        <p>ለሁሉም የትምህርት ማህበረሰብ አባላት ተደራሽ የትምህርት ሚዲያ</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3>ግላዊ የተደረገ ልምድ</h3>
+                        <p>ለእያንዳንዱ ተማሪ፣ መምህር እና የት/ቤት አመራር የተጠናከረ ተሞክሮ</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3>ደህንነቱ የተጠበቀ እና አስተማማኝ</h3>
+                        <p>ለእርስዎ ዳታ እና መረጃ በየደረጃው ደህንነት እንጠብቃለን</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="register-form-container">
+            <div class="logo-container">
+                <div class="logo">የትምህርት ማህበረሰብ</div>
+            </div>
+            
+            <h2>አዲስ አካውንት ይፍጠሩ</h2>
+            
+            <form id="registerForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">ስም</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="firstName" class="form-control" placeholder="ስምዎን ያስገቡ" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">የአባት ስም</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="lastName" class="form-control" placeholder="የአባት ስምዎን ያስገቡ" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">ኢሜይል</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" class="form-control" placeholder="ኢሜይልዎን ያስገቡ" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">ስልክ ቁጥር</label>
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" class="form-control" placeholder="ስልክ ቁጥርዎን ያስገቡ" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">የይለፍ ቃል</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" class="form-control" placeholder="የይለፍ ቃል ያስገቡ" required>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-text">የይለፍ ቃል ጥንካሬ: <span id="strength-text">አላስገቡም</span></div>
+                            <div class="strength-meter">
+                                <div id="strength-meter-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">የይለፍ ቃል ያረጋግጡ</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirm-password" class="form-control" placeholder="የይለፍ ቃልዎን እንደገና ያስገቡ" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="userType">የሚጠቀሙበት መንገድ</label>
+                        <div class="input-group">
+                            <i class="fas fa-user-tag"></i>
+                            <select id="userType" class="form-select" required>
+                                <option value="" selected disabled>የሚጠቀሙበትን መንገድ ይምረጡ</option>
+                                <option value="teacher">መምህር</option>
+                                <option value="student">ተማሪ</option>
+                                <option value="parent">ወላጅ</option>
+                                <option value="admin">አስተዳዳሪ</option>
+                                <option value="other">ሌላ</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width grade-selection" style="display: none;">
+                        <label for="grade">ክፍል</label>
+                        <div class="input-group">
+                            <i class="fas fa-graduation-cap"></i>
+                            <select id="grade" class="form-select">
+                                <option value="" selected disabled>ክፍል ይምረጡ</option>
+                                <option value="grade9">9ኛ ክፍል</option>
+                                <option value="grade10">10ኛ ክፍል</option>
+                                <option value="grade11">11ኛ ክፍል</option>
+                                <option value="grade12">12ኛ ክፍል</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="agree-terms" required>
+                    <label for="agree-terms">
+                        የግል መረጃ ፖሊሲያችንን አንብቤ ተስማምቻለሁ እና ተቀብያለሁ። <a href="#">የግል መረጃ ፖሊሲ</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">አካውንት ይፍጠሩ</button>
+            </form>
+            
+            <div class="divider">
+                <span>ወይም</span>
+            </div>
+            
+            <div class="social-register">
+                <button class="social-btn google">
+                    <i class="fab fa-google"></i> በ Google ይመዝገቡ
+                </button>
+                <button class="social-btn facebook">
+                    <i class="fab fa-facebook-f"></i> በ Facebook ይመዝገቡ
+                </button>
+            </div>
+            
+            <div class="form-group full-width text-center mb-0">
+                <p>
+                    አካውንት አለዎት? <a href="login.html" class="text-primary">ይግቡ</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/form-validator.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+            const roleSelect = document.getElementById('userType');
+            const gradeSelection = document.querySelector('.grade-selection');
+            const strengthText = document.getElementById('strength-text');
+            const strengthMeterBar = document.getElementById('strength-meter-bar');
+            
+            // Toggle password visibility
+            function addPasswordToggle(field) {
+                const togglePassword = document.createElement('i');
+                togglePassword.className = 'fas fa-eye toggle-password';
+                togglePassword.style.position = 'absolute';
+                togglePassword.style.right = '15px';
+                togglePassword.style.top = '50%';
+                togglePassword.style.transform = 'translateY(-50%)';
+                togglePassword.style.cursor = 'pointer';
+                togglePassword.style.color = 'var(--text-secondary)';
+                
+                field.parentNode.appendChild(togglePassword);
+                
+                togglePassword.addEventListener('click', function() {
+                    if (field.type === 'password') {
+                        field.type = 'text';
+                        togglePassword.className = 'fas fa-eye-slash toggle-password';
+                    } else {
+                        field.type = 'password';
+                        togglePassword.className = 'fas fa-eye toggle-password';
+                    }
+                });
+            }
+            
+            addPasswordToggle(passwordField);
+            addPasswordToggle(confirmPasswordField);
+            
+            // Show grade selection for teachers and students
+            roleSelect.addEventListener('change', function() {
+                if (this.value === 'teacher' || this.value === 'student') {
+                    gradeSelection.style.display = 'block';
+                } else {
+                    gradeSelection.style.display = 'none';
+                }
+            });
+            
+            // Password strength checker
+            passwordField.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                let strengthClass = '';
+                let strengthMessage = '';
+                
+                if (password.length === 0) {
+                    strengthMessage = 'አላስገቡም';
+                    strengthClass = '';
+                } else if (password.length < 6) {
+                    strengthMessage = 'ደካማ';
+                    strengthClass = 'weak';
+                    strength = 1;
+                } else {
+                    // Check for different character types
+                    strength = 0;
+                    if (password.length >= 8) strength += 1;
+                    if (/[A-Z]/.test(password)) strength += 1;
+                    if (/[0-9]/.test(password)) strength += 1;
+                    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+                    
+                    if (strength === 1) {
+                        strengthMessage = 'ደካማ';
+                        strengthClass = 'weak';
+                    } else if (strength === 2) {
+                        strengthMessage = 'መካከለኛ';
+                        strengthClass = 'medium';
+                    } else if (strength === 3) {
+                        strengthMessage = 'ጠንካራ';
+                        strengthClass = 'strong';
+                    } else if (strength >= 4) {
+                        strengthMessage = 'በጣም ጠንካራ';
+                        strengthClass = 'very-strong';
+                    }
+                }
+                
+                strengthText.textContent = strengthMessage;
+                strengthMeterBar.className = '';
+                strengthMeterBar.classList.add(strengthClass);
+            });
+            
+            // Form submission
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                const userType = document.getElementById('userType').value;
+                const grade = document.getElementById('grade')?.value || null;
+                const agreeTerms = document.getElementById('agree-terms').checked;
+                
+                // Validation
+                let hasError = false;
+                
+                if (!firstName) {
+                    showError('እባክዎ ስምዎን ያስገቡ።', document.getElementById('firstName'));
+                    hasError = true;
+                }
+                
+                if (!lastName) {
+                    showError('እባክዎ የአባትዎን ስም ያስገቡ።', document.getElementById('lastName'));
+                    hasError = true;
+                }
+                
+                if (!email) {
+                    showError('እባክዎ ኢሜይልዎን ያስገቡ።', document.getElementById('email'));
+                    hasError = true;
+                }
+                
+                if (!password) {
+                    showError('እባክዎ የይለፍ ቃልዎን ያስገቡ።', document.getElementById('password'));
+                    hasError = true;
+                }
+                
+                if (password !== confirmPassword) {
+                    showError('የይለፍ ቃሎቹ አይዛመዱም።', document.getElementById('confirm-password'));
+                    hasError = true;
+                }
+                
+                if (!userType) {
+                    showError('እባክዎ የተጠቃሚ አይነት ይምረጡ።', document.getElementById('userType'));
+                    hasError = true;
+                }
+                
+                if ((userType === 'teacher' || userType === 'student') && !grade) {
+                    showError('እባክዎ ክፍልዎን ይምረጡ።', document.getElementById('grade'));
+                    hasError = true;
+                }
+                
+                if (!agreeTerms) {
+                    showError('እባክዎ የአገልግሎት ውሎችን እና የግላዊነት ፖሊሲውን ይቀበሉ።', document.getElementById('agree-terms'));
+                    hasError = true;
+                }
+                
+                if (hasError) return;
+                
+                // Show loading state
+                const submitButton = document.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'እየመዘገበ...';
+                submitButton.disabled = true;
+                
+                try {
+                    // Prepare user data - username is created from email address
+                    const username = email.split('@')[0] + Math.floor(Math.random() * 1000);
+                    const fullName = firstName + ' ' + lastName;
+                    
+                    // Call the API directly
+                    const response = await fetch('http://localhost:3000/debug/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            password,
+                            fullName,
+                            email,
+                            phone,
+                            role: userType
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Reset button
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    
+                    if (!response.ok) {
+                        const errorElement = document.createElement('div');
+                        errorElement.className = 'alert alert-danger';
+                        errorElement.textContent = data.error || 'ምዝገባው አልተሳካም። እባክዎ ዳግም ይሞክሩ።';
+                        registerForm.prepend(errorElement);
+                        
+                        // Remove error after 5 seconds
+                        setTimeout(() => {
+                            errorElement.remove();
+                        }, 5000);
+                        
+                        return;
+                    }
+                    
+                    // Success 
+                    alert('በተሳካ ሁኔታ ተመዝግበዋል! ወደ መግቢያ ገጽ እየተዛወሩ ነው።');
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    
+                    // Reset button
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    
+                    // Show error message
+                    const errorElement = document.createElement('div');
+                    errorElement.className = 'alert alert-danger';
+                    errorElement.textContent = 'ከሰርቨር ጋር ለመገናኘት አልተቻለም። እባክዎ ዳግም ይሞክሩ።';
+                    registerForm.prepend(errorElement);
+                    
+                    // Remove error after 5 seconds
+                    setTimeout(() => {
+                        errorElement.remove();
+                    }, 5000);
+                }
+            });
+        });
+        
+        // Helper function to show errors
+        function showError(message, field) {
+            if (!field) return;
+            
+            field.classList.add('is-invalid');
+            
+            // Find or create error message element
+            let errorElement = field.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('invalid-feedback')) {
+                errorElement = document.createElement('div');
+                errorElement.className = 'invalid-feedback';
+                field.parentNode.appendChild(errorElement);
+            }
+            
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        // Helper function to clear errors
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.invalid-feedback');
+            errorElements.forEach(element => {
+                element.textContent = '';
+                element.style.display = 'none';
+            });
+            
+            const invalidFields = document.querySelectorAll('.is-invalid');
+            invalidFields.forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+        }
+    </script>
+</body>
+</html> 

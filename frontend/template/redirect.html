@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            margin: 30px auto;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #error {
+            color: red;
+            margin-top: 20px;
+        }
+        .manual-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Redirecting you to your dashboard...</h1>
+    <div class="loader"></div>
+    <p id="message">Please wait...</p>
+    <div id="error"></div>
+    <div id="manual-redirect" style="display: none;">
+        <p>If you are not redirected automatically, please click the button below:</p>
+        <a href="#" id="manual-link" class="manual-link">Go to Dashboard</a>
+    </div>
+    
+    <script>
+        // Function to log messages to page for debugging
+        function logToPage(message, isError = false) {
+            console.log(message);
+            const logElement = isError ? document.getElementById('error') : document.getElementById('message');
+            logElement.innerHTML = message;
+            if (isError) {
+                document.getElementById('manual-redirect').style.display = 'block';
+            }
+        }
+
+        // Immediately run the redirect logic, don't wait for DOMContentLoaded
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const role = urlParams.get('role') || 'student';
+        const grade = urlParams.get('grade') || '9';
+        
+        logToPage(`Redirect page loaded with role: ${role}, grade: ${grade}`);
+        
+        // Determine the target URL based on role and grade
+        let targetUrl = '';
+        const baseUrl = window.location.origin;
+        
+        switch(role) {
+            case 'admin':
+                targetUrl = `${baseUrl}/admin/dashboard.html`;
+                break;
+            case 'teacher':
+                targetUrl = `${baseUrl}/teachers/grade${grade}t/dashboard.html`;
+                break;
+            case 'student':
+                targetUrl = `${baseUrl}/students/grade${grade}s/dashboard.html`;
+                break;
+            default:
+                targetUrl = `${baseUrl}/index.html`;
+        }
+        
+        // Set up manual link
+        document.getElementById('manual-link').href = targetUrl;
+        
+        // Display the target URL
+        logToPage(`Redirecting to: ${targetUrl}`);
+        
+        // Perform the redirect after a short delay
+        setTimeout(function() {
+            try {
+                logToPage(`Executing redirect to ${targetUrl} now...`);
+                window.location.replace(targetUrl);
+                
+                // Fallback - if we're still here after 2 seconds, show manual option
+                setTimeout(() => {
+                    logToPage(`Automatic redirect may have failed. Please use the manual option below.`, true);
+                }, 2000);
+            } catch (error) {
+                logToPage(`Error redirecting: ${error.message}. Please use the manual link below.`, true);
+            }
+        }, 1000);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ9ኛ ክፍል መልዕክቶች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #34a853;
+            --info-color: #4285f4;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #1a73e8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex: 1;
+            width: calc(100% - var(--sidebar-width));
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Chat specific styles */
+        .chat-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .contacts-sidebar {
+            width: 300px;
+            background-color: white;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .contacts-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .contacts-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .contacts-search {
+            position: relative;
+        }
+
+        .contacts-search input {
+            width: 100%;
+            padding: 10px 15px;
+            padding-left: 35px;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .contacts-search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .contacts-tabs {
+            display: flex;
+            padding: 0 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .contacts-tab {
+            flex: 1;
+            padding: 15px 0;
+            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #888;
+        }
+
+        .contacts-tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .contacts-list {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .contact-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .contact-item.active {
+            background-color: #e7f0ff;
+        }
+
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .contact-time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .contact-last-message {
+            color: #666;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .contact-badge {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .chat-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f5f5;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .chat-header-info {
+            flex: 1;
+        }
+
+        .chat-header-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .chat-header-status {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            gap: 15px;
+            color: #666;
+        }
+
+        .chat-header-action {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-header-action:hover {
+            background-color: #f5f5f5;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            padding-right: 30px;
+        }
+
+        .message.outgoing {
+            flex-direction: row-reverse;
+            padding-right: 0;
+            padding-left: 30px;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .message.outgoing .message-avatar {
+            margin-right: 0;
+            margin-left: 15px;
+        }
+
+        .message-content {
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            padding: 12px 15px;
+            background-color: white;
+            border-radius: 18px;
+            border-top-left-radius: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .message.outgoing .message-bubble {
+            background-color: var(--primary-color);
+            color: white;
+            border-top-left-radius: 18px;
+            border-top-right-radius: 0;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+        }
+
+        .message.outgoing .message-time {
+            color: #ccc;
+        }
+
+        .message-status {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 3px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .message-status i {
+            margin-left: 5px;
+            font-size: 10px;
+            color: var(--primary-color);
+        }
+
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 25px;
+            padding: 10px 15px;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 10px;
+            margin-right: 15px;
+            color: #666;
+        }
+
+        .input-action {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .input-action:hover {
+            color: var(--primary-color);
+        }
+
+        .input-field {
+            flex: 1;
+        }
+
+        .input-field input {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .input-field input:focus {
+            outline: none;
+        }
+
+        .send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .empty-chat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .empty-chat-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .empty-chat-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .empty-chat-text {
+            font-size: 14px;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 992px) {
+            .contacts-sidebar {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .contacts-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 90;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            }
+
+            .contacts-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .mobile-toggle {
+                display: block;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ሰላም አበበ</div>
+                    <div class="user-role">የ9ኛ ክፍል ተማሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="learn-cource.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ትምህርቶች</span>
+            </a>
+            <a href="work-assignment.html" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራዎች</span>
+            </a>
+            <a href="take-quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="../share/event.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>ዝግጅቶች</span>
+            </a>
+            <a href="../share/group-chat.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>የቡድን ውይይት</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="chat.html" class="menu-item active">
+                <i class="fas fa-envelope"></i>
+                <span>መልዕክቶች</span>
+            </a>
+            <a href="../settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="../help.html" class="menu-item">
+                <i class="fas fa-question"></i>
+                <span>እገዛ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="chat-container">
+            <div class="contacts-sidebar">
+                <div class="contacts-header">
+                    <div class="contacts-title">መልዕክቶች</div>
+                    <div class="contacts-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="ግለሰቦችን ወይም ውይይቶችን ፈልግ...">
+                    </div>
+                </div>
+                <div class="contacts-tabs">
+                    <div class="contacts-tab active">ሁሉም</div>
+                    <div class="contacts-tab">መምህራን</div>
+                    <div class="contacts-tab">ተማሪዎች</div>
+                </div>
+                <div class="contacts-list">
+                    <div class="contact-item active">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>መምህር ብርሃኑ</span>
+                                <span class="contact-time">9:45 AM</span>
+                            </div>
+                            <div class="contact-last-message">የቤት ስራ ውጤቶችን ልክልሀለሁ...</div>
+                        </div>
+                        <div class="contact-badge">3</div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/women/31.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>መምህር ሰናይት</span>
+                                <span class="contact-time">ትላንት</span>
+                            </div>
+                            <div class="contact-last-message">አዲስ ቃላት ለመጪው ፈተና መጠንቀቅ አለብህ</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>መምህር ኤፍሬም</span>
+                                <span class="contact-time">ትላንት</span>
+                            </div>
+                            <div class="contact-last-message">የሳምንቱ የላብራቶሪ ፕሮጀክት ሰዓት ተቀይሯል</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ዮሃንስ ተሰማ</span>
+                                <span class="contact-time">2 ቀናት በፊት</span>
+                            </div>
+                            <div class="contact-last-message">ለሂሳብ ቡድን ፕሮጀክት ምን ያህል ሰራህ?</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/women/75.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ቤተልሄም ታደሰ</span>
+                                <span class="contact-time">3 ቀናት በፊት</span>
+                            </div>
+                            <div class="contact-last-message">የእንግሊዘኛ የቡድን ውይይት መቼ እንደሚሆን ታውቃለህ?</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/women/39.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>ሄለን ይርጋ</span>
+                                <span class="contact-time">3 ቀናት በፊት</span>
+                            </div>
+                            <div class="contact-last-message">ለታሪክ ፕሮጀክት ተልኬሻለሁ!</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://randomuser.me/api/portraits/men/5.jpg" alt="Contact" class="contact-avatar">
+                        <div class="contact-info">
+                            <div class="contact-name">
+                                <span>አቢ ለማ</span>
+                                <span class="contact-time">ሳምንት በፊት</span>
+                            </div>
+                            <div class="contact-last-message">ለሳይንስ አውደ ጥናት ለመዘጋጀት እያመሻመሽን ከፍለሰማይ ጋር እንገናኛለን</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="chat-header-avatar">
+                    <div class="chat-header-info">
+                        <div class="chat-header-name">መምህር ብርሃኑ</div>
+                        <div class="chat-header-status">በመስመር ላይ አሉ</div>
+                    </div>
+                    <div class="chat-header-actions">
+                        <div class="chat-header-action">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="chat-header-action">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="chat-header-action">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-messages">
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ሰላም ሰላም! እንደምን ነህ? የቤት ስራዎቹን አጠናቀሀው?
+                            </div>
+                            <div class="message-time">9:30 AM</div>
+                        </div>
+                    </div>
+                    <div class="message outgoing">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ሰላም መምህር! አዎ፤ ትላንት አጠናቅቄዋለሁ፡፡ ሁሉንም ተግባራት ለማከናወን ሞክሬያለሁ፡፡
+                            </div>
+                            <div class="message-time">9:32 AM</div>
+                            <div class="message-status">
+                                <span>ተነቧል</span>
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ደስ ይለኛል፡፡ የሂሳብ ፕሮጀክቱ ላይ ምን ያህል ገፋብክ? ችግር አለ?
+                            </div>
+                            <div class="message-time">9:35 AM</div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ልጥቅም በጣም አስፈላጊ ነው፡፡ ግን የምታውቀው ነገር ካለህ ልረዳህ እችላለሁ፡፡
+                            </div>
+                            <div class="message-time">9:36 AM</div>
+                        </div>
+                    </div>
+                    <div class="message outgoing">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                አመሰግናለሁ መምህር! ረቡዕ ላይ ከፍለሰማይ እና ዮሃንስ ጋር በመሆን እየሰራን ነው፡፡ በተለይ በመጨረሻው ትምህርት ላይ ያሉ የአልጄብራ ሚኖችን ለመስራት ጊዜ ወስዷል፡፡ ግን አብዛኛውን ጨርሰናል፡፡
+                            </div>
+                            <div class="message-time">9:40 AM</div>
+                            <div class="message-status">
+                                <span>ተነቧል</span>
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ጥሩ ትብብር ነው! የቡድን ስራ ለትምህርቱ እጅግ አስፈላጊ ነው፡፡ ለአልጄብራ ሚኖች የዚህን ሳምንት የቤት ስራ ውጤቶች ልክልህ እፈልጋለሁ፡፡
+                            </div>
+                            <div class="message-time">9:43 AM</div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ተያያዢ ፋይሉን ይመልከቱ፡፡ በጣም ጥሩ ውጤቶች አለህ! ቀጥል፡፡
+                            </div>
+                            <div class="message-time">9:45 AM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <div class="input-container">
+                        <div class="input-actions">
+                            <div class="input-action">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                            <div class="input-action">
+                                <i class="fas fa-paperclip"></i>
+                            </div>
+                            <div class="input-action">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" placeholder="መልዕክት ይጻፉ...">
+                        </div>
+                        <button class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+
+        // Contacts tab switching
+        const contactsTabs = document.querySelectorAll('.contacts-tab');
+        contactsTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                contactsTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // Filter contacts logic would go here
+            });
+        });
+
+        // Mobile contacts sidebar toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.contacts-sidebar').classList.toggle('open');
+        });
+
+        // Select contact
+        const contactItems = document.querySelectorAll('.contact-item');
+        contactItems.forEach(item => {
+            item.addEventListener('click', () => {
+                contactItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                // Load chat logic would go here
+                
+                // Close mobile sidebar after selection
+                document.querySelector('.contacts-sidebar').classList.remove('open');
+            });
+        });
+    </script>
+</body>
+</html>

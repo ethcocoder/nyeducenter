@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የውይይት መድረክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #2196F3;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-left: 20px;
+            flex-grow: 1;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding-left: 35px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-action {
+            margin-left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header-action:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .add-topic-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .forum-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .forum-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .forum-card {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .forum-card:last-child {
+            border-bottom: none;
+        }
+
+        .forum-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .forum-content {
+            flex-grow: 1;
+        }
+
+        .forum-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .forum-title:hover {
+            color: var(--primary-color);
+        }
+
+        .forum-meta {
+            display: flex;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .forum-meta > div {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .forum-meta i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        .forum-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #f1f1f1;
+            color: #666;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+
+        .stats-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .forum-stats {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .popular-topics {
+            list-style: none;
+        }
+
+        .popular-topic-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popular-topic-item:last-child {
+            border-bottom: none;
+        }
+
+        .popular-topic-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+
+        .popular-topic-title:hover {
+            color: var(--primary-color);
+        }
+
+        .popular-topic-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .category-list a {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .category-list a:hover {
+            background: #f0f0f0;
+        }
+
+        .category-list i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">ታደሰ ብርሃኑ</div>
+                    <div class="user-role">ዋና አስተዳዳሪ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="students.html" class="menu-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>ተማሪዎች</span>
+            </a>
+            <a href="teachers.html" class="menu-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>መምህራን</span>
+            </a>
+            <a href="courses.html" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>ኮርሶች</span>
+            </a>
+            <a href="quiz.html" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተናዎች</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="send-announcement.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="send-forum.html" class="menu-item active">
+                <i class="fas fa-comments"></i>
+                <span>ፎረም</span>
+            </a>
+            <a href="email.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>ኢሜይል</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">ሌሎች</div>
+            <a href="settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>ቅንብሮች</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>መገለጫ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ፈልግ...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 class="page-title">የውይይት መድረክ</h1>
+            <button class="add-topic-btn">
+                <i class="fas fa-plus"></i>
+                አዲስ ውይይት መጀመር
+            </button>
+        </div>
+
+        <div class="content-grid">
+            <div>
+                <!-- Create New Topic -->
+                <div class="forum-form">
+                    <h2 class="card-title">አዲስ ውይይት ፍጠር</h2>
+                    
+                    <form id="forum-form">
+                        <div class="form-group">
+                            <label for="topic-title">የውይይት ርዕስ</label>
+                            <input type="text" id="topic-title" placeholder="ርዕስ ይጻፉ" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="topic-category">ምድብ</label>
+                            <select id="topic-category" required>
+                                <option value="">ምድብ ይምረጡ</option>
+                                <option value="general">አጠቃላይ ውይይት</option>
+                                <option value="academic">የትምህርት ውይይት</option>
+                                <option value="announcement">ማስታወቂያዎች</option>
+                                <option value="question">ጥያቄዎች</option>
+                                <option value="resource">ምንጮች</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="topic-description">መግለጫ</label>
+                            <textarea id="topic-description" placeholder="መግለጫ ይጻፉ..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="topic-tags">መለያዎች</label>
+                            <input type="text" id="topic-tags" placeholder="መለያዎችን በኮማ ይለዩ (ምሳሌ: ሂሳብ, ፍልስፍና, ታሪክ)">
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-plus-circle"></i> ውይይት ጀምር
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Recent Forum Topics -->
+                <div class="forum-list">
+                    <h2 class="card-title">የቅርብ ጊዜ ውይይቶች</h2>
+                    
+                    <div class="forum-card">
+                        <div class="forum-icon" style="background-color: var(--primary-color);">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="forum-content">
+                            <a href="#" class="forum-title">የንባብ ቀን በየሳምንቱ ማክሰኞ ይካሄዳል</a>
+                            <div class="forum-meta">
+                                <div><i class="fas fa-user"></i> በ አስተዳዳሪ</div>
+                                <div><i class="fas fa-calendar"></i> 25 መጋቢት 2016</div>
+                                <div><i class="fas fa-comment"></i> 12 አስተያየቶች</div>
+                            </div>
+                            <p class="forum-description">የንባብ ቀን በየሳምንቱ ማክሰኞ ከ2:00 - 4:00 በዋና ቤተ መጽሐፍት ይካሄዳል። ሁሉም ተማሪዎች እንዲያነቡ ተጋብዘዋል።</p>
+                            <div class="tag-list">
+                                <span class="tag">ንባብ</span>
+                                <span class="tag">ቤተ መጽሐፍት</span>
+                                <span class="tag">ዝግጅት</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="forum-card">
+                        <div class="forum-icon" style="background-color: var(--secondary-color);">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="forum-content">
+                            <a href="#" class="forum-title">የሂሳብ ፈተና ዝግጅት ጥያቄዎች</a>
+                            <div class="forum-meta">
+                                <div><i class="fas fa-user"></i> በ ገብሬ መኮንን</div>
+                                <div><i class="fas fa-calendar"></i> 22 መጋቢት 2016</div>
+                                <div><i class="fas fa-comment"></i> 24 አስተያየቶች</div>
+                            </div>
+                            <p class="forum-description">ለሂሳብ ፈተና የሚረዱ ጥያቄዎችና መልሶቻቸው። ለፈተና ዝግጅት የጋራ ውይይት እናድርግ።</p>
+                            <div class="tag-list">
+                                <span class="tag">ሂሳብ</span>
+                                <span class="tag">ፈተና</span>
+                                <span class="tag">ጥያቄዎች</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="forum-card">
+                        <div class="forum-icon" style="background-color: #03A9F4;">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="forum-content">
+                            <a href="#" class="forum-title">የምርምር ፕሮጀክት አሰራር እርዳታ</a>
+                            <div class="forum-meta">
+                                <div><i class="fas fa-user"></i> በ ሳምራዊት ታደሰ</div>
+                                <div><i class="fas fa-calendar"></i> 20 መጋቢት 2016</div>
+                                <div><i class="fas fa-comment"></i> 8 አስተያየቶች</div>
+                            </div>
+                            <p class="forum-description">ለሳይንስ ፕሮጀክት የምርምር መመሪያ ፍለጋ። የምርምር ጽሁፍ አቀራረብ እንዴት መሆን አለበት?</p>
+                            <div class="tag-list">
+                                <span class="tag">ሳይንስ</span>
+                                <span class="tag">ምርምር</span>
+                                <span class="tag">ፕሮጀክት</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="forum-card">
+                        <div class="forum-icon" style="background-color: #FF9800;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="forum-content">
+                            <a href="#" class="forum-title">የኢትዮጵያ ታሪክ የውይይት ቡድን</a>
+                            <div class="forum-meta">
+                                <div><i class="fas fa-user"></i> በ ዳዊት አበበ</div>
+                                <div><i class="fas fa-calendar"></i> 18 መጋቢት 2016</div>
+                                <div><i class="fas fa-comment"></i> 15 አስተያየቶች</div>
+                            </div>
+                            <p class="forum-description">የኢትዮጵያ ታሪክ የውይይት ቡድን ለማዋቀር የምፈልግ ሲሆን አብረን የታሪክ መጽሐፍት ለማንበብና ውይይት ለማድረግ ነው።</p>
+                            <div class="tag-list">
+                                <span class="tag">ታሪክ</span>
+                                <span class="tag">ኢትዮጵያ</span>
+                                <span class="tag">የንባብ ቡድን</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <!-- Forum Stats -->
+                <div class="stats-card">
+                    <h2 class="card-title">የመድረክ ስታትስቲክስ</h2>
+                    
+                    <div class="forum-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">126</span>
+                            <span class="stat-label">ውይይቶች</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">843</span>
+                            <span class="stat-label">አስተያየቶች</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">215</span>
+                            <span class="stat-label">አባላት</span>
+                        </div>
+                    </div>
+                    
+                    <div style="height: 1px; background: #f1f1f1; margin: 15px 0;"></div>
+                    
+                    <p style="margin-bottom: 15px; font-size: 14px; color: #666;">
+                        <i class="fas fa-info-circle"></i> አዲስ ውይይት በቅርብ ቀን: <strong>25 መጋቢት 2016</strong>
+                    </p>
+                    <p style="font-size: 14px; color: #666;">
+                        <i class="fas fa-user-circle"></i> በጣም ንቁ አባል: <strong>ሰሎሞን ተሰማ</strong>
+                    </p>
+                </div>
+                
+                <!-- Popular Topics -->
+                <div class="stats-card">
+                    <h2 class="card-title">ታዋቂ ውይይቶች</h2>
+                    
+                    <ul class="popular-topics">
+                        <li class="popular-topic-item">
+                            <a href="#" class="popular-topic-title">የፈተና ዝግጅት ምክሮች እና ስልቶች</a>
+                            <div class="popular-topic-meta">
+                                <span><i class="fas fa-comment"></i> 36 አስተያየቶች</span>
+                                <span><i class="fas fa-eye"></i> 128 ተመልክቷል</span>
+                            </div>
+                        </li>
+                        <li class="popular-topic-item">
+                            <a href="#" class="popular-topic-title">የአማርኛ ቋንቋ ማሻሻያ ቴክኒኮች</a>
+                            <div class="popular-topic-meta">
+                                <span><i class="fas fa-comment"></i> 24 አስተያየቶች</span>
+                                <span><i class="fas fa-eye"></i> 98 ተመልክቷል</span>
+                            </div>
+                        </li>
+                        <li class="popular-topic-item">
+                            <a href="#" class="popular-topic-title">ለዩኒቨርሲቲ ምርጫ መመሪያ</a>
+                            <div class="popular-topic-meta">
+                                <span><i class="fas fa-comment"></i> 30 አስተያየቶች</span>
+                                <span><i class="fas fa-eye"></i> 145 ተመልክቷል</span>
+                            </div>
+                        </li>
+                        <li class="popular-topic-item">
+                            <a href="#" class="popular-topic-title">የማኅበራዊ ሚዲያ ጥቅሞች እና ጉዳቶች</a>
+                            <div class="popular-topic-meta">
+                                <span><i class="fas fa-comment"></i> 28 አስተያየቶች</span>
+                                <span><i class="fas fa-eye"></i> 112 ተመልክቷል</span>
+                            </div>
+                        </li>
+                        <li class="popular-topic-item">
+                            <a href="#" class="popular-topic-title">የካርቦን ደረጃ መቀነስ በት/ቤታችን</a>
+                            <div class="popular-topic-meta">
+                                <span><i class="fas fa-comment"></i> 22 አስተያየቶች</span>
+                                <span><i class="fas fa-eye"></i> 87 ተመልክቷል</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Categories -->
+                <div class="stats-card">
+                    <h2 class="card-title">ምድቦች</h2>
+                    
+                    <div class="category-list">
+                        <a href="#">
+                            <span><i class="fas fa-comments" style="color: var(--primary-color);"></i> አጠቃላይ ውይይት</span>
+                            <span>48</span>
+                        </a>
+                        <a href="#">
+                            <span><i class="fas fa-graduation-cap" style="color: var(--secondary-color);"></i> የትምህርት ውይይት</span>
+                            <span>32</span>
+                        </a>
+                        <a href="#">
+                            <span><i class="fas fa-bullhorn" style="color: #FF9800;"></i> ማስታወቂያዎች</span>
+                            <span>15</span>
+                        </a>
+                        <a href="#">
+                            <span><i class="fas fa-question-circle" style="color: #03A9F4;"></i> ጥያቄዎች</span>
+                            <span>26</span>
+                        </a>
+                        <a href="#">
+                            <span><i class="fas fa-book" style="color: var(--primary-color);"></i> ምንጮች</span>
+                            <span>5</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+        
+        // Show/hide forum form when add topic button is clicked
+        document.querySelector('.add-topic-btn').addEventListener('click', function() {
+            document.querySelector('.forum-form').style.display = 'block';
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+        
+        // Form Submit
+        document.getElementById('forum-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('ውይይት በተሳካ ሁኔታ ተፈጥሯል!');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

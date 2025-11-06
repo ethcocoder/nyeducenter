@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል ፈተና መላክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --danger-color: #ea4335;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #1a73e8;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-section {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 15px center;
+            background-size: 15px;
+            padding-right: 40px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #f1f3f4;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e3e6e8;
+            transform: translateY(-2px);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .quiz-list {
+            margin-top: 20px;
+        }
+
+        .quiz-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quiz-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-info {
+            flex: 1;
+        }
+
+        .quiz-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .quiz-meta {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .quiz-meta-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .quiz-meta-item i {
+            margin-right: 5px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .quiz-description {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .quiz-action-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #f1f8ff;
+            color: var(--primary-color);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .quiz-action-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .quiz-action-btn i {
+            margin-right: 5px;
+        }
+
+        .student-selection {
+            margin-top: 20px;
+        }
+
+        .student-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-option {
+            flex: 1;
+        }
+
+        .student-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .student-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .student-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .student-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .student-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .student-id {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .schedule-options {
+            margin-top: 20px;
+        }
+
+        .schedule-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .schedule-option {
+            flex: 1;
+        }
+
+        .selected-quiz {
+            background-color: #f1f8ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .selected-quiz-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .selected-quiz-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .select-all-container {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .header {
+                margin-left: 50px;
+            }
+            
+            .schedule-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .quiz-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .quiz-actions {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Include navigation component -->
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል ፈተና መላክ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">የ12ኛ ክፍል ፈተና መላክ</h1>
+        <p class="page-subtitle">የፈተና ወረቀት ምረጡ እና ለተማሪዎች ይላኩ፣ የዩኒቨርሲቲ ዝግጅት ፈተናዎችን ጨምሮ</p>
+
+        <div class="card">
+            <h2 class="card-title">ፈተና ምረጡ</h2>
+            
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="ፈተና ይፈልጉ...">
+            </div>
+            
+            <div class="form-group">
+                <label>ፈተና ዓይነት</label>
+                <div style="display: flex; gap: 10px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="radio" name="quiz-type" checked style="margin-right: 5px;"> ሁሉም
+                    </label>
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="radio" name="quiz-type" style="margin-right: 5px;"> መደበኛ ፈተና
+                    </label>
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="radio" name="quiz-type" style="margin-right: 5px;"> ምርመራ
+                    </label>
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="radio" name="quiz-type" style="margin-right: 5px;"> የዩኒቨርሲቲ ዝግጅት
+                    </label>
+                </div>
+            </div>
+            
+            <div class="quiz-list">
+                <div class="quiz-item">
+                    <div class="quiz-info">
+                        <h3 class="quiz-title">የሂሳብ ለዩኒቨርሲቲ መግቢያ ፈተና ዝግጅት ክለሳ</h3>
+                        <div class="quiz-meta">
+                            <div class="quiz-meta-item">
+                                <i class="far fa-clock"></i> 60 ደቂቃ
+                            </div>
+                            <div class="quiz-meta-item">
+                                <i class="fas fa-question-circle"></i> 30 ጥያቄዎች
+                            </div>
+                            <div class="quiz-meta-item">
+                                <i class="fas fa-star"></i> 100 ነጥብ
+                            </div>
+                        </div>
+                        <p class="quiz-description">የዩኒቨርሲቲ መግቢያ ፈተና ለመዘጋጀት የሂሳብ ጥያቄዎች ክለሳ</p>
+                    </div>
+                    <div class="quiz-actions">
+                        <button type="button" class="quiz-action-btn">
+                            <i class="far fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button type="button" class="quiz-action-btn select-quiz-btn">
+                            <i class="fas fa-check-circle"></i> ይምረጡ
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-info">
+                        <h3 class="quiz-title">የፊዚክስ ንድፈ ሃሳብ ሙከራ ፈተና</h3>
+                        <div class="quiz-meta">
+                            <div class="quiz-meta-item">
+                                <i class="far fa-clock"></i> 45 ደቂቃ
+                            </div>
+                            <div class="quiz-meta-item">
+                                <i class="fas fa-question-circle"></i> 25 ጥያቄዎች
+                            </div>
+                            <div class="quiz-meta-item">
+                                <i class="fas fa-star"></i> 80 ነጥብ
+                            </div>
+                        </div>
+                        <p class="quiz-description">የፊዚክስ ንድፈ ሃሳብ ላይ የሚያተኩሩ ከቪሚማቲክስ እና ዲይናሚክስ ጥያቄዎች</p>
+                    </div>
+                    <div class="quiz-actions">
+                        <button type="button" class="quiz-action-btn">
+                            <i class="far fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button type="button" class="quiz-action-btn select-quiz-btn">
+                            <i class="fas fa-check-circle"></i> ይምረጡ
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-info">
+                        <h3 class="quiz-title">የኬሚስትሪ በአገሪው ደረጃ ፈተና ዝግጅት</h3>
+                        <div class="quiz-meta">
+                            <div class="quiz-meta-item">
+                                <i class="far fa-clock"></i> 90 ደቂቃ
+                            </div>
+                            <div class="quiz-meta-item">
+                                <i class="fas fa-question-circle"></i> 40 ጥያቄዎች
+                            </div>
+                            <div class="quiz-meta-item">
+                                <i class="fas fa-star"></i> 120 ነጥብ
+                            </div>
+                        </div>
+                        <p class="quiz-description">የዩኒቨርሲቲ መግቢያ ፈተና በኬሚስትሪ ላይ ያነጣጠረ</p>
+                    </div>
+                    <div class="quiz-actions">
+                        <button type="button" class="quiz-action-btn">
+                            <i class="far fa-eye"></i> ይመልከቱ
+                        </button>
+                        <button type="button" class="quiz-action-btn select-quiz-btn">
+                            <i class="fas fa-check-circle"></i> ይምረጡ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="selected-quiz-card" style="display: none;">
+            <h2 class="card-title">ፈተና ልኬት</h2>
+            
+            <div class="selected-quiz">
+                <h3 class="selected-quiz-title">የሂሳብ ለዩኒቨርሲቲ መግቢያ ፈተና ዝግጅት ክለሳ</h3>
+                <p class="selected-quiz-details">
+                    <span style="display: inline-block; margin-right: 15px;"><i class="far fa-clock"></i> 60 ደቂቃ</span>
+                    <span style="display: inline-block; margin-right: 15px;"><i class="fas fa-question-circle"></i> 30 ጥያቄዎች</span>
+                    <span style="display: inline-block;"><i class="fas fa-star"></i> 100 ነጥብ</span>
+                </p>
+            </div>
+            
+            <div class="student-selection">
+                <h3 style="margin-bottom: 15px;">ተማሪዎችን ይምረጡ</h3>
+                
+                <div class="student-filter">
+                    <div class="filter-option">
+                        <label>ምደባ በ</label>
+                        <select class="form-control">
+                            <option value="class">የክፍል ምድብ</option>
+                            <option value="section">ሴክሽን</option>
+                            <option value="individual">ግለሰብ ተማሪዎች</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-option">
+                        <label>ክፍል</label>
+                        <select class="form-control">
+                            <option value="12">12ኛ ክፍል</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-option">
+                        <label>ሴክሽን</label>
+                        <select class="form-control">
+                            <option value="all">ሁሉም ሴክሽኖች</option>
+                            <option value="A">ሴክሽን A</option>
+                            <option value="B">ሴክሽን B</option>
+                            <option value="C">ሴክሽን C</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="select-all-container">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="select-all" style="margin-right: 8px;"> ሁሉንም ተማሪዎች ይምረጡ
+                    </label>
+                </div>
+                
+                <div class="student-list">
+                    <div class="student-item">
+                        <input type="checkbox" class="student-checkbox">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Student" class="student-avatar">
+                        <div class="student-name">ዳዊት ጌታቸው</div>
+                        <div class="student-id">ETH-12-1234</div>
+                    </div>
+                    <div class="student-item">
+                        <input type="checkbox" class="student-checkbox">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Student" class="student-avatar">
+                        <div class="student-name">ሰላም ታደሰ</div>
+                        <div class="student-id">ETH-12-2345</div>
+                    </div>
+                    <div class="student-item">
+                        <input type="checkbox" class="student-checkbox">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Student" class="student-avatar">
+                        <div class="student-name">አበበ መኮንን</div>
+                        <div class="student-id">ETH-12-3456</div>
+                    </div>
+                    <div class="student-item">
+                        <input type="checkbox" class="student-checkbox">
+                        <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Student" class="student-avatar">
+                        <div class="student-name">ሙሉነሽ አለማየሁ</div>
+                        <div class="student-id">ETH-12-4567</div>
+                    </div>
+                    <div class="student-item">
+                        <input type="checkbox" class="student-checkbox">
+                        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Student" class="student-avatar">
+                        <div class="student-name">ብሩክ አድማሱ</div>
+                        <div class="student-id">ETH-12-5678</div>
+                    </div>
+                    <div class="student-item">
+                        <input type="checkbox" class="student-checkbox">
+                        <img src="https://randomuser.me/api/portraits/women/14.jpg" alt="Student" class="student-avatar">
+                        <div class="student-name">ሂሩት ዮሐንስ</div>
+                        <div class="student-id">ETH-12-6789</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="schedule-options">
+                <h3 style="margin-bottom: 15px;">ፈተና መርሃግብር</h3>
+                
+                <div class="schedule-row">
+                    <div class="schedule-option">
+                        <label>የሚሰጥበት ቀን</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    
+                    <div class="schedule-option">
+                        <label>የመጀመሪያ ሰዓት</label>
+                        <input type="time" class="form-control">
+                    </div>
+                    
+                    <div class="schedule-option">
+                        <label>የሚያበቃበት ሰዓት</label>
+                        <input type="time" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>የጥያቄዎች ቅደም ተከተል</label>
+                    <select class="form-control">
+                        <option value="default">ነባሪ (እንዳለ)</option>
+                        <option value="random">በዘፈቀደ መበተን</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>የውጤት አሳየት</label>
+                    <select class="form-control">
+                        <option value="after">ፈተናው ካበቃ በኋላ ወዲያውኑ</option>
+                        <option value="manual">በእጅ ሲፈቀድ ብቻ</option>
+                        <option value="date">በተወሰነ ቀን ላይ</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>ተማሪዎች በምላሾቻቸው እንዲመለሱ ይፍቀዱ?</label>
+                    <select class="form-control">
+                        <option value="yes">አዎ፣ ፈተናው ካለቀ በኋላ</option>
+                        <option value="no">አይ</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" id="back-to-quiz-selection">
+                        <i class="fas fa-arrow-left"></i> ወደኋላ ይመለሱ
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <i class="far fa-paper-plane"></i> ፈተና ይላኩ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // Load navigation component
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load the navigation component
+            fetch('/frontend/template/teachers/share/navigation.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('navigation-placeholder').innerHTML = html;
+                    
+                    // Add active class to current menu item
+                    const currentPath = window.location.pathname;
+                    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+                    
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        const href = item.getAttribute('href');
+                        if (href && href.endsWith(filename)) {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Mobile menu toggle
+                    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+                    if (mobileMenuToggle) {
+                        mobileMenuToggle.addEventListener('click', function() {
+                            document.querySelector('.sidebar').classList.toggle('open');
+                        });
+                    }
+                });
+                
+            // Quiz selection functionality
+            const selectQuizBtns = document.querySelectorAll('.select-quiz-btn');
+            const quizListCard = document.querySelector('.card:not(#selected-quiz-card)');
+            const selectedQuizCard = document.getElementById('selected-quiz-card');
+            const backToQuizSelectionBtn = document.getElementById('back-to-quiz-selection');
+            
+            selectQuizBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    quizListCard.style.display = 'none';
+                    selectedQuizCard.style.display = 'block';
+                });
+            });
+            
+            backToQuizSelectionBtn.addEventListener('click', function() {
+                selectedQuizCard.style.display = 'none';
+                quizListCard.style.display = 'block';
+            });
+            
+            // Select all checkbox
+            const selectAllCheckbox = document.getElementById('select-all');
+            const studentCheckboxes = document.querySelectorAll('.student-checkbox');
+            
+            selectAllCheckbox.addEventListener('change', function() {
+                studentCheckboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+            
+            // Set default date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const formattedDate = tomorrow.toISOString().substr(0, 10);
+            document.querySelector('input[type="date"]').value = formattedDate;
+            
+            // Set default times
+            document.querySelectorAll('input[type="time"]')[0].value = '09:00';
+            document.querySelectorAll('input[type="time"]')[1].value = '10:00';
+        });
+    </script>
+</body>
+</html> 

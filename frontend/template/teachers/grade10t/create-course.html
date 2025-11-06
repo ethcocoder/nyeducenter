@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ10ኛ ክፍል መምህር ኮርስ መፍጠር</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/grade-specific.css">
+    <style>
+        /* Styles specific to course creation page */
+        .course-form {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-row .form-group {
+            flex: 1 0 calc(50% - 20px);
+            min-width: 250px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 15px;
+            letter-spacing: 0.2px;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-background, #fff);
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.2);
+            outline: none;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark, #3b77e0);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.5);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .btn-outline {
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(var(--primary-rgb), 0.08);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+        
+        .btn-text {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 10px;
+        }
+        
+        .btn-text:hover {
+            color: var(--text-primary);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            background-color: rgba(0,0,0,0.05);
+            transform: translateY(-1px);
+        }
+
+        .form-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-image-section {
+            margin-top: 35px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            border: 2px dashed var(--border-color);
+            margin-bottom: 18px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+        
+        .image-preview:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.03);
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .image-preview-placeholder {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .course-materials {
+            margin-top: 35px;
+        }
+
+        .material-list {
+            margin-top: 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            background-color: rgba(var(--background-rgb), 0.5);
+        }
+
+        .material-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background-color: var(--card-background);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .material-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            border-color: rgba(var(--primary-rgb), 0.3);
+        }
+
+        .material-icon {
+            font-size: 20px;
+            margin-right: 15px;
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            border-radius: 8px;
+        }
+
+        .material-info {
+            flex: 1;
+        }
+
+        .material-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .material-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .material-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .course-schedule {
+            margin-top: 35px;
+        }
+
+        .schedule-list {
+            margin-top: 18px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background-color: var(--card-background);
+            transition: all 0.2s ease;
+        }
+        
+        .schedule-item:hover {
+            border-color: rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .schedule-item select,
+        .schedule-item input {
+            padding: 12px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: var(--background-color);
+        }
+
+        .schedule-item select:focus,
+        .schedule-item input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
+        }
+
+        .day-select {
+            min-width: 130px;
+            font-weight: 500;
+        }
+
+        .time-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .time-inputs span {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .btn-remove-schedule {
+            color: var(--danger-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: auto;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-remove-schedule:hover {
+            background-color: rgba(var(--danger-rgb, 220, 53, 69), 0.1);
+        }
+
+        .btn-add-schedule {
+            display: block;
+            margin-top: 12px;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--background-color);
+            border: 1px dashed var(--border-color);
+            color: var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .btn-add-schedule:hover {
+            background-color: rgba(var(--primary-rgb), 0.08);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .drag-drop-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s, background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .drag-drop-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .drag-drop-area h4 {
+            margin: 15px 0 5px;
+            font-weight: 500;
+        }
+        
+        .drag-drop-area p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .drag-drop-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .course-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .left-actions, .right-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .course-video-section {
+            margin-top: 35px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            border-radius: 10px;
+            border: 2px dashed var(--border-color);
+            margin-bottom: 18px;
+            overflow: hidden;
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+        
+        .video-container:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.03);
+        }
+
+        .video-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #000;
+        }
+
+        .video-preview-placeholder {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-tabs {
+            display: flex;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .video-tab {
+            padding: 12px 22px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .video-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .video-tab:hover:not(.active) {
+            background-color: rgba(var(--primary-rgb), 0.05);
+            color: var(--text-primary);
+        }
+
+        .video-content {
+            display: none;
+            margin-bottom: 18px;
+        }
+
+        .video-content.active {
+            display: block;
+        }
+
+        .embed-container {
+            margin-top: 18px;
+        }
+
+        .embed-preview {
+            margin-top: 18px;
+            display: none;
+        }
+
+        .embed-preview.active {
+            display: block;
+        }
+
+        .embed-frame {
+            width: 100%;
+            height: 320px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-video-action {
+            margin-top: 12px;
+            margin-right: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .time-inputs {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .course-actions {
+                flex-direction: column-reverse;
+                gap: 20px;
+            }
+            
+            .left-actions, .right-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .video-tabs {
+                flex-direction: column;
+                border-bottom: none;
+            }
+            
+            .video-tab {
+                border-bottom: none;
+                border-left: 2px solid transparent;
+            }
+            
+            .video-tab.active {
+                border-bottom: none;
+                border-left: 2px solid var(--primary-color);
+                background-color: rgba(var(--primary-rgb), 0.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">10ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">አዲስ ኮርስ መፍጠር</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+        </div>
+
+        <div class="container animate-fade-in">
+            <div class="course-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="course-title">የኮርሱ ርዕስ</label>
+                        <input type="text" id="course-title" class="form-control" placeholder="ለምሳሌ፡ የሂሳብ መሰረታዊ ፅንሰ ሃሳቦች">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="course-code">የኮርስ ኮድ</label>
+                        <input type="text" id="course-code" class="form-control" placeholder="ለምሳሌ፡ MATH101">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="course-subject">የትምህርት አይነት</label>
+                        <select id="course-subject" class="form-control">
+                            <option value="">የትምህርት አይነት ይምረጡ</option>
+                            <option value="mathematics">ሂሳብ</option>
+                            <option value="physics">ፊዚክስ</option>
+                            <option value="chemistry">ኬሚስትሪ</option>
+                            <option value="biology">ባዮሎጂ</option>
+                            <option value="history">ታሪክ</option>
+                            <option value="geography">ጂኦግራፊ</option>
+                            <option value="civics">ስነ-ዜጋ</option>
+                            <option value="english">እንግሊዘኛ</option>
+                            <option value="amharic">አማርኛ</option>
+                            <option value="ict">አይሲቲ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="course-credit">የክሬዲት ብዛት</label>
+                        <input type="number" id="course-credit" class="form-control" min="1" max="5" value="3">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="course-description">የኮርሱ መግለጫ</label>
+                    <textarea id="course-description" class="form-control" rows="4" placeholder="የኮርሱን ዋና ዋና ነጥቦችና ዓላማዎች ይግለጹ..."></textarea>
+                </div>
+
+                <div class="course-image-section">
+                    <h3 class="form-section-title">የኮርስ ሽፋን ምስል</h3>
+                    <div class="image-preview">
+                        <div class="image-preview-placeholder">
+                            <i class="fas fa-image fa-3x"></i>
+                            <p>ምስል አልተመረጠም</p>
+                        </div>
+                    </div>
+                    <input type="file" id="course-image" accept="image/*" style="display: none;">
+                    <button class="btn-outline" onclick="document.getElementById('course-image').click()">
+                        <i class="fas fa-image"></i> ምስል ምረጥ
+                    </button>
+                </div>
+
+                <div class="course-schedule">
+                    <h3 class="form-section-title">የኮርሱ መርሃ ግብር</h3>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <select class="day-select">
+                                <option value="monday">ሰኞ</option>
+                                <option value="tuesday">ማክሰኞ</option>
+                                <option value="wednesday">ረቡዕ</option>
+                                <option value="thursday">ሀሙስ</option>
+                                <option value="friday">አርብ</option>
+                                <option value="saturday">ቅዳሜ</option>
+                            </select>
+                            <div class="time-inputs">
+                                <input type="time" value="08:00" class="start-time">
+                                <span>እስከ</span>
+                                <input type="time" value="09:30" class="end-time">
+                            </div>
+                            <button class="btn-remove-schedule">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn-add-schedule">
+                        <i class="fas fa-plus"></i> ሌላ መርሃ ግብር ጨምር
+                    </button>
+                </div>
+
+                <div class="course-materials">
+                    <h3 class="form-section-title">የትምህርት ቁሳቁሶች</h3>
+                    <div class="drag-drop-area">
+                        <div class="drag-drop-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h4>ፋይሎችን ይጎትቱ እና ይጣሉ</h4>
+                        <p>ወይም</p>
+                        <button class="btn-outline">
+                            <i class="fas fa-folder-open"></i> ከኮምፒውተር ምረጥ
+                        </button>
+                        <input type="file" id="upload-materials" multiple style="display: none;">
+                    </div>
+
+                    <div class="material-list">
+                        <div class="material-item">
+                            <div class="material-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="material-info">
+                                <div class="material-name">የፈተና መመሪያ.pdf</div>
+                                <div class="material-meta">2.4 MB • PDF ፋይል</div>
+                            </div>
+                            <div class="material-actions">
+                                <button class="btn icon-btn"><i class="fas fa-eye"></i></button>
+                                <button class="btn icon-btn"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                        <div class="material-item">
+                            <div class="material-icon">
+                                <i class="fas fa-file-powerpoint"></i>
+                            </div>
+                            <div class="material-info">
+                                <div class="material-name">ምዕራፍ 1 - መግቢያ.pptx</div>
+                                <div class="material-meta">4.7 MB • PowerPoint ሰነድ</div>
+                            </div>
+                            <div class="material-actions">
+                                <button class="btn icon-btn"><i class="fas fa-eye"></i></button>
+                                <button class="btn icon-btn"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-video-section">
+                    <h3 class="form-section-title">የኮርስ ቪዲዮ</h3>
+                    
+                    <div class="video-tabs">
+                        <div class="video-tab active" data-tab="upload">ቪዲዮ ይጫኑ</div>
+                        <div class="video-tab" data-tab="embed">ከ YouTube ያካትቱ</div>
+                    </div>
+                    
+                    <div class="video-content active" id="upload-content">
+                        <div class="video-container">
+                            <div class="video-preview-placeholder" id="video-preview-placeholder">
+                                <i class="fas fa-video fa-3x"></i>
+                                <p>ቪዲዮ አልተመረጠም</p>
+                            </div>
+                            <video id="video-preview" class="video-preview" style="display: none;" controls></video>
+                        </div>
+                        <input type="file" id="course-video" accept="video/*" style="display: none;">
+                        <button class="btn-outline" onclick="document.getElementById('course-video').click()">
+                            <i class="fas fa-film"></i> ቪዲዮ ምረጥ
+                        </button>
+                    </div>
+                    
+                    <div class="video-content" id="embed-content">
+                        <div class="form-group">
+                            <label class="form-label" for="video-url">የ YouTube ቪዲዮ URL</label>
+                            <input type="text" id="video-url" class="form-control" placeholder="ለምሳሌ: https://www.youtube.com/watch?v=...">
+                        </div>
+                        <button class="btn-outline" id="btn-preview-embed">
+                            <i class="fas fa-eye"></i> ቅድመ-ዕይታ
+                        </button>
+                        
+                        <div class="embed-preview" id="embed-preview">
+                            <iframe id="embed-frame" class="embed-frame" src="" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-actions">
+                    <div class="left-actions">
+                        <button class="btn-text">
+                            <i class="fas fa-times"></i> ሰርዝ
+                        </button>
+                        <button class="btn-outline">
+                            <i class="fas fa-copy"></i> እትም ኮፒ አድርግ
+                        </button>
+                    </div>
+                    <div class="right-actions">
+                        <button class="btn-outline">
+                            <i class="fas fa-save"></i> እንደ ረቂቅ አስቀምጥ
+                        </button>
+                        <button class="btn-primary">
+                            <i class="fas fa-check"></i> ኮርስ ፍጠር
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/navigation.js"></script>
+    <script>
+        // Course image preview
+        document.getElementById('course-image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imagePreview = document.querySelector('.image-preview');
+                    imagePreview.innerHTML = `<img src="${event.target.result}" alt="Course Cover">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add schedule event
+        document.querySelector('.btn-add-schedule').addEventListener('click', function() {
+            const scheduleList = document.querySelector('.schedule-list');
+            const newItem = document.createElement('div');
+            newItem.className = 'schedule-item';
+            newItem.innerHTML = `
+                <select class="day-select">
+                    <option value="monday">ሰኞ</option>
+                    <option value="tuesday">ማክሰኞ</option>
+                    <option value="wednesday">ረቡዕ</option>
+                    <option value="thursday">ሀሙስ</option>
+                    <option value="friday">አርብ</option>
+                    <option value="saturday">ቅዳሜ</option>
+                </select>
+                <div class="time-inputs">
+                    <input type="time" value="08:00" class="start-time">
+                    <span>እስከ</span>
+                    <input type="time" value="09:30" class="end-time">
+                </div>
+                <button class="btn-remove-schedule">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            scheduleList.appendChild(newItem);
+
+            // Add event listener to new remove button
+            newItem.querySelector('.btn-remove-schedule').addEventListener('click', function() {
+                scheduleList.removeChild(newItem);
+            });
+        });
+
+        // Remove schedule event (for initial item)
+        document.querySelector('.btn-remove-schedule').addEventListener('click', function() {
+            const scheduleItem = this.closest('.schedule-item');
+            if (document.querySelectorAll('.schedule-item').length > 1) {
+                scheduleItem.remove();
+            }
+        });
+
+        // Drag and drop file upload
+        const dropArea = document.querySelector('.drag-drop-area');
+        const fileInput = document.getElementById('upload-materials');
+
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', handleFiles);
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('highlight');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            // This would typically upload the files to a server
+            // For demo purposes, we'll just add them to the material list
+            const materialList = document.querySelector('.material-list');
+            
+            // If files is a FileList (from drag & drop)
+            if (files instanceof FileList) {
+                [...files].forEach(file => addMaterialItem(file, materialList));
+            } 
+            // If files is from an input change event
+            else if (files.target && files.target.files) {
+                [...files.target.files].forEach(file => addMaterialItem(file, materialList));
+            }
+        }
+
+        function addMaterialItem(file, materialList) {
+            const fileSize = (file.size / 1024 / 1024).toFixed(1);
+            const fileType = getFileType(file.name);
+            const iconClass = getIconClass(fileType);
+
+            const newItem = document.createElement('div');
+            newItem.className = 'material-item';
+            newItem.innerHTML = `
+                <div class="material-icon">
+                    <i class="${iconClass}"></i>
+                </div>
+                <div class="material-info">
+                    <div class="material-name">${file.name}</div>
+                    <div class="material-meta">${fileSize} MB • ${fileType} ፋይል</div>
+                </div>
+                <div class="material-actions">
+                    <button class="btn icon-btn"><i class="fas fa-eye"></i></button>
+                    <button class="btn icon-btn"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `;
+
+            // Add delete functionality
+            newItem.querySelector('.fa-trash-alt').parentElement.addEventListener('click', function() {
+                materialList.removeChild(newItem);
+            });
+
+            materialList.appendChild(newItem);
+        }
+
+        function getFileType(filename) {
+            const extension = filename.split('.').pop().toLowerCase();
+            const typeMap = {
+                'pdf': 'PDF',
+                'doc': 'Word',
+                'docx': 'Word',
+                'ppt': 'PowerPoint',
+                'pptx': 'PowerPoint',
+                'xls': 'Excel',
+                'xlsx': 'Excel',
+                'jpg': 'Image',
+                'jpeg': 'Image',
+                'png': 'Image',
+                'mp4': 'Video',
+                'mp3': 'Audio'
+            };
+            return typeMap[extension] || 'Unknown';
+        }
+
+        function getIconClass(fileType) {
+            const iconMap = {
+                'PDF': 'fas fa-file-pdf',
+                'Word': 'fas fa-file-word',
+                'PowerPoint': 'fas fa-file-powerpoint',
+                'Excel': 'fas fa-file-excel',
+                'Image': 'fas fa-file-image',
+                'Video': 'fas fa-file-video',
+                'Audio': 'fas fa-file-audio',
+                'Unknown': 'fas fa-file'
+            };
+            return iconMap[fileType] || 'fas fa-file';
+        }
+
+        // Video tab switching
+        document.querySelectorAll('.video-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all content
+                document.querySelectorAll('.video-content').forEach(content => content.classList.remove('active'));
+                
+                // Show appropriate content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId + '-content').classList.add('active');
+            });
+        });
+        
+        // Video upload preview
+        document.getElementById('course-video').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const videoPreview = document.getElementById('video-preview');
+                const placeholder = document.getElementById('video-preview-placeholder');
+                
+                // Create video URL
+                const videoURL = URL.createObjectURL(file);
+                
+                // Set video source and show video
+                videoPreview.src = videoURL;
+                videoPreview.style.display = 'block';
+                placeholder.style.display = 'none';
+                
+                // Clean up the URL when no longer needed
+                videoPreview.onload = function() {
+                    URL.revokeObjectURL(videoURL);
+                };
+            }
+        });
+        
+        // YouTube embed preview
+        document.getElementById('btn-preview-embed').addEventListener('click', function() {
+            const videoUrl = document.getElementById('video-url').value.trim();
+            if (videoUrl) {
+                // Extract YouTube video ID
+                let videoId = '';
+                
+                // Handle different YouTube URL formats
+                if (videoUrl.includes('youtube.com/watch')) {
+                    const urlParams = new URLSearchParams(new URL(videoUrl).search);
+                    videoId = urlParams.get('v');
+                } else if (videoUrl.includes('youtu.be/')) {
+                    videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+                }
+                
+                if (videoId) {
+                    // Create embed URL
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                    
+                    // Set iframe source and show preview
+                    document.getElementById('embed-frame').src = embedUrl;
+                    document.getElementById('embed-preview').classList.add('active');
+                } else {
+                    alert('ትክክለኛ የ YouTube URL ያስገቡ።');
+                }
+            } else {
+                alert('እባክዎ የ YouTube ቪዲዮ URL ያስገቡ።');
+            }
+        });
+    </script>
+</body>
+</html> 

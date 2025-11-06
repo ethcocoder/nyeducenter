@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="auto">
+  <!-- Background Circle -->
+  <circle cx="150" cy="150" r="140" fill="#e8f4fc"/>
+  
+  <!-- Head -->
+  <circle cx="150" cy="120" r="70" fill="#f5d0a9"/>
+  
+  <!-- Hair -->
+  <path d="M150,50 C100,50 80,90 80,110 C80,130 100,150 150,150 C200,150 220,130 220,110 C220,90 200,50 150,50 Z" fill="#34495e"/>
+  
+  <!-- Face -->
+  <circle cx="120" cy="110" r="10" fill="#fff"/>
+  <circle cx="180" cy="110" r="10" fill="#fff"/>
+  <circle cx="120" cy="110" r="5" fill="#2c3e50"/>
+  <circle cx="180" cy="110" r="5" fill="#2c3e50"/>
+  <path d="M140,140 C145,145 155,145 160,140" fill="none" stroke="#2c3e50" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Neck -->
+  <rect x="140" y="170" width="20" height="20" fill="#f5d0a9"/>
+  
+  <!-- Body / Graduation Gown -->
+  <path d="M110,190 L150,300 L190,190 Z" fill="#2c3e50"/>
+  <path d="M80,210 L150,300 L220,210 Z" fill="#34495e"/>
+  
+  <!-- Graduation Cap -->
+  <rect x="100" y="70" width="100" height="10" fill="#2c3e50"/>
+  <polygon points="150,30 200,70 100,70" fill="#2c3e50"/>
+  <circle cx="150" cy="30" r="10" fill="#f1c40f"/>
+  
+  <!-- Tassel -->
+  <path d="M150,30 Q170,40 170,80" fill="none" stroke="#f1c40f" stroke-width="3"/>
+  <circle cx="170" cy="80" r="5" fill="#f1c40f"/>
+  
+  <!-- Glasses -->
+  <rect x="110" y="100" width="25" height="20" rx="5" ry="5" fill="none" stroke="#2c3e50" stroke-width="2"/>
+  <rect x="165" y="100" width="25" height="20" rx="5" ry="5" fill="none" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="135" y1="110" x2="165" y2="110" stroke="#2c3e50" stroke-width="2"/>
+</svg> 

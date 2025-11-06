@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ያግኙን | ናቲ የትምህርት ማዕከል</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/home.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 3rem;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .page-subtitle {
+            font-size: 18px;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+        
+        .contact-section {
+            padding: 80px 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        
+        .contact-info {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .contact-info h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+        
+        .contact-card {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 107, 53, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h3 {
+            font-size: 18px;
+            margin: 0 0 5px;
+            color: var(--dark-color);
+        }
+        
+        .contact-details p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .social-links-contact {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .social-icon-contact {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 107, 53, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 18px;
+        }
+        
+        .social-icon-contact:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .contact-form {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .contact-form h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-submit i {
+            margin-right: 10px;
+        }
+        
+        .map-section {
+            padding: 0 0 80px;
+        }
+        
+        .map-container {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 450px;
+            background-color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .map-placeholder {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .map-placeholder i {
+            font-size: 80px;
+            color: var(--primary-color);
+            opacity: 0.6;
+            margin-bottom: 20px;
+        }
+        
+        .map-placeholder h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .map-placeholder p {
+            color: #666;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .faq-section {
+            background-color: var(--light-color);
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--dark-color);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: background-color 0.3s;
+        }
+        
+        .faq-question:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .faq-question i {
+            color: var(--primary-color);
+            transition: transform 0.3s;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-answer p {
+            margin: 0 0 20px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 20px 20px;
+        }
+        
+        .designer-credit {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #f5f7fa;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-school"></i> ከቸኔ ደብረ ሰላም
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">መነሻ</a>
+                <a href="about.html">ስለ እኛ</a>
+                <a href="contact.html" class="active">ያግኙን</a>
+                <a href="login.html">ይግቡ</a>
+                <a href="register.html">ይመዝገቡ</a>
+            </div>
+            <button class="mobile-menu-button" id="mobileMenuButton">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title">ያግኙን</h1>
+                <p class="page-subtitle">ለማንኛውም ጥያቄ ወይም ዝርዝር መረጃ አንቀራረብ። ደስ ብሎን አገልግሎት እንሰጣለን።</p>
+            </div>
+        </div>
+    </header>
+    
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>የመገኛ መረጃዎች</h2>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>አድራሻ</h3>
+                            <p>ከቸኔ ደብረ ሰላም ትምህርት ቤት</p>
+                            <p>ከቸኔ አካባቢ፣ አዲስ አበባ፣ ኢትዮጲያ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>ስልክ</h3>
+                            <p>+251 11 123 4567</p>
+                            <p>+251 91 234 5678</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>ኢሜይል</h3>
+                            <p>info@kechenedebreselam.edu.et</p>
+                            <p>support@kechenedebreselam.edu.et</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>የስራ ሰዓት</h3>
+                            <p>ሰኞ - አርብ: 8:00 - 5:00</p>
+                            <p>ቅዳሜ: 8:00 - 12:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links-contact">
+                        <a href="#" class="social-icon-contact"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-contact"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon-contact"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon-contact"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon-contact"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h2>መልዕክት ይላኩ</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">ሙሉ ስም</label>
+                            <input type="text" id="name" class="form-control" placeholder="ሙሉ ስምዎን ያስገቡ" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">ኢሜይል</label>
+                            <input type="email" id="email" class="form-control" placeholder="ኢሜይልዎን ያስገቡ" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="form-label">ስልክ ቁጥር</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="ስልክ ቁጥርዎን ያስገቡ">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label">ርዕሰ ጉዳይ</label>
+                            <input type="text" id="subject" class="form-control" placeholder="የመልዕክቱን ርዕሰ ጉዳይ ያስገቡ" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">መልዕክት</label>
+                            <textarea id="message" class="form-control" placeholder="መልዕክትዎን ያስገቡ" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i> መልዕክት ይላኩ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="map-section">
+        <div class="container">
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>አድራሻችን</h3>
+                    <p>ከቸኔ ደብረ ሰላም ትምህርት ቤት በከቸኔ አካባቢ፣ አዲስ አበባ ከተማ ይገኛል። ወደ ትምህርት ቤታችን ለመምጣት ከሚፈልጉ አድራሻን ለማግኘት በቀላሉ ይህን ካርታ ይመልከቱ።</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">ብዙ የሚጠየቁ ጥያቄዎች</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ለልጄ የምዝገባ ሂደቱ ምን ይመስላል?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ምዝገባ በፕሊስሜንት ፈተና እና በቃለ መጠይቅ ይጀምራል። ከዚያ የተማሪዎች ማህደር፣ የቡድን መረጃዎች እና የትምህርት ክፍያን ጨምሮ ማምልከቻውን መሙላት ይኖርብዎታል። ለዝርዝር መረጃ እባክዎ የምዝገባ ቢሮአችንን ያነጋግሩ።</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>የሚጠየቀው የትምህርት ክፍያ ስንት ነው?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>የትምህርት ክፍያዎች እንደ ክፍል ደረጃ ይለያያሉ። ለዝርዝር መረጃ እባክዎ የትምህርት ክፍያ መረጃ ሰነዳችንን ይመልከቱ ወይም የፋይናንስ ቢሮአችንን ያነጋግሩ።</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ትምህርት ቤትዎ ምን ዓይነት ተጨማሪ ትምህርታዊ እንቅስቃሴዎችን ያቀርባል?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ትምህርት ቤታችን ለተማሪዎች የተለያዩ ክበቦችን እና ተጨማሪ እንቅስቃሴዎችን ያቀርባል፤ እነዚህም የሳይንስ ክበብ፣ የቋንቋ ክበብ፣ የስፖርት ቡድኖች፣ የሙዚቃ እና የአርት ፕሮግራሞችን ያካትታሉ። እነዚህ እንቅስቃሴዎች ተማሪዎች ችሎታቸውን እንዲያዳብሩ ይረዳሉ።</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ትምህርት ቤታችሁ ለተማሪዎች ምን ዓይነት ድጋፍ አገልግሎቶችን ይሰጣል?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ትምህርት ቤታችን የተማሪዎች ድጋፍ አገልግሎት፣ የምክር አገልግሎት፣ የሙያ መመሪያ እና ለተለያዩ ፍላጎቶች ተማሪዎች የተዘጋጁ የቀጠናዊ ድጋፍ አገልግሎቶችን ይሰጣል።</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>በእናንተ ትምህርት ቤት ስላለው የመማሪያ መጻህፍት ፖሊሲ ምን ያህል መረጃ አለዎት?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ተማሪዎች መማሪያ መጻህፍቶችን ከትምህርት ቤታችን መገዛት ወይም ከትምህርት ቤቱ ቤተ መጻህፍት መበደር ይችላሉ። ትምህርት ዓመቱ ሲጀምር ለእያንዳንዱ ክፍል የሚያስፈልጉትን መጻህፍት ዝርዝር እንልካለን።</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">የትምህርት ማህበረሰብ</div>
+                    <p class="footer-description">
+                        የከቸኔ ደብረ ሰላም ትምህርት ቤት ተማሪዎች፣ መምህራን እና ወላጆች ለማገልገል የተዘጋጀ ዲጂታል የትምህርት መድረክ።
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>ሀብቶች</h3>
+                    <ul>
+                        <li><a href="#">የመማር ግብዓቶች</a></li>
+                        <li><a href="#">ብላክቦርድ</a></li>
+                        <li><a href="#">የእገዛ ማዕከል</a></li>
+                        <li><a href="#">ብዙ የሚጠየቁ ጥያቄዎች</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>ስለ እኛ</h3>
+                    <ul>
+                        <li><a href="about.html">ስለ ትምህርት ቤታችን</a></li>
+                        <li><a href="about.html#mission">የእኛ ራዕይ</a></li>
+                        <li><a href="#">ወላጆች</a></li>
+                        <li><a href="contact.html">ያግኙን</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>ሕጋዊ</h3>
+                    <ul>
+                        <li><a href="#">የግል መረጃ ፖሊሲ</a></li>
+                        <li><a href="#">የአጠቃቀም ደንቦች</a></li>
+                        <li><a href="#">ማህበረሰብ መመሪያዎች</a></li>
+                        <li><a href="#">ቅሬታዎች ፖሊሲ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 የከቸኔ ደብረ ሰላም ትምህርት ቤት የትምህርት ማህበረሰብ። ሁሉም መብቶች የተጠበቁ ናቸው።<br>
+                ዲዛይን በ: ናትናኤል ኤርሚያስ</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                const icon = mobileMenuButton.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Handle FAQ toggles
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    
+                    // Close other open FAQs
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            // Handle contact form submission
+            const contactForm = document.getElementById('contactForm');
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Form validation would go here
+                
+                // Show success message (in a real app you'd send this to a server)
+                alert('መልዕክትዎ በተሳካ ሁኔታ ተልኳል። በቅርብ ጊዜ እናነጋግርዎታለን።');
+                contactForm.reset();
+            });
+            
+            // Animation for elements
+            const animateElements = document.querySelectorAll('.contact-info, .contact-form, .map-container, .faq-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+       <script src="js/form-validator.js"></script>
+       <script src="js/utils.js"></script>
+       <script src="js/navigation.js"></script>
+</body>
+</html> 

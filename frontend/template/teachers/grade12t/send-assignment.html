@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል መምህር የቤት ስራ መላክ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Additional styles for sending assignments */
+        .filter-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-item {
+            flex: 1;
+            min-width: 180px;
+        }
+        
+        .assignment-card {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: var(--card-background);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 15px;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .assignment-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .assignment-card.sent {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .assignment-card.draft {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .assignment-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--card-background-alt);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .assignment-icon i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .assignment-content {
+            flex: 1;
+        }
+        
+        .assignment-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .assignment-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .assignment-detail {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .assignment-detail i {
+            margin-right: 5px;
+            width: 16px;
+            text-align: center;
+        }
+        
+        .assignment-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .assignment-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .assignment-status {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-sent {
+            background-color: var(--success-color);
+        }
+        
+        .status-draft {
+            background-color: var(--warning-color);
+        }
+        
+        .assignment-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .assignment-action {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-background-alt);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .assignment-action:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--card-background);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .empty-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .pagination-item:hover {
+            background-color: var(--card-background-alt);
+        }
+        
+        .pagination-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .assignment-actions {
+                position: static;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል የቤት ስራ መላክ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">4</span>
+            </div>
+        </div>
+
+        <h1 class="page-title">የ12ኛ ክፍል የቤት ስራ መላክ</h1>
+        <p class="page-subtitle">የተማሪዎችን የዩኒቨርሲቲ ዝግጁነት ለማጎልበት የቤት ስራዎችን ይላኩ እና ክትትል ያድርጉ</p>
+
+        <div class="card">
+            <div class="filter-container">
+                <div class="filter-item">
+                    <label for="filter-subject">የትምህርት ዓይነት</label>
+                    <select id="filter-subject" class="form-control">
+                        <option value="all">ሁሉም ትምህርቶች</option>
+                        <option value="math">ሂሳብ</option>
+                        <option value="physics">ፊዚክስ</option>
+                        <option value="chemistry">ኬሚስትሪ</option>
+                        <option value="biology">ባዮሎጂ</option>
+                        <option value="english">እንግሊዝኛ</option>
+                        <option value="amharic">አማርኛ</option>
+                        <option value="geography">ጂኦግራፊ</option>
+                        <option value="history">ታሪክ</option>
+                        <option value="civics">ሲቪክስ</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="filter-class">ክፍል</label>
+                    <select id="filter-class" class="form-control">
+                        <option value="all">ሁሉም ክፍሎች</option>
+                        <option value="12a">12 ሀ</option>
+                        <option value="12b">12 ለ</option>
+                        <option value="12c">12 ሐ</option>
+                        <option value="12d">12 መ</option>
+                        <option value="12e">12 ሠ</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="filter-status">ሁኔታ</label>
+                    <select id="filter-status" class="form-control">
+                        <option value="all">ሁሉም</option>
+                        <option value="sent">ተልኳል</option>
+                        <option value="draft">ረቂቅ</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="filter-date">ቀን በ</label>
+                    <select id="filter-date" class="form-control">
+                        <option value="all">ሁሉም ግዜያት</option>
+                        <option value="today">ዛሬ</option>
+                        <option value="week">ባለፉት 7 ቀናት</option>
+                        <option value="month">ባለፉት 30 ቀናት</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="assignments-list" id="assignments-list">
+                <!-- Sent Assignment -->
+                <div class="assignment-card sent">
+                    <div class="assignment-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="assignment-content">
+                        <h3 class="assignment-title">የዩኒቨርሲቲ መግቢያ ፈተና ዝግጅት - ትምህርት 1</h3>
+                        <div class="assignment-details">
+                            <div class="assignment-detail">
+                                <i class="fas fa-book"></i> ሂሳብ
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-users"></i> 12 ሀ, 12 ለ
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-calendar-alt"></i> መጨረሻ ቀን: ሐምሌ 20, 2016
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-star"></i> 10 ነጥብ
+                            </div>
+                        </div>
+                        <p class="assignment-description">
+                            የዩኒቨርሲቲ መግቢያ ፈተና ዝግጅት ለማስጀመር የተዘጋጀ የቤት ስራ። ይህ የመጀመሪያው ክፍል ሲሆን ተማሪዎች አስፈላጊ ጽንሰ-ሃሳቦችን እንዲያዳብሩ ይረዳቸዋል።
+                        </p>
+                        <div class="assignment-meta">
+                            <div class="assignment-status">
+                                <span class="status-indicator status-sent"></span> ተልኳል
+                            </div>
+                            <div class="assignment-submitted">
+                                87/92 ተማሪዎች ያስገቡ (95%)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="assignment-actions">
+                        <div class="assignment-action" title="አስተካክል">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="assignment-action" title="ቅጂ ፍጠር">
+                            <i class="far fa-copy"></i>
+                        </div>
+                        <div class="assignment-action" title="ሰርዝ">
+                            <i class="far fa-trash-alt"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sent Assignment -->
+                <div class="assignment-card sent">
+                    <div class="assignment-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="assignment-content">
+                        <h3 class="assignment-title">የዩኒቨርሲቲ ትምህርት መሰረታዊ ፅንሰ ሀሳቦች</h3>
+                        <div class="assignment-details">
+                            <div class="assignment-detail">
+                                <i class="fas fa-book"></i> ባዮሎጂ
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-users"></i> ሁሉም ክፍሎች
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-calendar-alt"></i> መጨረሻ ቀን: ሐምሌ 15, 2016
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-star"></i> 15 ነጥብ
+                            </div>
+                        </div>
+                        <p class="assignment-description">
+                            ተማሪዎች ለዩኒቨርሲቲ ትምህርት የሚያስፈልጉ መሰረታዊ ፅንሰ ሀሳቦችን እንዲያውቁ የሚረዳ ሰፊ የቤት ስራ
+                        </p>
+                        <div class="assignment-meta">
+                            <div class="assignment-status">
+                                <span class="status-indicator status-sent"></span> ተልኳል
+                            </div>
+                            <div class="assignment-submitted">
+                                210/230 ተማሪዎች ያስገቡ (91%)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="assignment-actions">
+                        <div class="assignment-action" title="አስተካክል">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="assignment-action" title="ቅጂ ፍጠር">
+                            <i class="far fa-copy"></i>
+                        </div>
+                        <div class="assignment-action" title="ሰርዝ">
+                            <i class="far fa-trash-alt"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Draft Assignment -->
+                <div class="assignment-card draft">
+                    <div class="assignment-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="assignment-content">
+                        <h3 class="assignment-title">የሚያሳሰቡ የኬሚስትሪ ጥያቄዎች - ክፍል 2</h3>
+                        <div class="assignment-details">
+                            <div class="assignment-detail">
+                                <i class="fas fa-book"></i> ኬሚስትሪ
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-users"></i> 12 ሀ, 12 ለ
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-calendar-alt"></i> ረቂቅ
+                            </div>
+                            <div class="assignment-detail">
+                                <i class="fas fa-star"></i> 20 ነጥብ
+                            </div>
+                        </div>
+                        <p class="assignment-description">
+                            ለሚቀጥለው ሳምንት የተዘጋጀ ከባድ የኬሚስትሪ ፈተና ጥያቄዎች። አሁንም ለተጨማሪ ጥያቄዎች ማሻሻያ ያስፈልጋል።
+                        </p>
+                        <div class="assignment-meta">
+                            <div class="assignment-status">
+                                <span class="status-indicator status-draft"></span> ረቂቅ
+                            </div>
+                            <div class="assignment-submitted">
+                                ታትሟል: ሐምሌ 5, 2016
+                            </div>
+                        </div>
+                    </div>
+                    <div class="assignment-actions">
+                        <div class="assignment-action" title="አስተካክል">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="assignment-action" title="ላክ">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div class="assignment-action" title="ሰርዝ">
+                            <i class="far fa-trash-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <div class="pagination-item">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="pagination-item active">1</div>
+                <div class="pagination-item">2</div>
+                <div class="pagination-item">3</div>
+                <div class="pagination-item">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="fab">
+            <a href="create-assignment.html" class="btn btn-fab">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle filter changes
+            const filterInputs = document.querySelectorAll('.filter-container select');
+            filterInputs.forEach(filter => {
+                filter.addEventListener('change', function() {
+                    filterAssignments();
+                });
+            });
+            
+            function filterAssignments() {
+                const subject = document.getElementById('filter-subject').value;
+                const classFilter = document.getElementById('filter-class').value;
+                const status = document.getElementById('filter-status').value;
+                const date = document.getElementById('filter-date').value;
+                
+                console.log('Filtering assignments:', { subject, class: classFilter, status, date });
+                
+                // This would normally filter the assignments based on the selected criteria
+                // For now, just show a message
+                const assignmentCards = document.querySelectorAll('.assignment-card');
+                
+                // Simple filtering logic for demo purposes
+                assignmentCards.forEach(card => {
+                    let show = true;
+                    
+                    // Filter by status
+                    if (status !== 'all') {
+                        if (status === 'sent' && !card.classList.contains('sent')) {
+                            show = false;
+                        } else if (status === 'draft' && !card.classList.contains('draft')) {
+                            show = false;
+                        }
+                    }
+                    
+                    card.style.display = show ? 'flex' : 'none';
+                });
+            }
+            
+            // Handle assignment card clicks
+            const assignmentCards = document.querySelectorAll('.assignment-card');
+            assignmentCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't navigate if clicking on action buttons
+                    if (e.target.closest('.assignment-actions')) {
+                        return;
+                    }
+                    
+                    // Navigate to assignment detail page
+                    // window.location.href = 'assignment-detail.html';
+                    alert('ወደ የቤት ስራ ዝርዝር ገጽ በመሄድ ላይ (ንድፍ ብቻ)');
+                });
+            });
+            
+            // Handle action buttons
+            const actionButtons = document.querySelectorAll('.assignment-action');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent card click
+                    
+                    const action = this.getAttribute('title');
+                    const assignmentTitle = this.closest('.assignment-card').querySelector('.assignment-title').textContent;
+                    
+                    switch(action) {
+                        case 'አስተካክል':
+                            // window.location.href = 'edit-assignment.html';
+                            alert(`"${assignmentTitle}" በማስተካከል ላይ (ንድፍ ብቻ)`);
+                            break;
+                        case 'ቅጂ ፍጠር':
+                            alert(`"${assignmentTitle}" ቅጂ በመፍጠር ላይ (ንድፍ ብቻ)`);
+                            break;
+                        case 'ሰርዝ':
+                            if (confirm(`"${assignmentTitle}" መሰረዝ ትፈልጋለህ?`)) {
+                                // Delete the assignment
+                                this.closest('.assignment-card').remove();
+                            }
+                            break;
+                        case 'ላክ':
+                            if (confirm(`"${assignmentTitle}" ለተማሪዎች መላክ ትፈልጋለህ?`)) {
+                                // Send the assignment
+                                this.closest('.assignment-card').classList.remove('draft');
+                                this.closest('.assignment-card').classList.add('sent');
+                                
+                                // Update status indicator
+                                const statusElement = this.closest('.assignment-card').querySelector('.assignment-status');
+                                statusElement.innerHTML = '<span class="status-indicator status-sent"></span> ተልኳል';
+                                
+                                // Update actions
+                                this.innerHTML = '<i class="fas fa-pen"></i>';
+                                this.setAttribute('title', 'አስተካክል');
+                            }
+                            break;
+                    }
+                });
+            });
+            
+            // Handle pagination
+            const paginationItems = document.querySelectorAll('.pagination-item');
+            paginationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('active')) return;
+                    
+                    paginationItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // This would normally paginate the assignments
+                    // For now, just show a message
+                    const page = this.textContent;
+                    if (page && !isNaN(page)) {
+                        alert(`ወደ ገጽ ${page} በመሄድ ላይ (ንድፍ ብቻ)`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

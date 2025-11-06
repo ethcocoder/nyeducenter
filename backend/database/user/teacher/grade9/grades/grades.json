@@ -1,0 +1,57 @@
+[
+  {
+    "id": "1744369278229",
+    "username": "natikiyu7203",
+    "password": "$2b$10$gA6nxHwxx122/V6lLBwwuOPNX6SrMOahXH6u7TJjek030yyNxB6AK",
+    "fullName": "nati ermi",
+    "email": "natikiyu7@gmail.com",
+    "role": "teacher",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:01:18.229Z",
+    "updatedAt": "2025-04-11T11:01:18.229Z"
+  },
+  {
+    "id": "1744369844394",
+    "username": "natikiyu6335",
+    "password": "$2b$10$PbR.owuvlaC7fwhTfCBoXeYcahnJbRbSWb7yTjCBjOVvhL32FcTm6",
+    "fullName": "nati ermi",
+    "email": "natikiyu6@gmail.com",
+    "role": "teacher",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:10:44.394Z",
+    "updatedAt": "2025-04-11T11:10:44.394Z"
+  },
+  {
+    "id": "1744371007114",
+    "username": "natikiyu1911",
+    "password": "$2b$10$4OuTSfkacIH/8QQ3LrDY0ul4gDHrbJnacrzhvWVtSdUIGxJUkqe1y",
+    "fullName": "nati ermi",
+    "email": "natikiyu1@gmail.com",
+    "role": "teacher",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:30:07.114Z",
+    "updatedAt": "2025-04-11T11:30:07.114Z"
+  },
+  {
+    "id": "1744371752352",
+    "username": "natikiyu2418",
+    "password": "$2b$10$jRMRdBHoxEQ5Nu8s8HexWue467UAl9cBJbZpzpb8lrGzIYEh5odn2",
+    "fullName": "nati ermi",
+    "email": "natikiyu2@gmail.com",
+    "role": "teacher",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:42:32.352Z",
+    "updatedAt": "2025-04-11T11:42:32.352Z"
+  },
+  {
+    "id": "1744372205884",
+    "username": "natikiyu11434",
+    "password": "$2b$10$S47yEvy0c6gwm16jOQ7Ai.wvH2aX.vel3hWYVP/z.twTaY4FGCZRe",
+    "fullName": "nati ermi",
+    "email": "natikiyu11@gmail.com",
+    "role": "teacher",
+    "grade": "9",
+    "createdAt": "2025-04-11T11:50:05.884Z",
+    "updatedAt": "2025-04-11T11:50:05.884Z"
+  }
+]

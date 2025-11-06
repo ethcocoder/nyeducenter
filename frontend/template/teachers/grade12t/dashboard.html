@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትምህርት ማህበረሰብ | የ12ኛ ክፍል መምህር ዳሽቦርድ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        /* Page-specific styles only */
+        .greeting {
+            margin-bottom: 30px;
+        }
+        
+        .greeting-title {
+            font-size: 28px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .greeting-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .schedule-time {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 14px;
+            padding: 10px 0;
+        }
+        
+        .schedule-class {
+            background-color: rgba(66, 133, 244, 0.1);
+            border-left: 3px solid var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .schedule-class-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .schedule-class-details {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .notification-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+            color: white;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .notification-time {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">የትምህርት ማህበረሰብ</div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Teacher&background=4285f4&color=fff" alt="Teacher" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">መምህር</div>
+                    <div class="user-role">የ<span class="grade-title">12ኛ</span> ክፍል</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ዋና ገጾች</div>
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>ዳሽቦርድ</span>
+            </a>
+            <a href="create-assignment.html" class="menu-item" data-page="create-assignment">
+                <i class="fas fa-tasks"></i>
+                <span>የቤት ስራ መፍጠር</span>
+            </a>
+            <a href="send-assignment.html" class="menu-item" data-page="send-assignment">
+                <i class="fas fa-paper-plane"></i>
+                <span>የቤት ስራ መላክ</span>
+            </a>
+            <a href="create-quiz.html" class="menu-item" data-page="create-quiz">
+                <i class="fas fa-edit"></i>
+                <span>ፈተና መፍጠር</span>
+            </a>
+            <a href="send-quiz.html" class="menu-item" data-page="send-quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>ፈተና መላክ</span>
+            </a>
+            <a href="create-course.html" class="menu-item" data-page="create-course">
+                <i class="fas fa-book"></i>
+                <span>ኮርስ መፍጠር</span>
+            </a>
+            <a href="send-course.html" class="menu-item" data-page="send-course">
+                <i class="fas fa-book-reader"></i>
+                <span>ኮርስ መላክ</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ማህበረሰብ</div>
+            <a href="../share/forum.html" class="menu-item" data-page="forum">
+                <i class="fas fa-comments"></i>
+                <span>ውይይት መድረክ</span>
+            </a>
+            <a href="../share/announcement.html" class="menu-item" data-page="announcement">
+                <i class="fas fa-bullhorn"></i>
+                <span>ማስታወቂያዎች</span>
+            </a>
+            <a href="chat.html" class="menu-item" data-page="chat">
+                <i class="fas fa-envelope"></i>
+                <span>መልእክቶች</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">ተጨማሪ</div>
+            <a href="help.html" class="menu-item" data-page="help">
+                <i class="fas fa-question-circle"></i>
+                <span>እገዛ</span>
+            </a>
+            <a href="setting.html" class="menu-item" data-page="setting">
+                <i class="fas fa-cog"></i>
+                <span>ሴቲንግ</span>
+            </a>
+            <a href="../../index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ውጣ</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+        </div>
+    
+    <div id="navigation-placeholder"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-title">የ12ኛ ክፍል መምህር ዳሽቦርድ</div>
+            <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-count">4</span>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="greeting">
+                <h1 class="greeting-title">እንኳን ደህና መጡ, መምህር!</h1>
+                <p class="greeting-subtitle date-display">ሰኞ, ሚያዝያ 24, 2023</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="stats-card primary">
+                    <div class="stats-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stats-value">195</div>
+                    <div class="stats-label">ተማሪዎች</div>
+                    <div class="stats-trend up">
+                        <i class="fas fa-arrow-up"></i> 5% ከባለፈው ወር
+                    </div>
+                </div>
+                
+                <div class="stats-card secondary">
+                    <div class="stats-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stats-value">34</div>
+                    <div class="stats-label">የቤት ስራዎች</div>
+                    <div class="stats-trend up">
+                        <i class="fas fa-arrow-up"></i> 12% ከባለፈው ወር
+                    </div>
+                </div>
+                
+                <div class="stats-card accent">
+                    <div class="stats-icon">
+                        <i class="fas fa-chalkboard"></i>
+                    </div>
+                    <div class="stats-value">8</div>
+                    <div class="stats-label">ክፍለ ጊዜዎች</div>
+                    <div class="stats-trend">
+                        <i class="fas fa-minus"></i> ለውጥ የለም
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-row">
+                <div class="card">
+                    <div class="card-header d-flex justify-between align-center">
+                        <h2>የዛሬ የጊዜ ሰሌዳ</h2>
+                        <a href="#" class="btn-text view-all-btn" data-section="የጊዜ ሰሌዳ">
+                            <i class="fas fa-external-link-alt"></i> ሁሉንም ይመልከቱ
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="schedule-grid">
+                            <div class="schedule-time">8:30 - 9:45</div>
+                            <div class="schedule-class">
+                                <div class="schedule-class-title">ሂሳብ (ፕሮባቢሊቲ)</div>
+                                <div class="schedule-class-details">12 'ሀ' ክፍል, 201 ክፍል</div>
+                            </div>
+                            <div class="schedule-time">10:00 - 11:15</div>
+                            <div class="schedule-class">
+                                <div class="schedule-class-title">ሂሳብ (ስታቲስቲክስ)</div>
+                                <div class="schedule-class-details">12 'ለ' ክፍል, 203 ክፍል</div>
+                            </div>
+                            <div class="schedule-time">11:30 - 12:45</div>
+                            <div class="schedule-class">
+                                <div class="schedule-class-title">ፊዚክስ (ምህንድስና)</div>
+                                <div class="schedule-class-details">12 'ሐ' ክፍል, ላቦራቶሪ</div>
+                            </div>
+                            <div class="schedule-time">2:00 - 3:15</div>
+                            <div class="schedule-class">
+                                <div class="schedule-class-title">ኬሚስትሪ (ኦርጋኒክ)</div>
+                                <div class="schedule-class-details">12 'መ' ክፍል, ላቦራቶሪ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header d-flex justify-between align-center">
+                        <h2>ማሳወቂያዎች</h2>
+                        <a href="#" class="btn-text view-all-btn" data-section="ማሳወቂያዎች">
+                            <i class="fas fa-external-link-alt"></i> ሁሉንም ይመልከቱ
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="notification-list">
+                            <li class="notification-item">
+                                <div class="notification-icon bg-danger">
+                                    <i class="fas fa-exclamation"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">የዓመት መጨረሻ ፈተና ዝግጅት</div>
+                                    <div class="notification-time">ዛሬ, 9:30 AM</div>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon bg-primary">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">የኮሌጅ ዝግጅት ሴሚናር</div>
+                                    <div class="notification-time">ነገ, 10:00 AM</div>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon bg-success">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">የተማሪዎች ውጤት መግለጫ ዝግጅት</div>
+                                    <div class="notification-time">ሜይ 26, 2023</div>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon bg-secondary">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">የምረቃ ዝግጅት ስብሰባ</div>
+                                    <div class="notification-time">ሜይ 28, 2023</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header d-flex justify-between align-center">
+                    <h2>የቅርብ ጊዜ እንቅስቃሴዎች</h2>
+                    <a href="#" class="btn-text view-all-btn" data-section="እንቅስቃሴዎች">
+                        <i class="fas fa-external-link-alt"></i> ሁሉንም ይመልከቱ
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ዓይነት</th>
+                                    <th>ርዕስ</th>
+                                    <th>ቀን</th>
+                                    <th>ማወቅያ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable" data-id="1" data-type="ፈተና">
+                                    <td><span class="badge badge-primary">ፈተና</span></td>
+                                    <td>የፊዚክስ የሙከራ ፈተና</td>
+                                    <td>ሜይ 22, 2023</td>
+                                    <td>147 ተቀባዮች</td>
+                                </tr>
+                                <tr class="clickable" data-id="2" data-type="የቤት ስራ">
+                                    <td><span class="badge badge-secondary">የቤት ስራ</span></td>
+                                    <td>የኬሚስትሪ የመጨረሻ ፕሮጀክት</td>
+                                    <td>ሜይ 20, 2023</td>
+                                    <td>156 ተቀባዮች</td>
+                                </tr>
+                                <tr class="clickable" data-id="3" data-type="ማሳሰቢያ">
+                                    <td><span class="badge badge-info">ማሳሰቢያ</span></td>
+                                    <td>የጉብኝት ፈቃድ ቅጽ ማሳወቂያ</td>
+                                    <td>ሜይ 18, 2023</td>
+                                    <td>ሁሉም ክፍሎች</td>
+                                </tr>
+                                <tr class="clickable" data-id="4" data-type="ስብሰባ">
+                                    <td><span class="badge badge-warning">ስብሰባ</span></td>
+                                    <td>የመምህራን ስብሰባ ቃለ ጉባኤ</td>
+                                    <td>ሜይ 15, 2023</td>
+                                    <td>መምህራን ሁሉ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Add reference to the utils.js file -->
+    <script src="../../js/utils.js"></script>
+</body>
+</html> 
