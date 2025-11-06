@@ -1,5 +1,5 @@
 # NY Education Center Application
-#developed ny ethco coders
+#developed by ethco coders
 A comprehensive education management platform for teachers and students, providing course management, quiz creation, assignment submission, and student progress tracking.
 
 ## Features
