@@ -1,0 +1,15 @@
+{
+  "name": "edun-elearning-system",
+  "version": "1.0.0",
+  "description": "Ethiopian Digital University Network Learning System",
+  "scripts": {
+    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "install-deps": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2"
+  }
+}

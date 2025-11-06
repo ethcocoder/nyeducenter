@@ -1,0 +1,51 @@
+[
+  {
+    "firstName": "Admin",
+    "lastName": "User",
+    "email": "admin@edun.edu",
+    "password": "$2a$10$SypJbgFohRgo5FJWfbk2leDTWftkif3N96zKFpiYOYSpch2EC1kJC",
+    "role": "admin",
+    "profilePicture": "https://i.pravatar.cc/150?img=1",
+    "preferredLanguage": "en",
+    "id": "38f4a84a-4ea9-4060-b6f8-0ad1ea74d059",
+    "createdAt": "2025-05-19T07:42:15.167Z",
+    "updatedAt": "2025-05-19T07:42:15.168Z"
+  },
+  {
+    "firstName": "Teacher",
+    "lastName": "User",
+    "email": "teacher@edun.edu",
+    "password": "$2a$10$SypJbgFohRgo5FJWfbk2leDTWftkif3N96zKFpiYOYSpch2EC1kJC",
+    "role": "teacher",
+    "profilePicture": "https://i.pravatar.cc/150?img=2",
+    "preferredLanguage": "en",
+    "id": "640b8ee1-54b6-4f8a-8b39-1999ccb7a547",
+    "createdAt": "2025-05-19T07:42:15.168Z",
+    "updatedAt": "2025-05-19T07:42:15.168Z"
+  },
+  {
+    "firstName": "Student",
+    "lastName": "User",
+    "email": "student@edun.edu",
+    "password": "$2a$10$SypJbgFohRgo5FJWfbk2leDTWftkif3N96zKFpiYOYSpch2EC1kJC",
+    "role": "student",
+    "grade": 10,
+    "profilePicture": "https://i.pravatar.cc/150?img=3",
+    "preferredLanguage": "en",
+    "id": "fe9d4686-cfcb-408d-9ca1-0945f8e239a8",
+    "createdAt": "2025-05-19T07:42:15.169Z",
+    "updatedAt": "2025-05-19T07:42:15.169Z"
+  },
+  {
+    "firstName": "Parent",
+    "lastName": "User",
+    "email": "parent@edun.edu",
+    "password": "$2a$10$SypJbgFohRgo5FJWfbk2leDTWftkif3N96zKFpiYOYSpch2EC1kJC",
+    "role": "parent",
+    "profilePicture": "https://i.pravatar.cc/150?img=4",
+    "preferredLanguage": "en",
+    "id": "27fde8b4-a9d6-40ba-b718-efbbd1b23f7d",
+    "createdAt": "2025-05-19T07:42:15.169Z",
+    "updatedAt": "2025-05-19T07:42:15.169Z"
+  }
+]

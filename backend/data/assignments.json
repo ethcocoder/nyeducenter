@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Algebra Homework 1",
+    "description": "Complete problems 1-10 from Chapter 2.",
+    "courseId": "97699f00-dc28-458d-9c23-c1d70cca7b31",
+    "dueDate": "2025-05-26T07:42:15.171Z",
+    "points": 100,
+    "id": "61302e4c-cad4-46b6-a231-05cbc9dc8f06",
+    "createdAt": "2025-05-19T07:42:15.171Z",
+    "updatedAt": "2025-05-19T07:42:15.171Z"
+  },
+  {
+    "title": "Physics Lab Report",
+    "description": "Write a report on the pendulum experiment.",
+    "courseId": "e59dde5e-eeaf-4396-919e-af95e577aea8",
+    "dueDate": "2025-06-02T07:42:15.171Z",
+    "points": 150,
+    "id": "7ab5e9d6-356e-46d8-acc9-033b74e96df3",
+    "createdAt": "2025-05-19T07:42:15.172Z",
+    "updatedAt": "2025-05-19T07:42:15.172Z"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Welcome to the New Semester!",
+    "content": "Welcome to the new academic year. We are excited to begin our learning journey together.",
+    "author": "640b8ee1-54b6-4f8a-8b39-1999ccb7a547",
+    "priority": "high",
+    "id": "019661ed-a4d7-46a2-8d44-83e72d8ef132",
+    "createdAt": "2025-05-19T07:42:15.173Z",
+    "updatedAt": "2025-05-19T07:42:15.173Z"
+  },
+  {
+    "title": "School Holiday Announcement",
+    "content": "Please note that the school will be closed next Monday for the national holiday.",
+    "author": "640b8ee1-54b6-4f8a-8b39-1999ccb7a547",
+    "priority": "medium",
+    "id": "232fc39c-83e8-456e-b022-e7c684822a59",
+    "createdAt": "2025-05-19T07:42:15.173Z",
+    "updatedAt": "2025-05-19T07:42:15.173Z"
+  }
+]
