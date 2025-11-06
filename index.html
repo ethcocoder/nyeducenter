@@ -1,1317 +1,791 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ethco Coders - A collective of four visionary Ethiopian software engineers creating ethical, scalable solutions for local and global challenges. Est. 2025.">
-    <meta name="keywords" content="Ethiopian software engineers, web development, mobile apps, AI, Ethiopia tech, software development">
-    <meta name="author" content="Ethco Coders">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Ethco Coders | Ethiopian Young Software Engineers">
-    <meta property="og:description" content="Building Ethiopia's Digital Future - A collective of visionary Ethiopian software engineers.">
-    
-    <title>Ethco Coders | Ethiopian Young Software Engineers</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Three.js for 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>Gulelekfle Ketema Wereda 4 No 2 Youth Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-          :root {
-            --ethiopian-green: #078930;
-            --ethiopian-yellow: #fcdd09;
-            --ethiopian-red: #da121a;
-            --dark-blue: #0a192f;
-            --light-blue: #64ffda;
-            --off-white: #ccd6f6;
-            --dark-gray: #112240;
-            --card-bg: rgba(10, 25, 47, 0.7);
-            --gradient-primary: linear-gradient(135deg, var(--ethiopian-green), var(--ethiopian-yellow), var(--ethiopian-red));
-            --gradient-secondary: linear-gradient(90deg, var(--ethiopian-green), var(--ethiopian-yellow));
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --accent-light: #fbbf24;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --white: #ffffff;
+            --success: #10b981;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--dark-blue);
-            color: var(--off-white);
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--secondary);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background-attachment: fixed;
             overflow-x: hidden;
             position: relative;
         }
-        
+
         body::before {
             content: '';
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(100, 255, 218, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(7, 137, 48, 0.05) 0%, transparent 20%);
+            background: radial-gradient(circle at 10% 20%, rgba(30, 64, 175, 0.05) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 20%);
+            pointer-events: none;
             z-index: -1;
         }
-        
-        h1, h2, h3, h4, h5 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+
+        .ethiopic {
+            font-family: 'Noto Sans Ethiopic', sans-serif;
         }
-        
-        .container {
-            max-width: 1200px;
-        }
-        
-        /* Navigation */
-        .navbar {
-            background: rgba(10, 25, 47, 0.95) !important;
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(100, 255, 218, 0.15);
-            padding: 1.2rem 0;
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
             position: fixed;
-            width: 100%;
             top: 0;
+            width: 100%;
             z-index: 1000;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
         }
-        
-        .navbar-brand {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1.9rem;
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -0.5px;
         }
-        
-        .nav-link {
-            color: var(--off-white) !important;
-            margin: 0 0.8rem;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 600;
             font-size: 1.05rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
         }
-        
-        .nav-link:hover {
-            color: var(--light-blue) !important;
+
+        nav a:hover {
+            color: var(--primary);
         }
-        
-        .nav-link::after {
+
+        nav a::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: 0;
             left: 0;
             width: 0;
-            height: 2px;
-            background: var(--light-blue);
-            transition: width 0.3s ease;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: var(--transition);
         }
-        
-        .nav-link:hover::after {
+
+        nav a:hover::after {
             width: 100%;
         }
-        
+
+        .header-btn {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            border: none;
+            box-shadow: var(--shadow);
+            letter-spacing: 0.5px;
+        }
+
+        .header-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            filter: brightness(1.1);
+        }
+
         /* Hero Section */
         .hero {
             padding: 10rem 0 6rem;
+            margin-top: 80px;
             position: relative;
             overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
         }
-        
-        #hero-canvas {
+
+        .hero::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            opacity: 0.1;
+            z-index: -1;
         }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            text-align: center;
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            opacity: 0.08;
+            z-index: -1;
+        }
+
+        .hero-container {
+            max-width: 1400px;
             margin: 0 auto;
-        }
-        
-        .hero h1 {
-            font-size: 4.2rem;
-            line-height: 1.1;
-            margin-bottom: 1.8rem;
-            background: linear-gradient(to right, var(--off-white), var(--light-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
-        }
-        
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            max-width: 700px;
-            color: rgba(204, 214, 246, 0.9);
-        }
-        
-        .ethiopian-flag {
-            display: flex;
-            height: 50px;
-            width: 150px;
-            margin: 2rem auto;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        
-        .flag-green { background-color: var(--ethiopian-green); height: 33.33%; }
-        .flag-yellow { background-color: var(--ethiopian-yellow); height: 33.33%; }
-        .flag-red { background-color: var(--ethiopian-red); height: 33.33%; }
-        
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white !important;
-            border: none;
-            padding: 1rem 2.5rem;
-            font-weight: 600;
-            border-radius: 6px;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(100, 255, 218, 0.6);
-            background: linear-gradient(135deg, var(--ethiopian-red), var(--ethiopian-yellow), var(--ethiopian-green));
-        }
-        
-        /* Floating Elements */
-        .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.15) 0%, transparent 70%);
-            z-index: 0;
-        }
-        
-        /* Section Styling */
-        section {
-            padding: 8rem 0;
-            position: relative;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 5rem;
-            position: relative;
-        }
-        
-        .section-title h2 {
-            font-size: 3rem;
-            display: inline-block;
-            background: linear-gradient(to right, var(--off-white), var(--light-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
+            padding: 0 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
             position: relative;
             z-index: 2;
         }
-        
-        .section-title::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, transparent 70%);
-            z-index: 1;
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
         }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: var(--gradient-primary);
-            border-radius: 2px;
-        }
-        
-        /* About Section */
-        .about-content {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 3rem;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            margin-top: 2.5rem;
-        }
-        
-        .value-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(17, 34, 64, 0.6);
-            border-radius: 12px;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .value-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            background: rgba(17, 34, 64, 0.8);
-            border-color: var(--light-blue);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-        
-        .value-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient-primary);
-        }
-        
-        .value-icon {
-            font-size: 3rem;
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
             margin-bottom: 1.5rem;
-            background: var(--gradient-primary);
+            line-height: 1.1;
+            color: var(--secondary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        /* Team Section */
-        .team-member {
-            background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            height: 100%;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+        .hero-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            line-height: 1.2;
         }
-        
-        .team-member:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            border-color: var(--light-blue);
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            color: var(--gray);
+            max-width: 600px;
         }
-        
-        .member-img {
-            height: 280px;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: var(--gradient-primary);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: var(--transition);
+            margin-top: 1.5rem;
+            border: none;
+            box-shadow: var(--shadow-lg);
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            filter: brightness(1.1);
+        }
+
+        .hero-image {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 6rem;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(45deg, var(--primary-light), var(--accent-light));
+            animation: float 6s ease-in-out infinite;
         }
-        
-        .member-img::after {
+
+        .hero-image::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.9));
+            background: linear-gradient(45deg, rgba(30, 64, 175, 0.2), rgba(245, 158, 11, 0.2));
         }
-        
-        .member-info {
-            padding: 2rem;
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
         }
-        
-        .member-name {
-            font-size: 1.6rem;
-            margin-bottom: 0.8rem;
-            background: linear-gradient(to right, var(--off-white), var(--light-blue));
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2.5rem 6rem;
+        }
+
+        .section-content {
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+
+        .section-content:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .section-content h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
         }
-        
-        .member-role {
-            color: var(--ethiopian-yellow);
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            display: block;
-            font-size: 1.1rem;
+
+        .section-content p {
+            margin-bottom: 1.25rem;
+            font-size: 1.125rem;
+            color: var(--gray);
+            line-height: 1.8;
         }
-        
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
+
+        .section-content ul {
+            list-style: none;
+            padding-left: 0;
             margin-top: 1.5rem;
         }
-        
-        .skill-tag {
-            background: rgba(100, 255, 218, 0.15);
-            color: var(--light-blue);
-            padding: 0.5rem 1.2rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(100, 255, 218, 0.3);
-        }
-        
-        .skill-tag:hover {
-            background: rgba(100, 255, 218, 0.3);
-            transform: translateY(-3px);
-        }
-        
-        /* Projects Section */
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            height: 100%;
+
+        .section-content li {
+            padding: 1.25rem 0 1.25rem 2rem;
             position: relative;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            font-size: 1.125rem;
+            color: var(--gray);
+            line-height: 1.6;
+            border-bottom: 1px solid var(--light-gray);
         }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--light-blue);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .project-img {
-            height: 220px;
-            background: linear-gradient(45deg, #1a3a5f, #2a5a7f);
+
+        .section-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            color: var(--white);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 5rem;
-            position: relative;
+            font-size: 0.875rem;
+            font-weight: bold;
         }
-        
-        .project-img::after {
+
+        .section-content li:last-child {
+            border-bottom: none;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            color: var(--white);
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .cta-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(10, 25, 47, 0.6), rgba(10, 25, 47, 0.8));
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
         }
-        
-        .project-info {
-            padding: 2rem;
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
         }
-        
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 1.5rem 0;
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-weight: 800;
         }
-        
-        .tech-tag {
-            background: rgba(17, 34, 64, 0.8);
-            padding: 0.5rem 1.2rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(100, 255, 218, 0.4);
-            transition: all 0.3s ease;
+
+        .cta-section p {
+            margin-bottom: 2.5rem;
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
         }
-        
-        .tech-tag:hover {
-            background: rgba(100, 255, 218, 0.2);
-            border-color: var(--light-blue);
-        }
-        
-        /* Contact Section */
-        .contact-form {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 3rem;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .form-control {
-            background: rgba(17, 34, 64, 0.6);
-            border: 1px solid rgba(100, 255, 218, 0.3);
-            color: var(--off-white);
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus {
-            background: rgba(17, 34, 64, 0.8);
-            border-color: var(--light-blue);
-            color: var(--off-white);
-            box-shadow: 0 0 0 0.25rem rgba(100, 255, 218, 0.3);
-            outline: none;
-        }
-        
-        textarea.form-control {
-            min-height: 180px;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--dark-gray);
-            padding: 4rem 0 2rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.2);
-            position: relative;
-        }
-        
-        .social-links {
+
+        .cta-form {
             display: flex;
             gap: 1.5rem;
-            margin-top: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            flex-wrap: wrap;
             justify-content: center;
         }
-        
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: rgba(100, 255, 218, 0.15);
-            color: var(--light-blue);
-            transition: all 0.4s ease;
-            font-size: 1.4rem;
-            border: 1px solid rgba(100, 255, 218, 0.3);
+
+        .cta-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius);
+            font-size: 1.125rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
         }
-        
-        .social-link:hover {
-            background: var(--light-blue);
-            color: var(--dark-blue);
-            transform: translateY(-5px) rotate(10deg);
-            box-shadow: 0 8px 20px rgba(100, 255, 218, 0.5);
-            border-color: var(--light-blue);
+
+        .cta-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
-        
-        .copyright {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.2);
+
+        .cta-form input:focus {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .cta-form button {
+            background: var(--gradient-accent);
+            color: var(--secondary);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            letter-spacing: 0.5px;
+        }
+
+        .cta-form button:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            filter: brightness(1.1);
+        }
+
+        /* Footer */
+        footer {
             text-align: center;
-            font-size: 1rem;
-            color: rgba(204, 214, 246, 0.8);
+            padding: 3rem;
+            background: var(--secondary);
+            color: var(--white);
+            border-radius: var(--radius-lg);
+            margin-top: 2rem;
+            box-shadow: var(--shadow-lg);
         }
-        
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 3.2rem;
+        @media (max-width: 1024px) {
+            .hero-container {
+                gap: 3rem;
             }
-            .section-title h2 {
-                font-size: 2.5rem;
+            
+            .hero-content h1 {
+                font-size: 2.75rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-image {
+                height: 450px;
             }
         }
-        
+
         @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem 1.5rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: 0.95rem;
+            }
+            
             .hero {
                 padding: 8rem 0 4rem;
             }
-            .hero h1 {
-                font-size: 2.6rem;
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2.5rem;
+                padding: 0 1.5rem;
             }
-            .navbar-nav {
-                margin-top: 1.5rem;
+            
+            .hero-content {
+                order: 2;
             }
-            .section-title h2 {
-                font-size: 2.2rem;
+            
+            .hero-image {
+                order: 1;
+                height: 350px;
             }
-            section {
-                padding: 6rem 0;
+            
+            .hero-content h1 {
+                font-size: 2.25rem;
             }
-            .ethiopian-flag {
-                height: 40px;
-                width: 120px;
+            
+            .hero-content h2 {
+                font-size: 1.75rem;
             }
-        }
-        
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2.2rem;
+            
+            .container {
+                padding: 3rem 1.5rem 4rem;
             }
-            .btn-primary {
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
-            }
-            section {
-                padding: 5rem 0;
-            }
-            .about-content, .contact-form {
+            
+            .section-content {
                 padding: 2rem;
             }
-            .member-img {
-                height: 220px;
-                font-size: 4.5rem;
+            
+            .section-content h2 {
+                font-size: 1.875rem;
+            }
+            
+            .cta-section {
+                padding: 3rem 1.5rem;
+            }
+            
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+            
+            .cta-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-form input {
+                width: 100%;
+                max-width: 350px;
             }
         }
-        
-        /* Advanced Animations */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(100, 255, 218, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 6rem 0 3rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.875rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.125rem;
+            }
+            
+            .hero-image {
+                height: 280px;
+            }
+            
+            .section-content {
+                padding: 1.5rem;
+            }
+            
+            .section-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .section-content p {
+                font-size: 1rem;
+            }
+            
+            .section-content li {
+                font-size: 1rem;
+                padding: 1rem 0 1rem 1.5rem;
+            }
+            
+            .btn, .header-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            footer {
+                padding: 2rem 1rem;
+                font-size: 0.9rem;
+            }
         }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--light-blue);
-        }
-        
-        .scroll-text {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        
-        .scroll-arrow {
-            width: 30px;
-            height: 30px;
-            border-right: 2px solid var(--light-blue);
-            border-bottom: 2px solid var(--light-blue);
-            transform: rotate(45deg);
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); }
-            40% { transform: translateY(-10px) rotate(45deg); }
-            60% { transform: translateY(-5px) rotate(45deg); }
-        }
-        
-        /* Tech Visualization */
-        .tech-viz {
-            height: 400px;
-            width: 100%;
-            margin: 3rem 0;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            background: rgba(10, 25, 47, 0.5);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-        }
-        
-        /* Interactive Elements */
-        .interactive-element {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--light-blue);
-            box-shadow: 0 0 15px var(--light-blue);
-            pointer-events: none;
-            z-index: 100;
-            transform: translate(-50%, -50%);
-            opacity: 0.7;
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .hero-image {
+                animation: none !important;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Elements -->
-    <div class="floating-element floating-1"></div>
-    <div class="floating-element floating-2"></div>
-    <div class="floating-element floating-3"></div>
-    
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">Ethco<span>Coders</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>
+    <header>
+        <div class="header-container">
+            <div class="logo">Youth Center</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="questionnaire.html">Questionnaire</a></li>
+                    <li><a href="admin_login.html">Admin Login</a></li>
                 </ul>
-            </div>
+            </nav>
+            <a href="#contact" class="header-btn">Get Involved</a>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <canvas id="hero-canvas"></canvas>
-        <div class="container">
+    <section id="home" class="hero">
+        <div class="hero-container">
             <div class="hero-content">
-                <div class="ethiopian-flag mx-auto pulse"></div>
-                <h1>Building Ethiopia's Digital Future</h1>
-                <p class="mx-auto">A collective of four visionary Ethiopian software engineers creating ethical, scalable solutions for local and global challenges. Est. 2025.</p>
-                <a href="#contact" class="btn btn-primary">Let's Collaborate</a>
-                <div class="scroll-indicator">
-                    <div class="scroll-text">SCROLL DOWN</div>
-                    <div class="scroll-arrow"></div>
-                </div>
+                <h1>Gulelekfle Ketema Wereda 4 No 1  Youth personality development Center</h1>
+                <h2 class="ethiopic">ጉለሌ ክፍለ ከተማ ወረዳ 4 ቁጥር 1 የወጣቶች ስብዕና መገንቢያ ማዕከል</h2>
+                <p>Empowering youth for a brighter future through education, skills development, and community engagement.</p>
+                <p class="ethiopic">ወጣቶችን ለበለጠ ብሩህ ተስፋ ማብቃት፣ ትምህርት፣ ክህሎት ልማት እና የማህበረሰብ ተሳትፎ በማድረግ።</p>
+                <a href="#about" class="btn">Learn More / ተጨማሪ ይወቁ</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://placehold.co/600x500/1e40af/white?text=Youth+Empowerment" alt="Youth engaging in educational and recreational activities">
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="bg-dark">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Ethco Coders</h2>
-            </div>
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="about-content">
-                        <p>Ethco Coders is a dynamic collective of four visionary Ethiopian software engineers, founded in 2025 with a mission to solve real-world problems through elegant, scalable, and ethical technology. Rooted in Ethiopia's rich culture of resilience and innovation, we bring fresh perspectives, cutting-edge technical skills, and unwavering dedication to every project we undertake.</p>
-                        <p class="mt-4">We believe that software is not just about functionality—it's about empowerment, accessibility, and impact. As young African technologists, we are committed to building digital solutions that uplift communities, drive local entrepreneurship, and position Ethiopia as a rising hub of tech excellence on the global stage.</p>
-                        
-                        <div class="tech-viz" id="tech-visualization"></div>
-                        
-                        <div class="values-grid mt-5">
-                            <div class="value-card">
-                                <div class="value-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <h5>Excellence</h5>
-                                <p>Clean, efficient, and maintainable code that stands the test of time</p>
-                            </div>
-                            <div class="value-card">
-                                <div class="value-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <h5>Collaboration</h5>
-                                <p>Team-driven solutions through open communication and shared vision</p>
-                            </div>
-                            <div class="value-card">
-                                <div class="value-icon">
-                                    <i class="fas fa-shield-alt"></i>
-                                </div>
-                                <h5>Integrity</h5>
-                                <p>Ethical development practices with transparency and accountability</p>
-                            </div>
-                            <div class="value-card">
-                                <div class="value-icon">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <h5>Innovation</h5>
-                                <p>Creative problem-solving with emerging technologies and methodologies</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="container">
+        <section id="about" class="section-content">
+            <h2>About Us / ስለ እኛ</h2>
+            <p>The Gulelekfle Ketema Wereda 4 No 1 Youth Center is dedicated to fostering the holistic development of young people in our community. We provide a safe and supportive environment where youth can access resources, develop skills, and engage in meaningful activities that prepare them for successful futures.</p>
+            <p class="ethiopic">የጉለሌ ክፍለ ከተማ ወረዳ 4 ቁጥር 1 የወጣቶች ማዕከል በማህበረሰባችን ውስጥ የወጣቶችን ሁለንተናዊ እድገት ለማሳደግ ቁርጠኛ ነው። ወጣቶች ሀብቶችን ማግኘት፣ ክህሎቶችን ማዳበር እና ትርጉም ባላቸው እንቅስቃሴዎች መሳተፍ የሚችሉበት አስተማማኝ እና ደጋፊ አካባቢ እናቀርባለን።</p>
+        </section>
 
-    <!-- Team Section -->
-    <section id="team" class="bg-darker">
-        <div class="container">
-            <div class="section-title">
-                <h2>Meet Our Team</h2>
-            </div>
-            <div class="row">
-                <!-- Team Member 1 -->
-                <div class="col-md-6 col-lg-3 mb-5">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <div class="member-info">
-                            <h4 class="member-name">Natanel Ermias</h4>
-                            <span class="member-role">Full-Stack Developer & AI Specialist</span>
-                            <p>AI enthusiast with expertise in scalable web architectures and intelligent systems. Led development of an AI-powered Amharic text summarization tool.</p>
-                            <div class="skills">
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Node.js</span>
-                                <span class="skill-tag">Python</span>
-                                <span class="skill-tag">TensorFlow</span>
-                                <span class="skill-tag">Docker</span>
-                                <span class="skill-tag">AWS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Team Member 2 -->
-                <div class="col-md-6 col-lg-3 mb-5">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <div class="member-info">
-                            <h4 class="member-name">Tadios Aschalew</h4>
-                            <span class="member-role">Mobile & Cloud Engineer</span>
-                            <p>Specializes in cross-platform apps and cloud infrastructure for diverse digital landscapes. Created "SelamConnect" for rural healthcare.</p>
-                            <div class="skills">
-                                <span class="skill-tag">Flutter</span>
-                                <span class="skill-tag">Firebase</span>
-                                <span class="skill-tag">AWS</span>
-                                <span class="skill-tag">Dart</span>
-                                <span class="skill-tag">GCP</span>
-                                <span class="skill-tag">CI/CD</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Team Member 3 -->
-                <div class="col-md-6 col-lg-3 mb-5">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <i class="fas fa-server"></i>
-                        </div>
-                        <div class="member-info">
-                            <h4 class="member-name">Yonas Asamere</h4>
-                            <span class="member-role">Backend Architect & Security Expert</span>
-                            <p>Designs robust, secure APIs with focus on data privacy and system reliability. Architect of microservices e-commerce platform.</p>
-                            <div class="skills">
-                                <span class="skill-tag">Go</span>
-                                <span class="skill-tag">Python</span>
-                                <span class="skill-tag">Rust</span>
-                                <span class="skill-tag">PostgreSQL</span>
-                                <span class="skill-tag">Security</span>
-                                <span class="skill-tag">Kubernetes</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Team Member 4 -->
-                <div class="col-md-6 col-lg-3 mb-5">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                        <div class="member-info">
-                            <h4 class="member-name">Afomia Asheger</h4>
-                            <span class="member-role">UI/UX Designer & Frontend Developer</span>
-                            <p>Creates intuitive, culturally resonant interfaces with a focus on accessibility. Founder of "SheCodes Ethiopia" initiative.</p>
-                            <div class="skills">
-                                <span class="skill-tag">Figma</span>
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Next.js</span>
-                                <span class="skill-tag">Accessibility</span>
-                                <span class="skill-tag">Animation</span>
-                                <span class="skill-tag">User Research</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section id="services" class="section-content">
+            <h2>Our Services / አገልግሎቶቻችን</h2>
+            <ul>
+                <li>Professional Training and Skill Development Programs / ስልጠና እና ክህሎት ማዳበር</li>
+                <li>Personal Counseling and Mental Health Support / የምክር አገልግሎት እና ድጋፍ</li>
+                <li>Recreational and Sports Activities / የመዝናኛ እንቅስቃሴዎች</li>
+                <li>Community Engagement and Leadership Programs / የማህበረሰብ ተሳትፎ ፕሮግራሞች</li>
+            </ul>
+        </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="bg-dark">
-        <div class="container">
-            <div class="section-title">
-                <h2>Featured Projects</h2>
-            </div>
-            <div class="row">
-                <!-- Project 1 -->
-                <div class="col-md-6 col-lg-6 mb-5">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <i class="fas fa-tractor"></i>
-                        </div>
-                        <div class="project-info">
-                            <h4>AgriLink</h4>
-                            <p>Digital marketplace connecting Ethiopian farmers directly to buyers, reducing middlemen and increasing income. Features real-time pricing and multilingual support.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">Firebase</span>
-                                <span class="tech-tag">Node.js</span>
-                                <span class="tech-tag">Mapbox</span>
-                                <span class="tech-tag">Amharic NLP</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="col-md-6 col-lg-6 mb-5">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="project-info">
-                            <h4>EduBridge</h4>
-                            <p>Offline-first learning app delivering curriculum-aligned content to rural schools without internet dependency. Used in 120+ schools across Ethiopia.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">React Native</span>
-                                <span class="tech-tag">SQLite</span>
-                                <span class="tech-tag">Express</span>
-                                <span class="tech-tag">AWS S3</span>
-                                <span class="tech-tag">Progressive Web App</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project 3 -->
-                <div class="col-md-6 col-lg-6 mb-5">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <i class="fas fa-heartbeat"></i>
-                        </div>
-                        <div class="project-info">
-                            <h4>MedTrack</h4>
-                            <p>Clinic inventory & patient management system for Ethiopian healthcare facilities with secure record keeping and appointment scheduling.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Go</span>
-                                <span class="tech-tag">PostgreSQL</span>
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">Docker</span>
-                                <span class="tech-tag">HIPAA-inspired</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project 4 -->
-                <div class="col-md-6 col-lg-6 mb-5">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="project-info">
-                            <h4>AddisEvents</h4>
-                            <p>Community calendar showcasing tech meetups, art exhibitions, and hackathons across Addis Ababa—built to foster Ethiopia's creative-tech ecosystem.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Next.js</span>
-                                <span class="tech-tag">Prisma</span>
-                                <span class="tech-tag">Tailwind CSS</span>
-                                <span class="tech-tag">Vercel</span>
-                                <span class="tech-tag">Real-time Updates</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section id="contact" class="section-content">
+            <h2>Contact Us / ያግኙን</h2>
+            <p><strong>Email:</strong> trsitabihu@gmail.com</p>
+            <p><strong>Phone:</strong> +251 927819003</p>
+            <p><strong>Address:</strong> Wereda 4, Gulelekfle Ketema, Addis Ababa</p>
+            <p class="ethiopic"><strong>ኢሜል:</strong> trsitabihu@gmail.com</p>
+            <p class="ethiopic"><strong>ስልክ:</strong> +251 927819003</p>
+            <p class="ethiopic"><strong>አድራሻ:</strong> ወረዳ 4, ጉለሌ ክፍለ ከተማ, አዲስ አበባ</p>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="bg-darker">
-        <div class="container">
-            <div class="section-title">
-                <h2>Get In Touch</h2>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-9">
-                    <div class="contact-form">
-                        <p class="text-center mb-5">Ready to build something extraordinary? Let's collaborate to turn your vision into impactful software.</p>
-                        <form id="contactForm" novalidate>
-                            <div id="contactFormMessage" class="alert d-none" role="alert"></div>
-                            <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <label for="contactName" class="form-label visually-hidden">Your Name</label>
-                                    <input type="text" class="form-control" name="name" id="contactName" placeholder="Your Name" required minlength="2" maxlength="100" autocomplete="name">
-                                    <div class="invalid-feedback">Please enter your name (2-100 characters).</div>
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <label for="contactEmail" class="form-label visually-hidden">Your Email</label>
-                                    <input type="email" class="form-control" name="email" id="contactEmail" placeholder="Your Email" required maxlength="255" autocomplete="email">
-                                    <div class="invalid-feedback">Please enter a valid email address.</div>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label for="contactSubject" class="form-label visually-hidden">Subject</label>
-                                <input type="text" class="form-control" name="subject" id="contactSubject" placeholder="Subject (Optional)" maxlength="200" autocomplete="off">
-                            </div>
-                            <div class="mb-4">
-                                <label for="contactMessage" class="form-label visually-hidden">Your Message</label>
-                                <textarea class="form-control" name="message" id="contactMessage" placeholder="Your Message" required minlength="10" maxlength="2000" rows="5"></textarea>
-                                <div class="invalid-feedback">Please enter a message (minimum 10 characters).</div>
-                                <small class="text-muted d-block mt-1"><span id="messageCharCount">0</span>/2000 characters</small>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100" id="contactSubmitBtn" aria-label="Send message">
-                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                                <span class="btn-text">Send Message</span>
-                            </button>
-                        </form>
-                        
-                        <div class="contact-info mt-5 text-center">
-                            <p class="mb-2"><i class="fas fa-envelope me-3"></i> hello@ethcocoder.com</p>
-                            <p class="mb-3"><i class="fas fa-map-marker-alt me-3"></i> Addis Ababa, Ethiopia</p>
-                            <div class="social-links">
-                                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section class="cta-section">
+            <h2>Subscribe to Our Newsletter / ለጋዜጣችን ይመዝገቡ</h2>
+            <p>Stay updated with our latest programs, events, workshops, and opportunities for youth development.</p>
+            <p class="ethiopic">ከአዳዲስ ፕሮግራሞቻችን፣ ዝግጅቶቻችን፣ የስልጠና ስራዎቻችን እና የወጣቶች ልማት ዕድሎቻችን ጋር እንደተዘመኑ ይቆዩ።</p>
+            <form class="cta-form">
+                <input type="text" placeholder="Your Name / ስምዎ" required>
+                <input type="email" placeholder="Your Email / ኢሜልዎ" required>
+                <button type="submit">Subscribe / ይመዝገቡ</button>
+            </form>
+        </section>
+<!-- Footer -->
+<footer id="site-footer" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0f172a;
+  color: #f1f5f9;
+  text-align: center;
+  padding: 12px 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  border-top: 2px solid #3b82f6;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+">
+  <p style="margin: 0;">
+    Powered by 
+    <strong style="color: #3b82f6;">EthCocoders</strong> | 
+    Visit us at 
+    <a href="https://ethcocoders.gt.tc" 
+       target="_blank" 
+       style="color: #38bdf8; text-decoration: none;">
+      ethcocoders.gt.tc
+    </a>
+  </p>
+</footer>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h3 class="mb-3">Ethco Coders</h3>
-                    <p>Proudly Ethiopian. Passionately Digital. Purposefully Built.</p>
-                    <p class="mt-2">Est. 2025 — Coding the Future, Together.</p>
-                </div>
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#about" class="text-decoration-none" style="color: var(--off-white);">About Us</a></li>
-                        <li class="mb-2"><a href="#team" class="text-decoration-none" style="color: var(--off-white);">Our Team</a></li>
-                        <li class="mb-2"><a href="#projects" class="text-decoration-none" style="color: var(--off-white);">Projects</a></li>
-                        <li class="mb-2"><a href="#contact" class="text-decoration-none" style="color: var(--off-white);">Contact</a></li>
-                        <li class="mb-2"><a href="login.php" class="text-decoration-none" style="color: var(--off-white);">Login</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="mb-3">Connect With Us</h5>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright mt-4">
-                <p class="mb-0">&copy; 2025 Ethco Coders. All rights reserved.</p>
-                <p class="mb-0 mt-2" style="font-size: 0.9rem; color: rgba(204, 214, 246, 0.6);">
-                    Powered by <strong style="color: var(--light-blue);">Ethco Coders</strong>
-                </p>
-            </div>
-        </div>
-    </footer>
+<!-- Hide-on-scroll script -->
+<script>
+  let lastScrollY = window.scrollY;
+  const footer = document.getElementById("site-footer");
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script>
-        // Initialize Three.js scene for hero section
-        function initHeroScene() {
-            const canvas = document.getElementById('hero-canvas');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            
-            // Create particles
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 2000;
-            const posArray = new Float32Array(particlesCount * 3);
-            
-            for(let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 20;
-            }
-            
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            
-            // Material
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.02,
-                color: 0x64ffda,
-                transparent: true,
-                opacity: 0.8
-            });
-            
-            // Mesh
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particlesMesh);
-            
-            camera.position.z = 3;
-            
-            // Add Ethiopian flag colors as point lights
-            const greenLight = new THREE.PointLight(0x078930, 0.5);
-            greenLight.position.set(-5, 5, 5);
-            scene.add(greenLight);
-            
-            const yellowLight = new THREE.PointLight(0xfcdd09, 0.5);
-            yellowLight.position.set(0, -5, 5);
-            scene.add(yellowLight);
-            
-            const redLight = new THREE.PointLight(0xda121a, 0.5);
-            redLight.position.set(5, 5, 5);
-            scene.add(redLight);
-            
-            // Animation
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                particlesMesh.rotation.x += 0.0005;
-                particlesMesh.rotation.y += 0.0005;
-                
-                // Move particles
-                const positions = particlesMesh.geometry.attributes.position.array;
-                for(let i = 0; i < positions.length; i += 3) {
-                    positions[i + 2] += 0.01;
-                    if(positions[i + 2] > 10) {
-                        positions[i + 2] = -10;
-                    }
-                }
-                particlesMesh.geometry.attributes.position.needsUpdate = true;
-                
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-            
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        }
-        
-        // Initialize tech visualization
-        function initTechVisualization() {
-            const container = document.getElementById('tech-visualization');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(renderer.domElement);
-            
-            // Create tech nodes
-            const nodes = [];
-            const nodeCount = 30;
-            const nodeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-            const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x64ffda });
-            
-            for(let i = 0; i < nodeCount; i++) {
-                const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
-                node.position.set(
-                    (Math.random() - 0.5) * 8,
-                    (Math.random() - 0.5) * 8,
-                    (Math.random() - 0.5) * 8
-                );
-                scene.add(node);
-                nodes.push(node);
-            }
-            
-            // Create connections
-            const connections = [];
-            for(let i = 0; i < nodeCount; i++) {
-                for(let j = i + 1; j < nodeCount; j++) {
-                    if(Math.random() > 0.7) {
-                        const material = new THREE.LineBasicMaterial({ 
-                            color: 0x64ffda,
-                            transparent: true,
-                            opacity: 0.3
-                        });
-                        
-                        const points = [
-                            nodes[i].position,
-                            nodes[j].position
-                        ];
-                        
-                        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                        const line = new THREE.Line(geometry, material);
-                        scene.add(line);
-                        connections.push(line);
-                    }
-                }
-            }
-            
-            camera.position.z = 10;
-            
-            // Animation
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                // Rotate nodes
-                nodes.forEach(node => {
-                    node.rotation.x += 0.01;
-                    node.rotation.y += 0.01;
-                });
-                
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-            
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
-            });
-        }
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // Character counter for message textarea
-        const messageTextarea = document.getElementById('contactMessage');
-        const charCount = document.getElementById('messageCharCount');
-        if (messageTextarea && charCount) {
-            messageTextarea.addEventListener('input', function() {
-                charCount.textContent = this.value.length;
-            });
-        }
-        
-        // Form submission handling with AJAX and validation
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Validate form
-                if (!this.checkValidity()) {
-                    e.stopPropagation();
-                    this.classList.add('was-validated');
-                    return;
-                }
-                
-                const form = this;
-                const submitBtn = document.getElementById('contactSubmitBtn');
-                const btnText = submitBtn.querySelector('.btn-text');
-                const spinner = submitBtn.querySelector('.spinner-border');
-                const messageDiv = document.getElementById('contactFormMessage');
-                
-                // Show loading state
-                submitBtn.disabled = true;
-                spinner.classList.remove('d-none');
-                btnText.textContent = 'Sending...';
-                messageDiv.classList.add('d-none');
-                
-                // Prepare form data
-                const formData = new FormData(form);
-                
-                // Submit via AJAX
-                fetch('contact.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Reset form on success
-                    if (data.success) {
-                        form.reset();
-                        form.classList.remove('was-validated');
-                        if (charCount) charCount.textContent = '0';
-                        messageDiv.className = 'alert alert-success';
-                        messageDiv.textContent = data.message;
-                        messageDiv.classList.remove('d-none');
-                        
-                        // Scroll to message
-                        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    } else {
-                        messageDiv.className = 'alert alert-danger';
-                        messageDiv.textContent = data.message || 'Failed to send message. Please try again.';
-                        messageDiv.classList.remove('d-none');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    messageDiv.className = 'alert alert-danger';
-                    messageDiv.textContent = 'An error occurred. Please check your connection and try again.';
-                    messageDiv.classList.remove('d-none');
-                })
-                .finally(() => {
-                    // Reset button state
-                    submitBtn.disabled = false;
-                    spinner.classList.add('d-none');
-                    btnText.textContent = 'Send Message';
-                });
-            });
-        }
-        
-        // Interactive cursor effect
-        let interactiveCursor = null;
-        document.addEventListener('DOMContentLoaded', () => {
-            // Create interactive cursor
-            interactiveCursor = document.createElement('div');
-            interactiveCursor.className = 'interactive-element';
-            document.body.appendChild(interactiveCursor);
-            
-            document.addEventListener('mousemove', (e) => {
-                interactiveCursor.style.left = e.clientX + 'px';
-                interactiveCursor.style.top = e.clientY + 'px';
-            });
-            
-            // Initialize 3D scenes
-            initHeroScene();
-            initTechVisualization();
-        });
-        
-        // Add floating animation to hero section elements
-        document.querySelector('.hero h1').classList.add('floating');
-    </script>
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+      // scrolling down
+      footer.style.transform = "translateY(100%)";
+    } else {
+      // scrolling up
+      footer.style.transform = "translateY(0)";
+    }
+    lastScrollY = window.scrollY;
+  });
+</script>
+
+    </div>
 </body>
 </html>

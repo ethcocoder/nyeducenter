@@ -1,4 +1,0 @@
-# Prevent access to log files
-Order Deny,Allow
-Deny from all
-
